@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard สรุปข้อมูลคอร์สคงเหลือ | Florenza Clinic</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #7c4dff;
+            --secondary-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #2d3436;
+            --header-color: #1e272e;
+            --border-color: #dfe6e9;
+            --accent-color: #00b894;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+        
+        body { 
+            font-family: 'Kanit', sans-serif; 
+            background-color: var(--secondary-color); 
+            color: var(--text-color); 
+            margin: 0; 
+            padding: 20px; 
+            line-height: 1.6;
+        }
+
+        .container { width: 100%; max-width: 1250px; margin: 0 auto; }
+        
+        header { text-align: center; margin-bottom: 30px; }
+        header h1 { color: var(--header-color); font-weight: 600; margin-bottom: 5px; }
+        header p { color: #636e72; font-weight: 300; }
+        
+        .card { 
+            background-color: var(--card-bg); 
+            border-radius: 16px; 
+            padding: 30px; 
+            margin-bottom: 25px; 
+            box-shadow: var(--shadow); 
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+        
+        .control-panel { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 15px; 
+            align-items: center; 
+        }
+
+        .btn { 
+            border: none; 
+            color: white; 
+            padding: 12px 24px; 
+            border-radius: 10px; 
+            font-size: 16px; 
+            font-weight: 500; 
+            cursor: pointer; 
+            transition: transform 0.2s, background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-upload { background-color: var(--primary-color); }
+        .btn-upload:hover { background-color: #6c3ce0; transform: translateY(-2px); }
+        
+        #btn-export { background-color: var(--accent-color); display: none; } 
+        #btn-export:hover { background-color: #00a383; transform: translateY(-2px); }
+        
+        input[type=file] { display: none; }
+        #file-name { margin-top: 15px; font-size: 0.9em; color: #b2bec3; text-align: center; display: block; width: 100%; }
+
+        .search-container { 
+            margin-top: 25px; 
+            width: 100%; 
+            display: none; 
+            gap: 15px; 
+            flex-wrap: wrap; 
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .search-box-group { display: flex; gap: 12px; width: 100%; }
+        .search-box {
+            padding: 14px 20px;
+            border: 2px solid #edf2f7;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Kanit', sans-serif;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        #search-input { flex-grow: 1; }
+        #sort-select { width: 260px; cursor: pointer; background-color: #fff; }
+        .search-box:focus { border-color: var(--primary-color); }
+
+        #results-section { display: none; }
+        
+        #summary { 
+            background: linear-gradient(135deg, var(--primary-color), #a29bfe); 
+            color: white; 
+            text-align: center; 
+            padding: 30px; 
+            border-radius: 16px; 
+            margin-bottom: 25px; 
+            box-shadow: 0 10px 20px rgba(124, 77, 255, 0.2);
+        }
+        #summary h2 { margin: 0 0 5px 0; font-weight: 300; font-size: 1.1em; opacity: 0.9; }
+        #total-amount { margin: 0; font-size: 2.8em; font-weight: 600; letter-spacing: -1px; }
+        
+        .table-container { 
+            overflow-x: auto; 
+            border-radius: 12px; 
+            border: 1px solid var(--border-color);
+        }
+        
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 15px; }
+        thead tr { background-color: #f1f2f6; }
+        th { font-weight: 600; color: #4b6584; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; }
+        tbody tr:hover { background-color: #f9f9ff; }
+        
+        .group-start { border-left: 4px solid var(--primary-color); }
+        .text-bold { font-weight: 600; color: var(--header-color); }
+        .text-muted { color: #95a5a6; font-size: 0.9em; }
+        .remaining-badge {
+            background-color: #e8f0fe;
+            color: var(--primary-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .subtotal-row { background-color: #f8f9fa; font-weight: 600; color: #2d3436; }
+        .subtotal-row td { border-top: 2px solid #eee; }
+
+        #loading-status { text-align: center; padding: 40px; font-style: italic; color: #636e72; display: none; }
+
+        @media (max-width: 768px) {
+            .search-box-group { flex-direction: column; }
+            #sort-select { width: 100%; }
+            th, td { padding: 12px; font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Dashboard สรุปคอร์สคงเหลือ</h1>
+            <p>ระบบตรวจสอบยอดเงินและจำนวนครั้งคงเหลือ (กรองเฉพาะรายการหลักตั้งแต่ 599.- ขึ้นไป)</p>
+        </header>
+
+        <main>
+            <div class="card" id="upload-section">
+                <div class="control-panel">
+                    <label for="file-input" class="btn btn-upload">
+                        <span>📂 อัปโหลดไฟล์ Excel/CSV</span>
+                    </label>
+                    <button id="btn-export" class="btn">
+                        <span>📊 ส่งออกเป็น Excel</span>
+                    </button>
+                </div>
+                <input type="file" id="file-input" accept=".csv, .xlsx, .xls" />
+                <p id="file-name">ยังไม่มีการเลือกไฟล์</p>
+
+                <div class="search-container" id="search-container">
+                    <div class="search-box-group">
+                        <input type="text" id="search-input" class="search-box" placeholder="🔍 ค้นหาด้วย ชื่อลูกค้า, HN, เบอร์โทร หรือชื่อรายการ...">
+                        <select id="sort-select" class="search-box">
+                            <option value="date_asc">📅 เรียงตามวันที่ (เก่าไปใหม่)</option>
+                            <option value="date_desc">📅 เรียงตามวันที่ (ใหม่ไปเก่า)</option>
+                            <option value="amount_desc">💰 เรียงตามยอดเงิน (มากไปน้อย)</option>
+                            <option value="amount_asc">💰 เรียงตามยอดเงิน (น้อยไปมาก)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="loading-status">⏳ กำลังวิเคราะห์ข้อมูล โปรดรอสักครู่...</div>
+            
+            <div id="results-section">
+                <div id="summary">
+                    <h2>ยอดเงินรวมคงเหลือทั้งหมด</h2>
+                    <p id="total-amount">฿0.00</p>
+                </div>
+                
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <div class="table-container">
+                        <table id="data-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px; text-align: center;">ลำดับ</th>
+                                    <th>วันที่</th>
+                                    <th>ข้อมูลลูกค้า (ชื่อ / HN / โทร)</th>
+                                    <th>รายการคอร์ส</th>
+                                    <th style="text-align: right;">ยอดเงิน (บาท)</th>
+                                    <th style="text-align: center;">คงเหลือ (ครั้ง)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <script>
+        const elements = {
+            fileInput: document.getElementById('file-input'),
+            fileName: document.getElementById('file-name'),
+            loading: document.getElementById('loading-status'),
+            results: document.getElementById('results-section'),
+            tableBody: document.querySelector("#data-table tbody"),
+            totalAmount: document.getElementById('total-amount'),
+            exportBtn: document.getElementById('btn-export'),
+            searchBar: document.getElementById('search-container'),
+            searchInput: document.getElementById('search-input'),
+            sortSelect: document.getElementById('sort-select')
+        };
+
+        let rawDataStore = [];       
+        let currentFiltered = []; 
+
+        elements.fileInput.addEventListener('change', handleFile);
+        elements.searchInput.addEventListener('input', debounce(handleSearch, 300));
+        elements.sortSelect.addEventListener('change', () => renderTable(currentFiltered));
+        elements.exportBtn.addEventListener('click', exportToExcel);
+
+        function handleFile(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            elements.fileName.textContent = `ไฟล์ปัจจุบัน: ${file.name}`;
+            resetView();
+            elements.loading.style.display = 'block';
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const bstr = event.target.result;
+                    const workbook = XLSX.read(bstr, { type: 'binary', cellDates: true });
+                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const json = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
+                    processData(json);
+                } catch (err) {
+                    console.error(err);
+                    alert("ไม่สามารถอ่านไฟล์ได้");
+                    elements.loading.style.display = 'none';
+                }
+            };
+            reader.readAsBinaryString(file);
+        }
+
+        function processData(rows) {
+            let items = [];
+            let activeCustomer = null;
+            const namePrefixes = /^(คุณ|นาง|น\.ส\.|นาย|ด\.ญ\.|ด\.ช\.|นางสาว)/;
+
+            rows.forEach((row, idx) => {
+                if (!row || row.length < 2) return;
+
+                const col0 = String(row[0]).trim();
+                const col1 = String(row[1]).trim();
+
+                const isCustomerRow = col0 !== "" && !isNaN(parseFloat(col0)) && namePrefixes.test(col1);
+
+                if (isCustomerRow) {
+                    const parts = col1.split('/').map(p => p.trim());
+                    const cleanParts = parts.filter(p => p !== "");
+                    
+                    activeCustomer = {
+                        name: cleanParts[0] || "ไม่ระบุชื่อ",
+                        hn: cleanParts[1] || "-",
+                        phone: cleanParts[2] || "-"
+                    };
+                } 
+                else if (activeCustomer && col0 === "") {
+                    let dateVal = row[1];
+                    let dateObj = parseExcelDate(dateVal);
+                    let remaining = parseInt(row[7]);
+                    let amount = parseFloat(String(row[4]).replace(/,/g, '')) || 0;
+                    
+                    // รายการ (ชื่อคอร์ส)
+                    const itemName = String(row[2] || "").trim();
+
+                    // คัดกรองรายการที่ไม่ต้องการ (ค่ามัดจำ, ค่าเสื้อ)
+                    const isExcluded = itemName.includes("ค่ามัดจำ") || itemName.includes("ค่าเสื้อ");
+                    
+                    // เงื่อนไข: วันที่ถูกต้อง, ครั้งคงเหลือ > 0, ยอดเงิน >= 599 และไม่ใช่รายการที่ยกเว้น
+                    if (dateObj && !isNaN(remaining) && remaining > 0 && amount >= 599 && !isExcluded) {
+                        items.push({
+                            ...activeCustomer,
+                            dateStr: formatDate(dateObj),
+                            dateObj: dateObj,
+                            item: itemName || "ไม่ระบุรายการ",
+                            amount: amount,
+                            remaining: remaining
+                        });
+                    }
+                }
+            });
+
+            if (items.length === 0) {
+                alert("ไม่พบข้อมูลคอร์สที่ตรงตามเงื่อนไข (>= 599.- และไม่รวมค่ามัดจำ/ค่าเสื้อ)");
+                elements.loading.style.display = 'none';
+                return;
+            }
+
+            rawDataStore = items;
+            currentFiltered = items;
+            renderTable(currentFiltered);
+            
+            elements.searchBar.style.display = 'flex';
+            elements.results.style.display = 'block';
+            elements.loading.style.display = 'none';
+            elements.exportBtn.style.display = 'flex';
+        }
+
+        function renderTable(data) {
+            elements.tableBody.innerHTML = '';
+            
+            const groups = data.reduce((acc, item) => {
+                const key = `${item.name}-${item.hn}`;
+                if (!acc[key]) {
+                    acc[key] = {
+                        name: item.name,
+                        hn: item.hn,
+                        phone: item.phone,
+                        list: [],
+                        total: 0,
+                        earliestDate: item.dateObj
+                    };
+                }
+                acc[key].list.push(item);
+                acc[key].total += item.amount;
+                if (item.dateObj < acc[key].earliestDate) acc[key].earliestDate = item.dateObj;
+                return acc;
+            }, {});
+
+            let groupArray = Object.values(groups);
+
+            const sortVal = elements.sortSelect.value;
+            groupArray.sort((a, b) => {
+                if (sortVal === 'amount_desc') return b.total - a.total;
+                if (sortVal === 'amount_asc') return a.total - b.total;
+                if (sortVal === 'date_desc') return b.earliestDate - a.earliestDate;
+                return a.earliestDate - b.earliestDate;
+            });
+
+            let grandTotal = 0;
+            let customerIndex = 1;
+
+            groupArray.forEach(group => {
+                grandTotal += group.total;
+                const rowCount = group.list.length;
+
+                group.list.forEach((item, i) => {
+                    const tr = document.createElement('tr');
+                    if (i === 0) {
+                        tr.innerHTML += `<td rowspan="${rowCount}" style="text-align:center; vertical-align:top; font-weight:600;">${customerIndex}</td>`;
+                    }
+                    tr.innerHTML += `<td class="text-muted">${item.dateStr}</td>`;
+                    if (i === 0) {
+                        tr.innerHTML += `
+                            <td rowspan="${rowCount}" class="group-start">
+                                <div class="text-bold">${group.name}</div>
+                                <div class="text-muted">HN: ${group.hn} | โทร: ${group.phone}</div>
+                            </td>
+                        `;
+                    }
+                    tr.innerHTML += `
+                        <td>${item.item}</td>
+                        <td style="text-align:right;">${item.amount.toLocaleString(undefined, {minimumFractionDigits:2})}</td>
+                        <td style="text-align:center;"><span class="remaining-badge">${item.remaining}</span></td>
+                    `;
+                    elements.tableBody.appendChild(tr);
+                });
+
+                const subTr = document.createElement('tr');
+                subTr.className = 'subtotal-row';
+                subTr.innerHTML = `
+                    <td colspan="4" style="text-align:right;">ยอดเงินคงเหลือของ ${group.name}:</td>
+                    <td style="text-align:right; color:var(--primary-color);">฿${group.total.toLocaleString(undefined, {minimumFractionDigits:2})}</td>
+                    <td></td>
+                `;
+                elements.tableBody.appendChild(subTr);
+                customerIndex++;
+            });
+
+            elements.totalAmount.textContent = `฿${grandTotal.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+            
+            if (data.length === 0) {
+                elements.tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px;">ไม่พบข้อมูลที่ตรงกับคำค้นหา</td></tr>';
+            }
+        }
+
+        function handleSearch() {
+            const term = elements.searchInput.value.toLowerCase().trim();
+            if (!term) {
+                currentFiltered = rawDataStore;
+            } else {
+                currentFiltered = rawDataStore.filter(i => 
+                    i.name.toLowerCase().includes(term) ||
+                    i.hn.toLowerCase().includes(term) ||
+                    i.phone.includes(term) ||
+                    i.item.toLowerCase().includes(term)
+                );
+            }
+            renderTable(currentFiltered);
+        }
+
+        function exportToExcel() {
+            const groups = currentFiltered.reduce((acc, item) => {
+                const key = `${item.name}-${item.hn}`;
+                if (!acc[key]) acc[key] = { name: item.name, hn: item.hn, phone: item.phone, list: [], total: 0 };
+                acc[key].list.push(item);
+                acc[key].total += item.amount;
+                return acc;
+            }, {});
+
+            const exportData = [];
+            exportData.push(["ลำดับ", "วันที่", "ชื่อลูกค้า", "HN", "เบอร์โทร", "รายการ", "ยอดเงินคงเหลือ", "จำนวนครั้งที่เหลือ"]);
+
+            let count = 1;
+            Object.values(groups).forEach(g => {
+                g.list.forEach((it, idx) => {
+                    exportData.push([
+                        idx === 0 ? count : "",
+                        it.dateStr,
+                        idx === 0 ? g.name : "",
+                        idx === 0 ? g.hn : "",
+                        idx === 0 ? g.phone : "",
+                        it.item,
+                        it.amount,
+                        it.remaining
+                    ]);
+                });
+                exportData.push(["", "", "", "", "", "รวมของลูกค้ารายนี้", g.total, ""]);
+                exportData.push([]); 
+                count++;
+            });
+
+            const ws = XLSX.utils.aoa_to_sheet(exportData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Course Summary");
+            XLSX.writeFile(wb, `สรุปคอร์สคงเหลือ_${new Date().toISOString().slice(0,10)}.xlsx`);
+        }
+
+        function parseExcelDate(val) {
+            if (val instanceof Date) return val;
+            if (typeof val === 'number') {
+                return new Date(Math.round((val - 25569) * 86400 * 1000));
+            }
+            if (typeof val === 'string') {
+                const parts = val.split(/[\/\-]/);
+                if (parts.length === 3) return new Date(parts[2], parts[1] - 1, parts[0]);
+                const d = new Date(val);
+                return isNaN(d.getTime()) ? null : d;
+            }
+            return null;
+        }
+
+        function formatDate(date) {
+            if (!date) return "-";
+            return date.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function resetView() {
+            elements.results.style.display = 'none';
+            elements.exportBtn.style.display = 'none';
+            elements.searchBar.style.display = 'none';
+            elements.tableBody.innerHTML = '';
+            elements.totalAmount.textContent = '฿0.00';
+            elements.searchInput.value = '';
+        }
+    </script>
+</body>
+</html>
