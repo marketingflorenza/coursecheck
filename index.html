@@ -18,6 +18,7 @@
             --header-color: #1e272e;
             --border-color: #dfe6e9;
             --accent-color: #00b894;
+            --warning-color: #fdcb6e;
             --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         }
         
@@ -26,21 +27,21 @@
             background-color: var(--secondary-color); 
             color: var(--text-color); 
             margin: 0; 
-            padding: 20px; 
+            padding: 15px; 
             line-height: 1.6;
         }
 
-        .container { width: 100%; max-width: 1250px; margin: 0 auto; }
+        .container { width: 100%; max-width: 1400px; margin: 0 auto; }
         
-        header { text-align: center; margin-bottom: 30px; }
-        header h1 { color: var(--header-color); font-weight: 600; margin-bottom: 5px; }
-        header p { color: #636e72; font-weight: 300; }
+        header { text-align: center; margin-bottom: 25px; }
+        header h1 { color: var(--header-color); font-weight: 600; margin-bottom: 5px; font-size: 1.8rem; }
+        header p { color: #636e72; font-weight: 300; font-size: 0.95rem; }
         
         .card { 
             background-color: var(--card-bg); 
             border-radius: 16px; 
-            padding: 30px; 
-            margin-bottom: 25px; 
+            padding: 25px; 
+            margin-bottom: 20px; 
             box-shadow: var(--shadow); 
             border: 1px solid rgba(0,0,0,0.02);
         }
@@ -49,22 +50,23 @@
             display: flex; 
             flex-wrap: wrap; 
             justify-content: center; 
-            gap: 15px; 
+            gap: 12px; 
             align-items: center; 
         }
 
         .btn { 
             border: none; 
             color: white; 
-            padding: 12px 24px; 
+            padding: 10px 22px; 
             border-radius: 10px; 
-            font-size: 16px; 
+            font-size: 15px; 
             font-weight: 500; 
             cursor: pointer; 
-            transition: transform 0.2s, background-color 0.2s;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-family: inherit;
         }
 
         .btn-upload { background-color: var(--primary-color); }
@@ -74,81 +76,141 @@
         #btn-export:hover { background-color: #00a383; transform: translateY(-2px); }
         
         input[type=file] { display: none; }
-        #file-name { margin-top: 15px; font-size: 0.9em; color: #b2bec3; text-align: center; display: block; width: 100%; }
+        #file-name { margin-top: 12px; font-size: 0.85em; color: #b2bec3; text-align: center; display: block; width: 100%; }
 
         .search-container { 
-            margin-top: 25px; 
+            margin-top: 20px; 
             width: 100%; 
             display: none; 
+            flex-direction: column;
             gap: 15px; 
-            flex-wrap: wrap; 
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.4s ease;
         }
         
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .search-box-group { display: flex; gap: 12px; width: 100%; }
+        .filter-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 0.8fr 0.8fr;
+            gap: 10px;
+            width: 100%;
+        }
+
         .search-box {
-            padding: 14px 20px;
+            padding: 12px 16px;
             border: 2px solid #edf2f7;
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 14px;
             font-family: 'Kanit', sans-serif;
             box-sizing: border-box;
             outline: none;
-            transition: border-color 0.3s;
+            transition: all 0.2s;
+            background-color: #fff;
+            width: 100%;
         }
         
-        #search-input { flex-grow: 1; }
-        #sort-select { width: 260px; cursor: pointer; background-color: #fff; }
-        .search-box:focus { border-color: var(--primary-color); }
+        .search-box:focus { border-color: var(--primary-color); background-color: #fff; box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.1); }
 
-        #results-section { display: none; }
+        .quick-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 12px;
+            background-color: #f1f2f6;
+            border-radius: 12px;
+            align-items: center;
+        }
+        
+        .filter-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4b6584;
+            margin-right: 4px;
+        }
+
+        .tag-btn {
+            background-color: white;
+            border: 1px solid #dfe6e9;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #636e72;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 500;
+        }
+
+        .tag-btn:hover { border-color: var(--primary-color); color: var(--primary-color); }
+        .tag-btn.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 3px 8px rgba(124, 77, 255, 0.2);
+        }
+
+        #results-section { display: none; margin-top: 10px; }
         
         #summary { 
             background: linear-gradient(135deg, var(--primary-color), #a29bfe); 
             color: white; 
             text-align: center; 
-            padding: 30px; 
+            padding: 25px; 
             border-radius: 16px; 
-            margin-bottom: 25px; 
-            box-shadow: 0 10px 20px rgba(124, 77, 255, 0.2);
+            margin-bottom: 20px; 
+            box-shadow: 0 8px 20px rgba(124, 77, 255, 0.15);
         }
-        #summary h2 { margin: 0 0 5px 0; font-weight: 300; font-size: 1.1em; opacity: 0.9; }
-        #total-amount { margin: 0; font-size: 2.8em; font-weight: 600; letter-spacing: -1px; }
+        #summary h2 { margin: 0 0 5px 0; font-weight: 400; font-size: 1rem; opacity: 0.95; }
+        #total-amount { margin: 0; font-size: 2.4rem; font-weight: 600; letter-spacing: -0.5px; }
         
         .table-container { 
             overflow-x: auto; 
             border-radius: 12px; 
             border: 1px solid var(--border-color);
+            background: white;
         }
         
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 15px; }
-        thead tr { background-color: #f1f2f6; }
-        th { font-weight: 600; color: #4b6584; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; }
+        table { width: 100%; border-collapse: collapse; min-width: 900px; table-layout: fixed; }
+        th, td { padding: 14px 15px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 14px; word-wrap: break-word; }
+        
+        /* Column Widths */
+        th:nth-child(1) { width: 60px; text-align: center; }
+        th:nth-child(2) { width: 110px; }
+        th:nth-child(3) { width: 280px; }
+        th:nth-child(4) { width: auto; }
+        th:nth-child(5) { width: 140px; text-align: right; }
+        th:nth-child(6) { width: 100px; text-align: center; }
+
+        thead tr { background-color: #f8f9fa; }
+        th { font-weight: 600; color: #4b6584; text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px; }
         tbody tr:hover { background-color: #f9f9ff; }
         
         .group-start { border-left: 4px solid var(--primary-color); }
-        .text-bold { font-weight: 600; color: var(--header-color); }
-        .text-muted { color: #95a5a6; font-size: 0.9em; }
+        .text-bold { font-weight: 600; color: var(--header-color); display: block; margin-bottom: 2px; }
+        .text-muted { color: #95a5a6; font-size: 0.85em; display: block; }
         .remaining-badge {
             background-color: #e8f0fe;
             color: var(--primary-color);
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 3px 10px;
+            border-radius: 15px;
             font-weight: 600;
+            font-size: 13px;
         }
 
-        .subtotal-row { background-color: #f8f9fa; font-weight: 600; color: #2d3436; }
-        .subtotal-row td { border-top: 2px solid #eee; }
+        .subtotal-row { background-color: #fcfcfd; font-weight: 600; color: #2d3436; }
+        .subtotal-row td { border-top: 1px solid #eee; padding: 10px 15px; }
 
         #loading-status { text-align: center; padding: 40px; font-style: italic; color: #636e72; display: none; }
 
+        @media (max-width: 1024px) {
+            .filter-grid { grid-template-columns: 1fr 1fr; }
+        }
+
         @media (max-width: 768px) {
-            .search-box-group { flex-direction: column; }
-            #sort-select { width: 100%; }
-            th, td { padding: 12px; font-size: 14px; }
+            .filter-grid { grid-template-columns: 1fr; }
+            th, td { padding: 10px; font-size: 13px; }
+            header h1 { font-size: 1.5rem; }
+            #total-amount { font-size: 2rem; }
         }
     </style>
 </head>
@@ -157,7 +219,7 @@
     <div class="container">
         <header>
             <h1>Dashboard สรุปคอร์สคงเหลือ</h1>
-            <p>ระบบตรวจสอบยอดเงินและจำนวนครั้งคงเหลือ (กรองเฉพาะรายการหลักตั้งแต่ 599.- ขึ้นไป)</p>
+            <p>ตรวจสอบยอดเงินและจำนวนครั้งคงเหลือ (เฉพาะรายการหลัก 599.- ขึ้นไป ไม่รวมมัดจำ/เสื้อ)</p>
         </header>
 
         <main>
@@ -167,44 +229,66 @@
                         <span>📂 อัปโหลดไฟล์ Excel/CSV</span>
                     </label>
                     <button id="btn-export" class="btn">
-                        <span>📊 ส่งออกเป็น Excel</span>
+                        <span>📊 ส่งออกข้อมูล</span>
                     </button>
                 </div>
                 <input type="file" id="file-input" accept=".csv, .xlsx, .xls" />
-                <p id="file-name">ยังไม่มีการเลือกไฟล์</p>
+                <p id="file-name">กรุณาเลือกไฟล์เพื่อเริ่มต้นวิเคราะห์ข้อมูล</p>
 
                 <div class="search-container" id="search-container">
-                    <div class="search-box-group">
-                        <input type="text" id="search-input" class="search-box" placeholder="🔍 ค้นหาด้วย ชื่อลูกค้า, HN, เบอร์โทร หรือชื่อรายการ...">
-                        <select id="sort-select" class="search-box">
-                            <option value="date_asc">📅 เรียงตามวันที่ (เก่าไปใหม่)</option>
-                            <option value="date_desc">📅 เรียงตามวันที่ (ใหม่ไปเก่า)</option>
-                            <option value="amount_desc">💰 เรียงตามยอดเงิน (มากไปน้อย)</option>
-                            <option value="amount_asc">💰 เรียงตามยอดเงิน (น้อยไปมาก)</option>
+                    <div class="filter-grid">
+                        <input type="text" id="search-input" class="search-box" placeholder="🔍 ค้นหาลูกค้า (ชื่อ, HN, โทร)">
+                        <input type="text" id="category-input" class="search-box" placeholder="🏷️ พิมพ์หมวดหมู่ (Botox, Hifu...)">
+                        <select id="month-filter" class="search-box">
+                            <option value="0">📅 ช่วงเวลา: ทั้งหมด</option>
+                            <option value="1">ย้อนหลัง 1 เดือน</option>
+                            <option value="2">ย้อนหลัง 2 เดือน</option>
+                            <option value="3">ย้อนหลัง 3 เดือน</option>
+                            <option value="4">ย้อนหลัง 4 เดือน</option>
+                            <option value="5">ย้อนหลัง 5 เดือน</option>
+                            <option value="6">ย้อนหลัง 6 เดือน</option>
+                            <option value="12">ย้อนหลัง 12 เดือน</option>
                         </select>
+                        <select id="sort-select" class="search-box">
+                            <option value="date_desc">🕒 วันที่: ล่าสุดก่อน</option>
+                            <option value="date_asc">🕒 วันที่: เก่าสุดก่อน</option>
+                            <option value="amount_desc">💰 ยอดเงิน: มากไปน้อย</option>
+                            <option value="amount_asc">💰 ยอดเงิน: น้อยไปมาก</option>
+                        </select>
+                    </div>
+
+                    <div class="quick-filters" id="quick-filters">
+                        <span class="filter-label">ตัวกรองด่วน:</span>
+                        <button class="tag-btn" data-tag="filler">Filler</button>
+                        <button class="tag-btn" data-tag="botox">Botox</button>
+                        <button class="tag-btn" data-tag="pico">Pico</button>
+                        <button class="tag-btn" data-tag="ultraformer">Ultraformer</button>
+                        <button class="tag-btn" data-tag="diode">Diode</button>
+                        <button class="tag-btn" data-tag="hifu">Hifu</button>
+                        <button class="tag-btn" data-tag="drip">Drip</button>
                     </div>
                 </div>
             </div>
 
-            <div id="loading-status">⏳ กำลังวิเคราะห์ข้อมูล โปรดรอสักครู่...</div>
+            <div id="loading-status">⏳ กำลังประมวลผลข้อมูล...</div>
             
             <div id="results-section">
                 <div id="summary">
-                    <h2>ยอดเงินรวมคงเหลือทั้งหมด</h2>
+                    <h2>ยอดเงินรวมคงเหลือที่เลือก</h2>
                     <p id="total-amount">฿0.00</p>
                 </div>
                 
-                <div class="card" style="padding: 0; overflow: hidden;">
+                <div class="card" style="padding: 0; overflow: hidden; border: none;">
                     <div class="table-container">
                         <table id="data-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 50px; text-align: center;">ลำดับ</th>
+                                    <th>#</th>
                                     <th>วันที่</th>
-                                    <th>ข้อมูลลูกค้า (ชื่อ / HN / โทร)</th>
+                                    <th>ข้อมูลลูกค้า</th>
                                     <th>รายการคอร์ส</th>
-                                    <th style="text-align: right;">ยอดเงิน (บาท)</th>
-                                    <th style="text-align: center;">คงเหลือ (ครั้ง)</th>
+                                    <th style="text-align: right;">คงเหลือ (บาท)</th>
+                                    <th style="text-align: center;">ครั้งคงเหลือ</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -228,25 +312,53 @@
             exportBtn: document.getElementById('btn-export'),
             searchBar: document.getElementById('search-container'),
             searchInput: document.getElementById('search-input'),
-            sortSelect: document.getElementById('sort-select')
+            categoryInput: document.getElementById('category-input'),
+            sortSelect: document.getElementById('sort-select'),
+            monthFilter: document.getElementById('month-filter'),
+            quickFilterContainer: document.getElementById('quick-filters')
         };
 
         let rawDataStore = [];       
         let currentFiltered = []; 
+        let activeTags = new Set();
+
+        const tagKeywords = {
+            filler: ['filler', 'ฟิลเลอร์'],
+            botox: ['botox', 'โบท็อก'],
+            pico: ['pico', 'พิโก'],
+            ultraformer: ['ultraformer', 'อัลตร้าฟอร์เมอร์'],
+            diode: ['diode', 'ไดโอด'],
+            hifu: ['hifu', 'ไฮฟู'],
+            drip: ['drip', 'ดริป', 'vitamin', 'วิตามิน']
+        };
 
         elements.fileInput.addEventListener('change', handleFile);
-        elements.searchInput.addEventListener('input', debounce(handleSearch, 300));
-        elements.sortSelect.addEventListener('change', () => renderTable(currentFiltered));
+        elements.searchInput.addEventListener('input', debounce(applyAllFilters, 300));
+        elements.categoryInput.addEventListener('input', debounce(applyAllFilters, 300));
+        elements.sortSelect.addEventListener('change', applyAllFilters);
+        elements.monthFilter.addEventListener('change', applyAllFilters);
         elements.exportBtn.addEventListener('click', exportToExcel);
+
+        elements.quickFilterContainer.querySelectorAll('.tag-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tag = btn.dataset.tag;
+                if (activeTags.has(tag)) {
+                    activeTags.delete(tag);
+                    btn.classList.remove('active');
+                } else {
+                    activeTags.add(tag);
+                    btn.classList.add('active');
+                }
+                applyAllFilters();
+            });
+        });
 
         function handleFile(e) {
             const file = e.target.files[0];
             if (!file) return;
-
             elements.fileName.textContent = `ไฟล์ปัจจุบัน: ${file.name}`;
             resetView();
             elements.loading.style.display = 'block';
-
             const reader = new FileReader();
             reader.onload = (event) => {
                 try {
@@ -256,8 +368,7 @@
                     const json = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
                     processData(json);
                 } catch (err) {
-                    console.error(err);
-                    alert("ไม่สามารถอ่านไฟล์ได้");
+                    alert("ไม่สามารถอ่านไฟล์ได้ กรุณาใช้ไฟล์ Excel ที่ถูกต้อง");
                     elements.loading.style.display = 'none';
                 }
             };
@@ -269,37 +380,27 @@
             let activeCustomer = null;
             const namePrefixes = /^(คุณ|นาง|น\.ส\.|นาย|ด\.ญ\.|ด\.ช\.|นางสาว)/;
 
-            rows.forEach((row, idx) => {
+            rows.forEach((row) => {
                 if (!row || row.length < 2) return;
-
                 const col0 = String(row[0]).trim();
                 const col1 = String(row[1]).trim();
-
                 const isCustomerRow = col0 !== "" && !isNaN(parseFloat(col0)) && namePrefixes.test(col1);
 
                 if (isCustomerRow) {
                     const parts = col1.split('/').map(p => p.trim());
-                    const cleanParts = parts.filter(p => p !== "");
-                    
                     activeCustomer = {
-                        name: cleanParts[0] || "ไม่ระบุชื่อ",
-                        hn: cleanParts[1] || "-",
-                        phone: cleanParts[2] || "-"
+                        name: parts[0] || "ไม่ระบุชื่อ",
+                        hn: parts[1] || "-",
+                        phone: parts[2] || "-"
                     };
                 } 
                 else if (activeCustomer && col0 === "") {
-                    let dateVal = row[1];
-                    let dateObj = parseExcelDate(dateVal);
+                    let dateObj = parseExcelDate(row[1]);
                     let remaining = parseInt(row[7]);
                     let amount = parseFloat(String(row[4]).replace(/,/g, '')) || 0;
-                    
-                    // รายการ (ชื่อคอร์ส)
                     const itemName = String(row[2] || "").trim();
-
-                    // คัดกรองรายการที่ไม่ต้องการ (ค่ามัดจำ, ค่าเสื้อ)
                     const isExcluded = itemName.includes("ค่ามัดจำ") || itemName.includes("ค่าเสื้อ");
                     
-                    // เงื่อนไข: วันที่ถูกต้อง, ครั้งคงเหลือ > 0, ยอดเงิน >= 599 และไม่ใช่รายการที่ยกเว้น
                     if (dateObj && !isNaN(remaining) && remaining > 0 && amount >= 599 && !isExcluded) {
                         items.push({
                             ...activeCustomer,
@@ -314,181 +415,123 @@
             });
 
             if (items.length === 0) {
-                alert("ไม่พบข้อมูลคอร์สที่ตรงตามเงื่อนไข (>= 599.- และไม่รวมค่ามัดจำ/ค่าเสื้อ)");
+                alert("ไม่พบข้อมูลคอร์สที่ตรงตามเงื่อนไข");
                 elements.loading.style.display = 'none';
                 return;
             }
 
             rawDataStore = items;
-            currentFiltered = items;
-            renderTable(currentFiltered);
-            
+            applyAllFilters();
             elements.searchBar.style.display = 'flex';
             elements.results.style.display = 'block';
             elements.loading.style.display = 'none';
             elements.exportBtn.style.display = 'flex';
         }
 
+        function applyAllFilters() {
+            let filtered = [...rawDataStore];
+            const term = elements.searchInput.value.toLowerCase().trim();
+            if (term) {
+                filtered = filtered.filter(i => i.name.toLowerCase().includes(term) || i.hn.toLowerCase().includes(term) || i.phone.includes(term));
+            }
+            const catTerm = elements.categoryInput.value.toLowerCase().trim();
+            if (catTerm) {
+                filtered = filtered.filter(i => i.item.toLowerCase().includes(catTerm));
+            }
+            if (activeTags.size > 0) {
+                filtered = filtered.filter(i => {
+                    const itemName = i.item.toLowerCase();
+                    return Array.from(activeTags).some(tag => tagKeywords[tag].some(kw => itemName.includes(kw)));
+                });
+            }
+            const monthRange = parseInt(elements.monthFilter.value);
+            if (monthRange > 0) {
+                const now = new Date();
+                const cutoff = new Date(now.getFullYear(), now.getMonth() - monthRange, now.getDate());
+                filtered = filtered.filter(i => i.dateObj >= cutoff);
+            }
+            currentFiltered = filtered;
+            renderTable(currentFiltered);
+        }
+
         function renderTable(data) {
             elements.tableBody.innerHTML = '';
-            
             const groups = data.reduce((acc, item) => {
                 const key = `${item.name}-${item.hn}`;
-                if (!acc[key]) {
-                    acc[key] = {
-                        name: item.name,
-                        hn: item.hn,
-                        phone: item.phone,
-                        list: [],
-                        total: 0,
-                        earliestDate: item.dateObj
-                    };
-                }
+                if (!acc[key]) acc[key] = { name: item.name, hn: item.hn, phone: item.phone, list: [], total: 0, latestDate: item.dateObj };
                 acc[key].list.push(item);
                 acc[key].total += item.amount;
-                if (item.dateObj < acc[key].earliestDate) acc[key].earliestDate = item.dateObj;
+                if (item.dateObj > acc[key].latestDate) acc[key].latestDate = item.dateObj;
                 return acc;
             }, {});
 
             let groupArray = Object.values(groups);
-
             const sortVal = elements.sortSelect.value;
             groupArray.sort((a, b) => {
                 if (sortVal === 'amount_desc') return b.total - a.total;
                 if (sortVal === 'amount_asc') return a.total - b.total;
-                if (sortVal === 'date_desc') return b.earliestDate - a.earliestDate;
-                return a.earliestDate - b.earliestDate;
+                if (sortVal === 'date_asc') return a.latestDate - b.latestDate;
+                return b.latestDate - a.latestDate;
             });
 
             let grandTotal = 0;
-            let customerIndex = 1;
-
+            let index = 1;
             groupArray.forEach(group => {
                 grandTotal += group.total;
-                const rowCount = group.list.length;
-
                 group.list.forEach((item, i) => {
                     const tr = document.createElement('tr');
-                    if (i === 0) {
-                        tr.innerHTML += `<td rowspan="${rowCount}" style="text-align:center; vertical-align:top; font-weight:600;">${customerIndex}</td>`;
-                    }
-                    tr.innerHTML += `<td class="text-muted">${item.dateStr}</td>`;
-                    if (i === 0) {
-                        tr.innerHTML += `
-                            <td rowspan="${rowCount}" class="group-start">
-                                <div class="text-bold">${group.name}</div>
-                                <div class="text-muted">HN: ${group.hn} | โทร: ${group.phone}</div>
-                            </td>
-                        `;
-                    }
-                    tr.innerHTML += `
-                        <td>${item.item}</td>
-                        <td style="text-align:right;">${item.amount.toLocaleString(undefined, {minimumFractionDigits:2})}</td>
-                        <td style="text-align:center;"><span class="remaining-badge">${item.remaining}</span></td>
-                    `;
+                    if (i === 0) tr.innerHTML += `<td rowspan="${group.list.length}" style="text-align:center; vertical-align:top; font-weight:600; color:#4b6584;">${index}</td>`;
+                    tr.innerHTML += `<td style="color:#636e72; font-size:13px;">${item.dateStr}</td>`;
+                    if (i === 0) tr.innerHTML += `<td rowspan="${group.list.length}" class="group-start"><span class="text-bold">${group.name}</span><span class="text-muted">HN: ${group.hn} | ${group.phone}</span></td>`;
+                    tr.innerHTML += `<td style="color:#2d3436; font-weight:400;">${item.item}</td>`;
+                    tr.innerHTML += `<td style="text-align:right; font-weight:500;">${item.amount.toLocaleString(undefined, {minimumFractionDigits:2})}</td>`;
+                    tr.innerHTML += `<td style="text-align:center;"><span class="remaining-badge">${item.remaining}</span></td>`;
                     elements.tableBody.appendChild(tr);
                 });
-
                 const subTr = document.createElement('tr');
                 subTr.className = 'subtotal-row';
-                subTr.innerHTML = `
-                    <td colspan="4" style="text-align:right;">ยอดเงินคงเหลือของ ${group.name}:</td>
-                    <td style="text-align:right; color:var(--primary-color);">฿${group.total.toLocaleString(undefined, {minimumFractionDigits:2})}</td>
-                    <td></td>
-                `;
+                subTr.innerHTML = `<td colspan="4" style="text-align:right;">ยอดคงเหลือรวม:</td><td style="text-align:right; color:var(--primary-color);">฿${group.total.toLocaleString(undefined, {minimumFractionDigits:2})}</td><td></td>`;
                 elements.tableBody.appendChild(subTr);
-                customerIndex++;
+                index++;
             });
-
             elements.totalAmount.textContent = `฿${grandTotal.toLocaleString(undefined, {minimumFractionDigits:2})}`;
-            
-            if (data.length === 0) {
-                elements.tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px;">ไม่พบข้อมูลที่ตรงกับคำค้นหา</td></tr>';
-            }
-        }
-
-        function handleSearch() {
-            const term = elements.searchInput.value.toLowerCase().trim();
-            if (!term) {
-                currentFiltered = rawDataStore;
-            } else {
-                currentFiltered = rawDataStore.filter(i => 
-                    i.name.toLowerCase().includes(term) ||
-                    i.hn.toLowerCase().includes(term) ||
-                    i.phone.includes(term) ||
-                    i.item.toLowerCase().includes(term)
-                );
-            }
-            renderTable(currentFiltered);
+            if (data.length === 0) elements.tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px; color:#95a5a6;">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</td></tr>';
         }
 
         function exportToExcel() {
-            const groups = currentFiltered.reduce((acc, item) => {
-                const key = `${item.name}-${item.hn}`;
-                if (!acc[key]) acc[key] = { name: item.name, hn: item.hn, phone: item.phone, list: [], total: 0 };
-                acc[key].list.push(item);
-                acc[key].total += item.amount;
-                return acc;
-            }, {});
-
-            const exportData = [];
-            exportData.push(["ลำดับ", "วันที่", "ชื่อลูกค้า", "HN", "เบอร์โทร", "รายการ", "ยอดเงินคงเหลือ", "จำนวนครั้งที่เหลือ"]);
-
-            let count = 1;
-            Object.values(groups).forEach(g => {
-                g.list.forEach((it, idx) => {
-                    exportData.push([
-                        idx === 0 ? count : "",
-                        it.dateStr,
-                        idx === 0 ? g.name : "",
-                        idx === 0 ? g.hn : "",
-                        idx === 0 ? g.phone : "",
-                        it.item,
-                        it.amount,
-                        it.remaining
-                    ]);
-                });
-                exportData.push(["", "", "", "", "", "รวมของลูกค้ารายนี้", g.total, ""]);
-                exportData.push([]); 
-                count++;
-            });
-
-            const ws = XLSX.utils.aoa_to_sheet(exportData);
+            const dataToExport = currentFiltered.map((it, idx) => ({
+                "วันที่": it.dateStr,
+                "ชื่อลูกค้า": it.name,
+                "HN": it.hn,
+                "โทร": it.phone,
+                "รายการ": it.item,
+                "ยอดคงเหลือ": it.amount,
+                "ครั้งคงเหลือ": it.remaining
+            }));
+            const ws = XLSX.utils.json_to_sheet(dataToExport);
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Course Summary");
-            XLSX.writeFile(wb, `สรุปคอร์สคงเหลือ_${new Date().toISOString().slice(0,10)}.xlsx`);
+            XLSX.utils.book_append_sheet(wb, ws, "Summary");
+            XLSX.writeFile(wb, `Florenza_Summary_${new Date().toISOString().slice(0,10)}.xlsx`);
         }
 
         function parseExcelDate(val) {
             if (val instanceof Date) return val;
-            if (typeof val === 'number') {
-                return new Date(Math.round((val - 25569) * 86400 * 1000));
-            }
+            if (typeof val === 'number') return new Date(Math.round((val - 25569) * 86400 * 1000));
             if (typeof val === 'string') {
                 const parts = val.split(/[\/\-]/);
-                if (parts.length === 3) return new Date(parts[2], parts[1] - 1, parts[0]);
+                if (parts.length === 3) {
+                    let d = parseInt(parts[0]), m = parseInt(parts[1]) - 1, y = parseInt(parts[2]);
+                    if (y > 2500) y -= 543;
+                    return new Date(y, m, d);
+                }
                 const d = new Date(val);
                 return isNaN(d.getTime()) ? null : d;
             }
             return null;
         }
 
-        function formatDate(date) {
-            if (!date) return "-";
-            return date.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        }
-
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
+        function formatDate(date) { return date ? date.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' }) : "-"; }
+        function debounce(func, wait) { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => func(...args), wait); }; }
 
         function resetView() {
             elements.results.style.display = 'none';
@@ -497,6 +540,10 @@
             elements.tableBody.innerHTML = '';
             elements.totalAmount.textContent = '฿0.00';
             elements.searchInput.value = '';
+            elements.categoryInput.value = '';
+            elements.monthFilter.value = "0";
+            activeTags.clear();
+            elements.quickFilterContainer.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
         }
     </script>
 </body>
