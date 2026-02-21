@@ -387,12 +387,25 @@
                 const isCustomerRow = col0 !== "" && !isNaN(parseFloat(col0)) && namePrefixes.test(col1);
 
                 if (isCustomerRow) {
-                    const parts = col1.split('/').map(p => p.trim());
-                    activeCustomer = {
-                        name: parts[0] || "ไม่ระบุชื่อ",
-                        hn: parts[1] || "-",
-                        phone: parts[2] || "-"
-                    };
+                    const rawParts = col1.split(/[\/|]|\s{2,}|(?<=\D)-(?=\d)/).map(p => p.trim()).filter(p => p !== "");
+                    let name = rawParts[0] || "ไม่ระบุชื่อ";
+                    let hn = "-";
+                    let phone = "-";
+
+                    rawParts.forEach((part, index) => {
+                        if (index === 0) return;
+                        const phoneMatch = part.replace(/[-\s]/g, '').match(/0\d{8,9}/);
+                        if (phoneMatch) {
+                            phone = phoneMatch[0];
+                        } 
+                        else if (part.toLowerCase().includes('hn') || /^[A-Z]*\d+$/.test(part)) {
+                            hn = part.replace(/HN[:\s]*/i, '');
+                        }
+                    });
+                    if (hn === "-" && rawParts.length > 1 && phone === "-") {
+                        hn = rawParts[1];
+                    }
+                    activeCustomer = { name, hn, phone };
                 } 
                 else if (activeCustomer && col0 === "") {
                     let dateObj = parseExcelDate(row[1]);
@@ -454,8 +467,7 @@
             renderTable(currentFiltered);
         }
 
-        function renderTable(data) {
-            elements.tableBody.innerHTML = '';
+        function getGroupedData(data) {
             const groups = data.reduce((acc, item) => {
                 const key = `${item.name}-${item.hn}`;
                 if (!acc[key]) acc[key] = { name: item.name, hn: item.hn, phone: item.phone, list: [], total: 0, latestDate: item.dateObj };
@@ -473,6 +485,12 @@
                 if (sortVal === 'date_asc') return a.latestDate - b.latestDate;
                 return b.latestDate - a.latestDate;
             });
+            return groupArray;
+        }
+
+        function renderTable(data) {
+            elements.tableBody.innerHTML = '';
+            const groupArray = getGroupedData(data);
 
             let grandTotal = 0;
             let index = 1;
@@ -482,7 +500,7 @@
                     const tr = document.createElement('tr');
                     if (i === 0) tr.innerHTML += `<td rowspan="${group.list.length}" style="text-align:center; vertical-align:top; font-weight:600; color:#4b6584;">${index}</td>`;
                     tr.innerHTML += `<td style="color:#636e72; font-size:13px;">${item.dateStr}</td>`;
-                    if (i === 0) tr.innerHTML += `<td rowspan="${group.list.length}" class="group-start"><span class="text-bold">${group.name}</span><span class="text-muted">HN: ${group.hn} | ${group.phone}</span></td>`;
+                    if (i === 0) tr.innerHTML += `<td rowspan="${group.list.length}" class="group-start"><span class="text-bold">${group.name}</span><span class="text-muted">HN: ${group.hn} | โทร: ${group.phone}</span></td>`;
                     tr.innerHTML += `<td style="color:#2d3436; font-weight:400;">${item.item}</td>`;
                     tr.innerHTML += `<td style="text-align:right; font-weight:500;">${item.amount.toLocaleString(undefined, {minimumFractionDigits:2})}</td>`;
                     tr.innerHTML += `<td style="text-align:center;"><span class="remaining-badge">${item.remaining}</span></td>`;
@@ -499,19 +517,48 @@
         }
 
         function exportToExcel() {
-            const dataToExport = currentFiltered.map((it, idx) => ({
-                "วันที่": it.dateStr,
-                "ชื่อลูกค้า": it.name,
-                "HN": it.hn,
-                "โทร": it.phone,
-                "รายการ": it.item,
-                "ยอดคงเหลือ": it.amount,
-                "ครั้งคงเหลือ": it.remaining
-            }));
-            const ws = XLSX.utils.json_to_sheet(dataToExport);
+            const groupArray = getGroupedData(currentFiltered);
+            const exportRows = [];
+            
+            // 1. หัวตาราง
+            exportRows.push(["ลำดับ", "วันที่", "ชื่อลูกค้า", "HN", "เบอร์โทร", "รายการคอร์ส", "คงเหลือ (บาท)", "ครั้งคงเหลือ"]);
+
+            let grandTotal = 0;
+            groupArray.forEach((group, index) => {
+                grandTotal += group.total;
+                
+                group.list.forEach((item, i) => {
+                    exportRows.push([
+                        i === 0 ? index + 1 : "",
+                        item.dateStr,
+                        i === 0 ? group.name : "",
+                        i === 0 ? group.hn : "",
+                        i === 0 ? group.phone : "",
+                        item.item,
+                        item.amount,
+                        item.remaining
+                    ]);
+                });
+
+                // 2. แถวสรุปรายคน
+                exportRows.push(["", "", "", "", "", "ยอดเงินคงเหลือรวมของลูกค้าท่านนี้:", group.total, ""]);
+                exportRows.push([]); // แถวว่าง
+            });
+
+            // 3. แถวสรุปยอดเงินรวมทั้งหมด (ที่ขอเพิ่มเติม)
+            exportRows.push(["", "", "", "", "", "----------------------------------", "-----------", ""]);
+            exportRows.push(["", "", "", "", "", "ยอดเงินรวมคงเหลือที่เลือกทั้งหมด (สุทธิ):", grandTotal, ""]);
+            exportRows.push(["", "", "", "", "", "----------------------------------", "-----------", ""]);
+
+            const ws = XLSX.utils.aoa_to_sheet(exportRows);
+            const wscols = [
+                {wch: 8}, {wch: 12}, {wch: 25}, {wch: 12}, {wch: 15}, {wch: 40}, {wch: 20}, {wch: 12}
+            ];
+            ws['!cols'] = wscols;
+
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Summary");
-            XLSX.writeFile(wb, `Florenza_Summary_${new Date().toISOString().slice(0,10)}.xlsx`);
+            XLSX.utils.book_append_sheet(wb, ws, "สรุปคอร์สคงเหลือ");
+            XLSX.writeFile(wb, `Florenza_Export_${new Date().toISOString().slice(0,10)}.xlsx`);
         }
 
         function parseExcelDate(val) {
