@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard คอร์สคงเหลือ | Florenza Clinic รามอินทรา</title>
+<title>Dashboard คอร์สคงเหลือ | Florenza Clinic</title>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--primary:#7c4dff;--accent:#00b894;--warn:#e17055;--bg:#f4f6fb;--card:#fff;--text:#2d3436;--muted:#636e72;--border:#dfe6e9;--shadow:0 4px 20px rgba(0,0,0,.07)}
@@ -13,33 +13,65 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--text);paddi
 header{text-align:center;margin-bottom:20px}
 header h1{font-size:1.7rem;font-weight:600;color:#1e272e}
 header p{color:var(--muted);font-weight:300;font-size:.9rem;margin-top:4px}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+
+/* Upload Section */
+.upload-card {background: var(--card);border-radius: 14px;padding: 20px;box-shadow: var(--shadow);margin-bottom: 20px;border: 2px dashed #b2bec3;display: flex;justify-content: space-between;align-items: center;flex-wrap: wrap;gap: 15px;transition: 0.3s;}
+.upload-card:hover {border-color: var(--primary);}
+.upload-left {display: flex;flex-direction: column;gap: 5px;}
+.upload-title {font-weight: 600;font-size: 1.1rem;color: #1e272e;}
+.upload-desc {font-size: 0.85rem;color: var(--muted);}
+.upload-actions {display: flex;gap: 10px;align-items: center;}
+.btn {padding: 9px 18px;border-radius: 10px;cursor: pointer;font-family: inherit;font-weight: 500;font-size: 13px;transition: .2s;border: none;display: flex;align-items: center;gap: 6px;}
+.btn-outline {background: transparent;border: 1.5px solid var(--primary);color: var(--primary);}
+.btn-outline:hover {background: var(--primary);color: #fff;}
+.btn-primary {background: var(--primary);color: #fff;}
+.btn-primary:hover {background: #651fff;transform: translateY(-1px);}
+input[type="file"] {display: none;}
+
+/* Stats Grid - ปรับเป็น 5 คอลัมน์ */
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px}
 .stat-card{background:var(--card);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow);border-left:4px solid var(--primary)}
+.stat-card.blue{border-left-color:#0984e3}
 .stat-card.green{border-left-color:var(--accent)}
 .stat-card.orange{border-left-color:var(--warn)}
 .stat-card.purple{border-left-color:#a29bfe}
 .stat-label{font-size:.78rem;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.4px}
 .stat-value{font-size:1.6rem;font-weight:600;margin-top:4px;color:#1e272e}
-.stat-sub{font-size:.78rem;color:var(--muted);margin-top:2px}
+.stat-sub{font-size:.78rem;color:var(--muted);margin-top:2px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+
+/* Filters */
 .filters-card{background:var(--card);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow);margin-bottom:16px}
 .filter-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
 .search-box{flex:1;min-width:160px;padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-size:13px;font-family:inherit;outline:none;transition:.2s}
 .search-box:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(124,77,255,.1)}
+
+/* Date Group Styling */
+.date-group { display: flex; align-items: center; gap: 6px; background: #fff; border: 2px solid var(--border); padding: 2px 10px; border-radius: 10px; transition: .2s; flex-wrap: wrap; }
+.date-group:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124,77,255,.1); }
+.date-box { border: none; outline: none; font-family: inherit; font-size: 13px; color: var(--text); background: transparent; padding: 6px 2px; cursor: pointer; }
+.date-sep { color: var(--muted); font-size: 13px; }
+.btn-clear-date { background: #ffeaa7; color: #d63031; border: none; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 10px; margin-left: 4px; display: none; transition: 0.2s;}
+.btn-clear-date:hover { background: #fab1a0; color: #fff; transform: scale(1.1); }
+
 .tag-row{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
 .tag-label{font-size:.78rem;font-weight:600;color:#4b6584}
 .tag{background:#f1f3f9;border:1.5px solid var(--border);padding:5px 13px;border-radius:20px;font-size:12px;cursor:pointer;transition:.2s;color:var(--muted);font-family:inherit;font-weight:500}
 .tag:hover{border-color:var(--primary);color:var(--primary)}
 .tag.active{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(124,77,255,.25)}
+
+/* Table Styling */
 .table-wrap{background:var(--card);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
 .table-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
 .table-header span{font-weight:600;font-size:.95rem;color:#1e272e}
 .table-header small{color:var(--muted);font-size:.82rem}
 .tbl-scroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:880px}
+table{width:100%;border-collapse:collapse;min-width:950px}
 th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #f0f0f0;font-size:13px}
 th{background:#f8f9fd;font-weight:600;color:#4b6584;font-size:.75rem;text-transform:uppercase;letter-spacing:.4px}
 th:last-child,td:last-child{text-align:center}
-th:nth-child(5),td:nth-child(5){text-align:right}
+/* ปรับแนวคอลัมน์ตัวเลขให้ชิดขวา (คอลัมน์ที่ 5 และ 6) */
+th:nth-child(5),td:nth-child(5),
+th:nth-child(6),td:nth-child(6){text-align:right}
 tbody tr:hover{background:#f9f9ff}
 .cust-name{font-weight:600;color:#1e272e;display:block}
 .cust-meta{color:var(--muted);font-size:.8rem;display:block;margin-top:2px}
@@ -53,39 +85,62 @@ tbody tr:hover{background:#f9f9ff}
 .hs-label{font-weight:400;font-size:.9rem;opacity:.9}
 .hs-value{font-size:1.8rem;font-weight:600;letter-spacing:-.5px}
 .hs-count{font-size:.85rem;opacity:.85;margin-top:2px}
-@media(max-width:768px){.stats-grid{grid-template-columns:1fr 1fr}.filter-row{flex-direction:column}}
+
+/* Responsive */
+@media(max-width:1100px){.stats-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){.stats-grid{grid-template-columns:1fr 1fr}.filter-row{flex-direction:column}.upload-card{flex-direction:column;align-items:flex-start;}}
 </style>
 </head>
 <body>
 <div class="container">
   <header>
     <h1>🏥 Dashboard คอร์สคงเหลือ</h1>
-    <p>Florenza Clinic สาขา รามอินทรา — ข้อมูล ณ วันที่ประมวลผล</p>
+    <p>Florenza Clinic — ระบบวิเคราะห์ข้อมูล</p>
   </header>
 
+  <!-- ส่วนอัปโหลดข้อมูล -->
+  <div class="upload-card">
+    <div class="upload-left">
+      <div class="upload-title">📥 นำเข้าข้อมูลคอร์สคงเหลือ (Excel/CSV)</div>
+      <div class="upload-desc" id="upload-status">กรุณาอัปโหลดไฟล์ที่เตรียมไว้ เพื่อแสดงผลบน Dashboard</div>
+    </div>
+    <div class="upload-actions">
+      <button class="btn btn-outline" onclick="downloadTemplate()">📄 โหลดไฟล์ต้นแบบ</button>
+      <label class="btn btn-primary" for="file-upload">
+        📁 เลือกไฟล์ Excel
+      </label>
+      <input type="file" id="file-upload" accept=".xlsx, .xls, .csv">
+    </div>
+  </div>
+
   <div class="stats-grid" id="stats-grid">
-    <div class="stat-card"><div class="stat-label">ยอดเงินคงเหลือรวม</div><div class="stat-value" id="s-total">-</div><div class="stat-sub">บาท</div></div>
+    <div class="stat-card"><div class="stat-label">ยอดเงินซื้อรวม</div><div class="stat-value" id="s-total">-</div><div class="stat-sub">บาท (เต็มจำนวน)</div></div>
+    <!-- 🌟 เพิ่ม Card ใหม่ที่นี่ -->
+    <div class="stat-card blue"><div class="stat-label">มูลค่าคอร์สคงเหลือ</div><div class="stat-value" id="s-val-remain">-</div><div class="stat-sub">บาท (คำนวณตามสัดส่วน)</div></div>
     <div class="stat-card green"><div class="stat-label">จำนวนลูกค้า</div><div class="stat-value" id="s-cust">-</div><div class="stat-sub">ราย</div></div>
     <div class="stat-card orange"><div class="stat-label">จำนวนคอร์ส</div><div class="stat-value" id="s-items">-</div><div class="stat-sub">รายการ</div></div>
-    <div class="stat-card purple"><div class="stat-label">ยอดสูงสุด (ต่อคน)</div><div class="stat-value" id="s-max">-</div><div class="stat-sub" id="s-max-name"></div></div>
+    <div class="stat-card purple"><div class="stat-label">มูลค่าคงเหลือสูงสุด</div><div class="stat-value" id="s-max">-</div><div class="stat-sub" id="s-max-name">-</div></div>
   </div>
 
   <div class="filters-card">
     <div class="filter-row">
       <input type="text" id="q-search" class="search-box" placeholder="🔍 ค้นหาลูกค้า (ชื่อ, HN, เบอร์โทร)">
       <input type="text" id="q-item" class="search-box" placeholder="🏷️ ค้นหาคอร์ส (Botox, Drip, IPL...)">
-      <select id="q-month" class="search-box" style="min-width:150px">
-        <option value="0">📅 ช่วงเวลา: ทั้งหมด</option>
-        <option value="1">ย้อนหลัง 1 เดือน</option>
-        <option value="3">ย้อนหลัง 3 เดือน</option>
-        <option value="6">ย้อนหลัง 6 เดือน</option>
-        <option value="12">ย้อนหลัง 12 เดือน</option>
-      </select>
+      
+      <!-- ส่วนเลือกวันที่ใหม่ -->
+      <div class="date-group">
+        <span title="ตั้งแต่วันที่">📅</span>
+        <input type="date" id="q-date-start" class="date-box" title="ตั้งแต่วันที่">
+        <span class="date-sep">ถึง</span>
+        <input type="date" id="q-date-end" class="date-box" title="ถึงวันที่">
+        <button id="btn-clear-date" class="btn-clear-date" title="ล้างวันที่">✖</button>
+      </div>
+
       <select id="q-sort" class="search-box" style="min-width:180px">
+        <option value="val_desc">💰 มูลค่าคงเหลือ: มากไปน้อย</option>
+        <option value="val_asc">💰 มูลค่าคงเหลือ: น้อยไปมาก</option>
         <option value="date_desc">🕒 วันที่: ล่าสุดก่อน</option>
         <option value="date_asc">🕒 วันที่: เก่าสุดก่อน</option>
-        <option value="amount_desc">💰 ยอดเงิน: มากไปน้อย</option>
-        <option value="amount_asc">💰 ยอดเงิน: น้อยไปมาก</option>
       </select>
     </div>
     <div class="tag-row">
@@ -105,7 +160,7 @@ tbody tr:hover{background:#f9f9ff}
 
   <div class="highlight-summary">
     <div>
-      <div class="hs-label">ยอดเงินรวมคงเหลือที่กรอง</div>
+      <div class="hs-label">ยอดมูลค่าคอร์สคงเหลือที่กรอง</div>
       <div class="hs-value" id="hs-total">฿0</div>
       <div class="hs-count" id="hs-count">0 รายการ / 0 ลูกค้า</div>
     </div>
@@ -120,7 +175,7 @@ tbody tr:hover{background:#f9f9ff}
     <div class="tbl-scroll">
       <table>
         <thead><tr>
-          <th>#</th><th>วันที่</th><th>ข้อมูลลูกค้า</th><th>รายการคอร์ส</th><th style="text-align:right">คงเหลือ (฿)</th><th>ครั้งคงเหลือ</th>
+          <th>#</th><th>วันที่</th><th>ข้อมูลลูกค้า</th><th>รายการคอร์ส</th><th style="text-align:right">ยอดเต็ม (฿)</th><th style="text-align:right">มูลค่าคงเหลือ (฿)</th><th>ครั้งคงเหลือ</th>
         </tr></thead>
         <tbody id="tbody"></tbody>
       </table>
@@ -130,17 +185,173 @@ tbody tr:hover{background:#f9f9ff}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-const RAW = [{"name":"คุณ ราตรี  วงค์ชัย","hn":"FRR650025","phone":"0979746447","date":"11/09/2025 15:48:41","item":"Drip Healthy Bright","amount":2999.0,"remaining":5},{"name":"คุณ ชลาศัย  จินตกานนท์","hn":"FRR650064","phone":"0633915199","date":"12/11/2024 15:52:49","item":"Cryo Treatment","amount":7200.0,"remaining":7},{"name":"คุณ เรไร  หาญวงษ์","hn":"FRR650124","phone":"0829132256","date":"12/24/2024 11:14:14","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":4},{"name":"คุณ วิสุทธิ์  นงสันติ","hn":"FRR650130","phone":"0902675898","date":"12/28/2024 17:42:25","item":"Dio Laer  ขนหนวด/เครา","amount":6998.0,"remaining":5},{"name":"คุณ อาภาวดี  พร้อมพันธุ์","hn":"FRR650139","phone":"0635989456","date":"09/02/2025 11:35:58","item":"IPL กำจัดขนรักแร้ 5 ครั้ง","amount":990.0,"remaining":1},{"name":"คุณ น้ำฝน  เพียนอก","hn":"FRR650177","phone":"0817011686","date":"01/16/2025 12:26:32","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":6},{"name":"คุณ อธิชา  กมเลศร์","hn":"FRR650193","phone":"0972517589","date":"02/04/2025 14:32:44","item":"IPL กำจัดขนรักแร้","amount":1590.0,"remaining":4},{"name":"คุณ อธิชา  กมเลศร์","hn":"FRR650193","phone":"0972517589","date":"07/19/2025 15:49:17","item":"Dio Laser ขนขาบน/ล่าง","amount":5000.0,"remaining":3},{"name":"คุณ อธิชา  กมเลศร์","hn":"FRR650193","phone":"0972517589","date":"09/05/2025 14:34:53","item":"Drip Diamond White ชมพู","amount":4050.0,"remaining":2},{"name":"คุณ วาสนา  วรรคไธสง","hn":"FRR650197","phone":"0839919539","date":"03/01/2025 12:52:15","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":6},{"name":"คุณ วาสนา  วรรคไธสง","hn":"FRR650197","phone":"0839919539","date":"09/30/2025 17:53:32","item":"Meso Aura Skin (สะกิดหน้า)","amount":909.0,"remaining":2},{"name":"คุณ ราตรี  สังคะวัตร","hn":"FRR650245","phone":"0947726017","date":"02/18/2025 15:46:38","item":"Drip วิตามินผิวใส","amount":4590.0,"remaining":1},{"name":"คุณ พรพรรณ  ขวัญนิมิตร","hn":"FRR650291","phone":"0800545115","date":"02/21/2025 13:04:09","item":"Healthy Bright","amount":5000.0,"remaining":3},{"name":"คุณ ลักขณา  ดวงตาทิพย์","hn":"FRR650303","phone":"0894995656","date":"03/23/2025 13:29:27","item":"Botox Aestox 100U","amount":7500.0,"remaining":50},{"name":"คุณ นิตติยา  วงค์ครุฑ","hn":"FRR650330","phone":"0927795969","date":"10/31/2025 17:36:17","item":"IPL Brazilian","amount":2599.0,"remaining":2},{"name":"คุณ ฎพิชา  ปภาพิสิฐกร","hn":"FRR650339","phone":"0809500999","date":"01/24/2026 18:45:16","item":"ไหมเส้นใหญ่ Hiko","amount":2500.0,"remaining":2},{"name":"คุณ นิศามน  จินุกูล","hn":"FRR650356","phone":"0946496661","date":"10/17/2025 14:10:33","item":"Meso Chanel","amount":1313.0,"remaining":1},{"name":"คุณ วัลย์ลดา  สว่างแก้ว","hn":"FRR650381","phone":"0927213988","date":"01/07/2026 16:21:02","item":"Hifu เหนียง/กรอบหน้า","amount":3000.0,"remaining":1},{"name":"คุณ วัลย์ลดา  สว่างแก้ว","hn":"FRR650381","phone":"0927213988","date":"01/07/2026 16:21:02","item":"PICO Laser","amount":3000.0,"remaining":1},{"name":"คุณ วัลย์ลดา  สว่างแก้ว","hn":"FRR650381","phone":"0927213988","date":"01/07/2026 16:21:02","item":"Chanel36","amount":3999.0,"remaining":1},{"name":"คุณ สุรชา  สุขะพันธ์","hn":"FRR650399","phone":"0624654636","date":"01/15/2025 15:37:24","item":"Botox Aestox 100U","amount":7999.0,"remaining":100},{"name":"คุณ กรพินธุ์  รอดสุข","hn":"FRR650409","phone":"0851699494","date":"10/30/2025 18:55:02","item":"Body S 1 จุด","amount":3330.0,"remaining":2},{"name":"คุณ รฐา  ไพเราะ","hn":"FRR650423","phone":"0863811485","date":"04/21/2025 17:47:37","item":"Botox Aestox 100U","amount":14000.0,"remaining":200},{"name":"คุณ วันวิสาข์  ปั้นประสม","hn":"FRR650437","phone":"0618469430","date":"01/02/2025 17:46:18","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":3},{"name":"คุณ ธุวานันท์  สุขเสริฐ","hn":"FRR650477","phone":"0659891526","date":"10/09/2025 11:22:12","item":"Drip วิตามินผิวใส","amount":999.0,"remaining":2},{"name":"คุณ อรกัญญา  วิชาเครื่อง","hn":"FRR650481","phone":"0616499050","date":"08/31/2025 13:20:15","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":6},{"name":"คุณ ศิรประภา  พัฒน์ชนะ","hn":"FRR650512","phone":"0957897915","date":"12/10/2024 19:51:06","item":"Drip Super Cinderella สูตรสีส้ม","amount":17000.0,"remaining":2},{"name":"คุณ ศิรประภา  พัฒน์ชนะ","hn":"FRR650512","phone":"0957897915","date":"12/10/2024 19:51:06","item":"Diamond White (Drip)","amount":1188.0,"remaining":1},{"name":"คุณ จิรัตติกาล  แขรัตน์","hn":"FRR650726","phone":"0969422694","date":"03/28/2025 14:16:43","item":"IPL หน้าใส","amount":5000.0,"remaining":2},{"name":"คุณ จิรัตติกาล  แขรัตน์","hn":"FRR650726","phone":"0969422694","date":"03/28/2025 14:16:43","item":"Melasma ฝ้า","amount":12000.0,"remaining":3},{"name":"นางสาว สาธิดา  บำรุงตระกูล","hn":"FRR650780","phone":"0835159196","date":"12/27/2025 21:31:14","item":"Fat Filoga 1โปร","amount":1500.0,"remaining":1},{"name":"นางสาว อรชุมา  ยงพัฒนจิตร","hn":"FRR650781","phone":"0815807509","date":"04/06/2025 17:30:56","item":"Secret blink","amount":890.0,"remaining":1},{"name":"นางสาว อรชุมา  ยงพัฒนจิตร","hn":"FRR650781","phone":"0815807509","date":"09/29/2025 16:52:47","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":3},{"name":"นางสาว อรชุมา  ยงพัฒนจิตร","hn":"FRR650781","phone":"0815807509","date":"11/10/2025 18:45:13","item":"G5","amount":2000.0,"remaining":7},{"name":"คุณ อารีญา  โสทน","hn":"FRR660027","phone":"0638387000","date":"10/19/2025 13:42:52","item":"Meso Melasma","amount":4000.0,"remaining":4},{"name":"คุณ รัตนมน  โพธิอำพล","hn":"FRR660162","phone":"0921021000","date":"02/08/2025 12:35:24","item":"Chanel36","amount":1290.0,"remaining":1},{"name":"คุณ ณิรินทร์ยา  ธีรวรรณพัฒน์","hn":"FRR660203","phone":"0985955949","date":"09/30/2025 18:27:42","item":"Hifu เหนียง/กรอบหน้า","amount":5999.0,"remaining":1},{"name":"คุณ ชัชวาลย์  ดวงแก้ว","hn":"FRR660210","phone":"0899244884","date":"09/07/2025 18:52:34","item":"Botox Aestox upper ริ้วรอย","amount":4500.0,"remaining":1},{"name":"คุณ อรสา  แก้วอารี","hn":"FRR660213","phone":"0945896445","date":"04/27/2025 11:21:28","item":"Drip Healthy Bright","amount":4590.0,"remaining":4},{"name":"คุณ พัชราภา  ทองนวล","hn":"04976","phone":"0857893624","date":"12/01/2025 11:22:11","item":"Made Collagen 1ครั้ง","amount":6500.0,"remaining":1},{"name":"คุณ พัชราภา  ทองนวล","hn":"04976","phone":"0857893624","date":"12/01/2025 11:22:11","item":"Body S 1 จุด","amount":1000.0,"remaining":1},{"name":"คุณ รมยพร  ม่วงช้าง","hn":"FRR660504","phone":"0871544249","date":"03/28/2025 14:16:30","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":7},{"name":"คุณ สุจิตรา  สุขเกษม","hn":"FRR660508","phone":"0894476782","date":"11/14/2025 11:28:28","item":"Meso Aura Skin (สะกิดหน้า)","amount":1822.0,"remaining":1},{"name":"คุณ อมร  ศรีเพ็ญ","hn":"FRR660516","phone":"0814453885","date":"10/22/2025 17:32:25","item":"Treatment 3 ขั้นตอน","amount":4000.0,"remaining":3},{"name":"คุณ ปิยะภรณ์ (งดโทรเชิญฟรี)  สว่างภพ","hn":"FRR660523","phone":"0994745285","date":"01/08/2025 16:03:09","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":7},{"name":"คุณ ปิยะภรณ์ (งดโทรเชิญฟรี)  สว่างภพ","hn":"FRR660523","phone":"0994745285","date":"04/05/2025 18:17:08","item":"Fat หน้า 1 จุด","amount":900.0,"remaining":1},{"name":"คุณ ภัทรานิษฏ์  มั่นหมาย","hn":"FRR660611","phone":"0822522968","date":"07/21/2025 15:46:36","item":"Fat Filoga 1 ขวด","amount":2777.0,"remaining":1},{"name":"คุณ ฟ้าใส  ฟ้าใส","hn":"FRR660623","phone":"0986284402","date":"07/13/2025 17:01:49","item":"Dio Laser  ขนรักแร้","amount":1990.0,"remaining":9},{"name":"คุณ ภาวินีย์  เดชพิพัฒนวงศ์","hn":"FRR660624","phone":"0985857668","date":"09/01/2025 14:00:55","item":"Made Collagen 1ครั้ง","amount":999.0,"remaining":1},{"name":"คุณ ภาวินีย์  เดชพิพัฒนวงศ์","hn":"FRR660624","phone":"0985857668","date":"09/01/2025 14:00:55","item":"Chanel36","amount":999.0,"remaining":1},{"name":"คุณ ภาวินีย์  เดชพิพัฒนวงศ์","hn":"FRR660624","phone":"0985857668","date":"10/25/2025 15:42:19","item":"Push ผิวใส","amount":999.0,"remaining":3},{"name":"คุณ ภาวินีย์  เดชพิพัฒนวงศ์","hn":"FRR660624","phone":"0985857668","date":"11/06/2025 18:56:25","item":"Hifu ทั่วหน้า","amount":3999.0,"remaining":200},{"name":"คุณ ภาวินีย์  เดชพิพัฒนวงศ์","hn":"FRR660624","phone":"0985857668","date":"11/30/2025 17:49:08","item":"Ultra former","amount":9999.0,"remaining":200},{"name":"คุณ กานต์สินี  เต็งเติมวงศ์","hn":"FRR670003","phone":"0924929893","date":"04/17/2025 18:42:40","item":"Drip Healthy Bright","amount":6997.12,"remaining":9},{"name":"คุณ สุวัฒนา  แก่นจันทร์","hn":"FRR670014","phone":"0817711441","date":"01/08/2026 18:09:28","item":"Drip Healthy Bright","amount":1000.0,"remaining":1},{"name":"คุณ ปิยะนุช  ทองดอนแป้น","hn":"FRR670015","phone":"0853519357","date":"10/28/2025 13:08:20","item":"Meso Chanel","amount":1313.0,"remaining":1},{"name":"คุณ หรรษา  ปานแดง","hn":"FRR670047","phone":"0905929924","date":"12/03/2025 14:41:58","item":"Chanel L'ebss","amount":990.0,"remaining":1},{"name":"คุณ วิชชุพันธ์  จันทร์มณี","hn":"FRR670067","phone":"0864632892","date":"02/02/2026 11:42:51","item":"Botox Hugel","amount":2500.0,"remaining":50},{"name":"คุณ วิภาพร  ปุ๋ยวงค์","hn":"FRR670088","phone":"0923909969","date":"03/09/2025 12:32:41","item":"Meso Aura Skin (สะกิดหน้า)","amount":1495.0,"remaining":2},{"name":"คุณ สุดาพรรณ  จันเทียน","hn":"FRR670089","phone":"0810416153","date":"02/18/2025 18:28:11","item":"Botox Aestox upper ริ้วรอย","amount":4590.0,"remaining":1},{"name":"คุณ ณัฐวัฒน์  พิพิฒน์เจริญวงค์","hn":"FRR670142","phone":"0842515169","date":"08/15/2025 14:56:56","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":9},{"name":"คุณ พินทุสร  ใจบุญ","hn":"FRR670155","phone":"0959504127","date":"01/17/2025 18:13:45","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":1},{"name":"คุณ กชกรณ์  โพธิ์วิไล","hn":"FRR670174","phone":"0642410085","date":"10/18/2025 16:28:38","item":"Laser Studio ฝ้า/กระ/จุดด่างดำ","amount":8900.0,"remaining":2},{"name":"คุณ กชกรณ์  โพธิ์วิไล","hn":"FRR670174","phone":"0642410085","date":"01/06/2026 13:00:00","item":"Helios  (ฝ้า/กระ/จุดด่างดำ)","amount":1500.0,"remaining":1},{"name":"คุณ ญดา  เลิศหัตถกิจ","hn":"FRR670223","phone":"0834665333","date":"07/20/2025 15:24:41","item":"Drip Cinderella เหลือง","amount":8950.0,"remaining":1},{"name":"คุณ ญดา  เลิศหัตถกิจ","hn":"FRR670223","phone":"0834665333","date":"07/21/2025 19:39:39","item":"Drip Ruby สูตรคุณตุ๊กตา","amount":15710.0,"remaining":3},{"name":"คุณ ญดา  เลิศหัตถกิจ","hn":"FRR670223","phone":"0834665333","date":"11/30/2025 15:55:06","item":"Dio Laser หน้าใส","amount":911.0,"remaining":1},{"name":"คุณ ญดา  เลิศหัตถกิจ","hn":"FRR670223","phone":"0834665333","date":"01/10/2026 19:09:53","item":"Hifu ทั่วหน้า","amount":5400.0,"remaining":1},{"name":"คุณ ชนาพร  กลัดบุบผา","hn":"FRR670255","phone":"0634242629","date":"02/01/2025 14:26:57","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":4},{"name":"คุณ ณิชารินทร์  ทับทอง","hn":"FRR670329","phone":"0851398999","date":"08/15/2025 12:40:22","item":"Cryo Treatment","amount":1998.0,"remaining":2},{"name":"คุณ ณิชารินทร์  ทับทอง","hn":"FRR670329","phone":"0851398999","date":"08/15/2025 12:40:22","item":"Meso Aura Skin (สะกิดหน้า)","amount":1464.0,"remaining":3},{"name":"คุณ ชุติกาญจน์  โม้ทอง","hn":"FRR670335","phone":"0633652665","date":"08/21/2025 11:58:27","item":"Drip Healthy Bright","amount":2000.0,"remaining":1},{"name":"คุณ ปาณิสรา  ศรีคำวรรณ","hn":"FRR670364","phone":"0639182255","date":"02/02/2026","item":"Botox Bienox 1U","amount":4599.0,"remaining":50},{"name":"คุณ ฉัตรลดา  พุกคุ่ย","hn":"FRR670370","phone":"0982654264","date":"01/14/2025 15:34:50","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":7},{"name":"คุณ ฉัตรลดา  พุกคุ่ย","hn":"FRR670370","phone":"0982654264","date":"04/03/2025 14:27:44","item":"Hifu ทั่วหน้า","amount":3599.0,"remaining":1},{"name":"คุณ สุทินี  -","hn":"FRR670446","phone":"0646655269","date":"05/06/2025 18:16:24","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":6},{"name":"คุณ สุทินี  -","hn":"FRR670446","phone":"0646655269","date":"12/28/2025 11:14:58","item":"Chanel L'ebss","amount":3500.0,"remaining":1},{"name":"คุณ ภาคนิพนธ์  สุขคุ่ย","hn":"FRR670472","phone":"0940267005","date":"10/09/2025 16:06:36","item":"Dio Laer  ขนหนวด/เครา","amount":3500.0,"remaining":4},{"name":"นางสาว ลินดา  เกตมาลา","hn":"FRR670474","phone":"0800125814","date":"09/22/2025 21:14:49","item":"Drip Diamond White ชมพู","amount":5000.0,"remaining":4},{"name":"คุณ ชวัลรักษ์  เกียรติแสงทอง","hn":"FRR670484","phone":"0830643880","date":"01/23/2025 17:33:58","item":"Meso Aura Skin (สะกิดหน้า)","amount":5000.0,"remaining":2},{"name":"คุณ ชวัลรักษ์  เกียรติแสงทอง","hn":"FRR670484","phone":"0830643880","date":"04/24/2025 16:58:42","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":5},{"name":"คุณ สวรินทร์  สุทธิโกมินทร์","hn":"FRR670493","phone":"0658978639","date":"11/14/2025 19:44:38","item":"Chanel36","amount":1313.0,"remaining":2},{"name":"นางสาว ยุพา  จตุคะมา","hn":"FRR670497","phone":"0993257807","date":"05/07/2025 12:07:05","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":10},{"name":"คุณ พิณทิพา  สัตยุตม์","hn":"FRR670504","phone":"0897631588","date":"08/15/2025 11:44:00","item":"Cryo Treatment","amount":2095.0,"remaining":1},{"name":"คุณ พรหมมินทร์  พลอยสุกใส","hn":"FRR670518","phone":"0917563331","date":"12/10/2024 15:00:02","item":"Co2(จี้) 1 จุด","amount":999.0,"remaining":1},{"name":"คุณ ลำพู  สิวันเวียง","hn":"FRR670519","phone":"0634136878","date":"12/13/2024 16:13:08","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":2},{"name":"คุณ อำไพ  ชูประชัย","hn":"FRR670520","phone":"0870038586","date":"04/24/2025 20:22:17","item":"Q-Swicth Laser ปากชมพู","amount":1776.0,"remaining":2},{"name":"คุณ อำไพ  ชูประชัย","hn":"FRR670520","phone":"0870038586","date":"07/14/2025 18:49:21","item":"Q-Swicth Laser ปากชมพู","amount":1776.0,"remaining":4},{"name":"คุณ สุกัญญา  ฟักแฟง","hn":"FRR670525","phone":"0958417632","date":"12/23/2024 18:50:38","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":3},{"name":"คุณ มาริศา  เกรียงไกร","hn":"FRR680003","phone":"0989359667","date":"08/11/2025 13:01:47","item":"IPL กำจัดขนรักแร้","amount":1590.0,"remaining":3},{"name":"คุณ อารยา  ศิรินาม","hn":"FRR680006","phone":"0621426540","date":"01/26/2025 16:58:34","item":"Keloid ฉีด","amount":1999.998046875,"remaining":1},{"name":"คุณ ติ๋ม  ติ๋ม","hn":"FRR680008","phone":"0655435959","date":"01/20/2025 13:21:03","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":2},{"name":"คุณ นภัสกร  นภัสกร","hn":"FRR680009","phone":"0954044419","date":"04/05/2025 11:59:58","item":"Botox เกาหลี 1 โปร","amount":972.0,"remaining":1},{"name":"คุณ พิมพ์นารา  วสุธนันท์กุล","hn":"FRR680011","phone":"0635955415","date":"01/24/2025 12:21:00","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":10},{"name":"คุณ เจตน์  หลิมวานิช","hn":"FRR680012","phone":"0929632987","date":"01/25/2025 12:28:58","item":"Co2 1 โปร","amount":1590.0,"remaining":1},{"name":"คุณ วันดี  จาดเรือง","hn":"FRR680013","phone":"0648502774","date":"01/25/2025 13:37:22","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":9},{"name":"คุณ อัจฉรา  หลิมวานิช","hn":"FRR680014","phone":"0929632987","date":"01/25/2025 14:08:36","item":"วิตามินสูตรเชียงใหม่","amount":1180.0,"remaining":2},{"name":"คุณ อัจฉรา  หลิมวานิช","hn":"FRR680014","phone":"0929632987","date":"02/14/2025 14:38:40","item":"วิตามินสูตรเชียงใหม่","amount":1500.0,"remaining":2},{"name":"คุณ บุษกร  ประสิทธิ์ภิญโญ","hn":"FRR680015","phone":"0886662894","date":"01/25/2025 17:09:45","item":"IPL 1 จุด","amount":1000.0,"remaining":1},{"name":"คุณ บัวลา  จิตรโสภา","hn":"FRR680016","phone":"0816262945","date":"02/18/2025 12:35:33","item":"Diamond White (Drip)","amount":6950.0,"remaining":3},{"name":"คุณ บัวลา  จิตรโสภา","hn":"FRR680016","phone":"0816262945","date":"02/18/2025 12:35:33","item":"Hifu เหนียง/กรอบหน้า","amount":8900.0,"remaining":1},{"name":"คุณ ซารีนา  มะมิง","hn":"FRR680017","phone":"0985821637","date":"05/08/2025 13:39:54","item":"Drip Healthy Bright","amount":2555.0,"remaining":4},{"name":"คุณ วนิดา  มาศิริ","hn":"FRR680023","phone":"0944622226","date":"01/29/2025 19:53:12","item":"Melasma ฝ้า","amount":1000.0,"remaining":1},{"name":"คุณ เด่นนภา  ท่าหลวง","hn":"FRR680026","phone":"0659893878","date":"01/31/2025 13:30:17","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":3},{"name":"คุณ เด่นนภา  ท่าหลวง","hn":"FRR680026","phone":"0659893878","date":"07/27/2025 15:07:54","item":"IPL หน้าใส","amount":1999.0,"remaining":2},{"name":"คุณ เสาวลักษณ์  นวลไทย","hn":"FRR680027","phone":"0931143176","date":"10/18/2025 10:34:43","item":"IPL หน้าใส","amount":999.0,"remaining":1},{"name":"คุณ ศศิธร Flora card  กาญจนภัทร","hn":"FRR680028","phone":"0863695539","date":"03/01/2025 15:06:40","item":"Dio Laser  ขนรักแร้","amount":7950.0,"remaining":1},{"name":"คุณ พลอยณัชชา  จอมเดช","hn":"FRR680031","phone":"0612695991","date":"09/29/2025 14:18:46","item":"Laser Studio ฝ้า/กระ/จุดด่างดำ","amount":9999.0,"remaining":4},{"name":"คุณ พลอยณัชชา  จอมเดช","hn":"FRR680031","phone":"0612695991","date":"09/29/2025 14:18:46","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":5},{"name":"คุณ จารวี  มาริศรี","hn":"FRR680032","phone":"0993262273","date":"02/09/2025 17:02:38","item":"Made Collagen 1ครั้ง","amount":3999.0,"remaining":1},{"name":"คุณ เสาวภา  นาครินทร์","hn":"FRR680035","phone":"0937577416","date":"02/17/2025 14:04:07","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":2},{"name":"คุณ เสาวภา  นาครินทร์","hn":"FRR680035","phone":"0937577416","date":"04/29/2025 12:26:20","item":"IPL หนวด/เครา","amount":2000.0,"remaining":2},{"name":"คุณ มนัธยา  ใจใส่","hn":"FRR680038","phone":"0626355360","date":"02/23/2025 17:06:59","item":"Co2 1 โปร","amount":1999.0,"remaining":1},{"name":"คุณ ธัญญชภัสร์  แซ่เอี้ยว","hn":"FRR680042","phone":"0831123067","date":"10/23/2025 18:22:14","item":"Q-Switch รอยคล้ำ","amount":2999.0,"remaining":6},{"name":"คุณ คัคนางค์  หมื่นต้มไพร","hn":"FRR680044","phone":"0884192071","date":"02/28/2025 12:11:46","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":6},{"name":"คุณ อัญวีณ์  ธีร์วราอนนต์","hn":"FRR680046","phone":"0804429851","date":"03/02/2025 14:48:26","item":"IPL 1 จุด","amount":1299.0,"remaining":1},{"name":"นาย รณชัย  คูณขุนทด","hn":"FRR680051","phone":"0921236801","date":"03/20/2025 18:03:02","item":"Drip Diamond White ชมพู","amount":6999.0,"remaining":4},{"name":"นาย รณชัย  คูณขุนทด","hn":"FRR680051","phone":"0921236801","date":"03/26/2025 19:07:55","item":"Drip Healthy Bright","amount":2999.0,"remaining":1},{"name":"นาย รณชัย  คูณขุนทด","hn":"FRR680051","phone":"0921236801","date":"04/10/2025 18:09:38","item":"IPL กำจัดขนรักแร้","amount":6999.0,"remaining":5},{"name":"นาย รณชัย  คูณขุนทด","hn":"FRR680051","phone":"0921236801","date":"04/10/2025 18:40:55","item":"Peelling","amount":2000.04,"remaining":5},{"name":"นาย รณชัย  คูณขุนทด","hn":"FRR680051","phone":"0921236801","date":"04/17/2025 11:03:44","item":"Mask Aloe vera gel","amount":888.0,"remaining":2},{"name":"นาย รณชัย  คูณขุนทด","hn":"FRR680051","phone":"0921236801","date":"04/17/2025 11:03:44","item":"Cryo Treatment","amount":888.0,"remaining":2},{"name":"นาย รณชัย  คูณขุนทด","hn":"FRR680051","phone":"0921236801","date":"04/23/2025 18:11:42","item":"Drip Diamond White ชมพู","amount":4999.0,"remaining":5},{"name":"คุณ ยุ้ย  ยุ้ย","hn":"FRR680056","phone":"0811423145","date":"04/04/2025 20:08:20","item":"Drip Detox ตับ","amount":999.0,"remaining":1},{"name":"นาย ฐิติวัฒน์  วงศ์วัฒนาธรณ์","hn":"FRR680059","phone":"0832888898","date":"04/23/2025 20:48:24","item":"Derma care หน้าใส","amount":1290.0,"remaining":2},{"name":"นาย ฐิติวัฒน์  วงศ์วัฒนาธรณ์","hn":"FRR680059","phone":"0832888898","date":"04/23/2025 20:48:24","item":"Cryo Treatment","amount":1290.0,"remaining":2},{"name":"นาย ฐิติวัฒน์  วงศ์วัฒนาธรณ์","hn":"FRR680059","phone":"0832888898","date":"10/23/2025 16:06:11","item":"Mask White Aura","amount":1599.0,"remaining":1},{"name":"นาย ฐิติวัฒน์  วงศ์วัฒนาธรณ์","hn":"FRR680059","phone":"0832888898","date":"04/11/2025 18:13:57","item":"Drip Healthy Bright","amount":2999.28,"remaining":5},{"name":"นาย ฐิติวัฒน์  วงศ์วัฒนาธรณ์","hn":"FRR680059","phone":"0832888898","date":"04/12/2025 15:11:12","item":"Chanel36","amount":1300.0,"remaining":1},{"name":"นาย ศุภชัย  เกตานนท์","hn":"FRR680066","phone":"0928397824","date":"04/19/2025 16:02:34","item":"Drip Diamond White ชมพู","amount":6999.0,"remaining":4},{"name":"นาย ศุภชัย  เกตานนท์","hn":"FRR680066","phone":"0928397824","date":"04/26/2025 12:36:06","item":"Dio Laer  ขนหนวด/เครา","amount":8000.0,"remaining":4},{"name":"นาย ธนพิพัฒน์  สงวนรัตน์","hn":"FRR680067","phone":"0656636394","date":"04/20/2025 15:05:36","item":"Chanel36","amount":1290.0,"remaining":1},{"name":"นาย ภักดี  -","hn":"FRR680068","phone":"0985812551","date":"04/26/2025 19:00:08","item":"Drip Diamond White ชมพู","amount":6950.0,"remaining":2},{"name":"นาย ภักดี  -","hn":"FRR680068","phone":"0985812551","date":"04/27/2025 15:38:48","item":"Drip Diamond White ชมพู","amount":6950.0,"remaining":3},{"name":"นาย ภักดี  -","hn":"FRR680068","phone":"0985812551","date":"09/19/2025 17:03:23","item":"IPL กำจัดขนรักแร้","amount":999.0,"remaining":2},{"name":"นาย ภักดี  -","hn":"FRR680068","phone":"0985812551","date":"12/16/2025 17:35:13","item":"Drip Healthy Bright","amount":1000.0,"remaining":1},{"name":"นาย ภักดี  -","hn":"FRR680068","phone":"0985812551","date":"10/20/2025 18:04:28","item":"Cryo Treatment","amount":3051.0,"remaining":2},{"name":"นาย อานนท์  นวพัฒนกุล","hn":"FRR680077","phone":"0829660489","date":"04/30/2025 19:17:17","item":"Drip Healthy Bright","amount":2999.04,"remaining":5},{"name":"นาย อานนท์  นวพัฒนกุล","hn":"FRR680077","phone":"0829660489","date":"05/06/2025 18:29:30","item":"Drip Diamond White ชมพู","amount":899.0,"remaining":1},{"name":"นาย อานนท์  นวพัฒนกุล","hn":"FRR680077","phone":"0829660489","date":"12/18/2025 18:08:38","item":"Drip Healthy Bright","amount":3000.0,"remaining":5},{"name":"คุณ ชาลินี  ชาลินี","hn":"FRR680085","phone":"","date":"07/13/2025 17:53:20","item":"Hifu เหนียง/กรอบหน้า","amount":1999.0,"remaining":1},{"name":"คุณ โชติรส  ธรรมเสมา","hn":"FRR680091","phone":"0854038899","date":"07/25/2025 16:24:33","item":"Ultra former","amount":2000.0,"remaining":1},{"name":"คุณ โชติรส  ธรรมเสมา","hn":"FRR680091","phone":"0854038899","date":"07/25/2025 16:24:33","item":"Drip Diamond White ชมพู","amount":1400.0,"remaining":1},{"name":"คุณ ศิลารักษ์  .","hn":"FRR680092","phone":"0860268360","date":"08/25/2025 19:32:11","item":"Botox Aestox 100U","amount":6000.0,"remaining":50},{"name":"คุณ ศิลารักษ์  .","hn":"FRR680092","phone":"0860268360","date":"10/10/2025 14:35:37","item":"Drip Healthy Bright","amount":1000.0,"remaining":1},{"name":"คุณ ณิชาภัทร  พันธ์ภูโต","hn":"FRR680093","phone":"0809392433","date":"10/21/2025 10:12:53","item":"Drip วิตามินผิวใส","amount":1998.0,"remaining":2},{"name":"คุณ อิมากร  อภิภัษอาภา","hn":"FRR680095","phone":"0846596628","date":"08/25/2025 12:24:11","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":8},{"name":"คุณ ทราย  .","hn":"FRR680104","phone":"0824595543","date":"08/02/2025 11:42:02","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":5},{"name":"คุณ ชมพูนุช  .","hn":"FRR680108","phone":"0909531555","date":"08/09/2025 11:41:30","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":3},{"name":"คุณ เจนจิรา  ครองสามสี","hn":"FRR680110","phone":"0955524059","date":"08/09/2025 18:21:06","item":"IPL กำจัดขนรักแร้","amount":1999.0,"remaining":6},{"name":"คุณ เจนจิรา  ครองสามสี","hn":"FRR680110","phone":"0955524059","date":"08/24/2025 13:46:43","item":"IPL หน้าใส","amount":599.0,"remaining":2},{"name":"คุณ อุบลรัตน์  ม่วงทิพย์","hn":"FRR680111","phone":"0815942364","date":"08/10/2025 17:03:29","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":3},{"name":"คุณ ชวัลนาถ  ศรีโคตร","hn":"FRR680115","phone":"0813069991","date":"08/12/2025 11:37:00","item":"Drip Healthy Bright","amount":2000.0,"remaining":1},{"name":"คุณ นิตยา  แก้วล้อม","hn":"FRR680119","phone":"0926697667","date":"08/17/2025 15:06:48","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":1},{"name":"คุณ กอบชัย  พรดุษฎีกุล","hn":"FRR680121","phone":"0990615114","date":"11/30/2025 14:02:07","item":"Drip Detox ตับ","amount":1000.0,"remaining":1},{"name":"คุณ เวทย์  .","hn":"FRR680122","phone":"0836126211","date":"08/18/2025 19:03:24","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":4},{"name":"คุณ อชิรญา  ลีลาเกื้อกูล","hn":"FRR680123","phone":"0958572928","date":"08/19/2025 11:13:00","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":2},{"name":"คุณ อดิสรณ์  ทองดอนสนธิ์","hn":"FRR680124","phone":"0990402876","date":"08/21/2025 11:39:15","item":"Drip Detox ตับ","amount":4995.0,"remaining":1},{"name":"คุณ วิเชียร  ศรีรักษา","hn":"FRR680128","phone":"0827790938","date":"08/22/2025 11:58:31","item":"Drip Healthy Bright","amount":2997.0,"remaining":1},{"name":"นาย ธัชกรณ์  กล่ำพลบ","hn":"FRR680130","phone":"0863223114","date":"08/24/2025 11:58:27","item":"Drip Healthy Bright","amount":1998.0,"remaining":1},{"name":"คุณ พัลภา  ช่วยงาน","hn":"FRR680137","phone":"0626325699","date":"08/28/2025 11:27:00","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":3},{"name":"คุณ ธนัชภัค  จิตรภักดี","hn":"FRR680139","phone":"0812966361","date":"08/29/2025 13:31:58","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":6},{"name":"คุณ พัทธ์ธีรา  ศรีทอง","hn":"FRR680141","phone":"0814541407","date":"08/31/2025 11:04:54","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":8},{"name":"คุณ พัทธ์ธีรา  ศรีทอง","hn":"FRR680141","phone":"0814541407","date":"11/01/2025 13:43:50","item":"Drip Detox ตับ","amount":999.0,"remaining":1},{"name":"คุณ เจตริน  อาคำ","hn":"FRR680142","phone":"0971453051","date":"08/31/2025 14:49:29","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":2},{"name":"คุณ เจตริน  อาคำ","hn":"FRR680142","phone":"0971453051","date":"11/08/2025 16:40:42","item":"IPL ขนขา(บน+ล่าง)","amount":10000.0,"remaining":3},{"name":"คุณ นวนันท์  .","hn":"FRR680143","phone":"0886886687","date":"08/31/2025 18:07:36","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":7},{"name":"คุณ ปวีณา  .","hn":"FRR680145","phone":"0811704035","date":"09/01/2025 11:05:11","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":2},{"name":"คุณ ปวีณา  .","hn":"FRR680145","phone":"0811704035","date":"01/17/2026 12:33:01","item":"IPL หน้าใส","amount":990.0,"remaining":5},{"name":"คุณ อาภาวดี  .","hn":"FRR680146","phone":"0635989456","date":"09/01/2025 14:36:45","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":10},{"name":"คุณ อาภาวดี  .","hn":"FRR680146","phone":"0635989456","date":"09/02/2025 17:59:25","item":"IPL กำจัดขนรักแร้ 5 ครั้ง","amount":990.0,"remaining":3},{"name":"คุณ สุพรรณษา  สุขประเสริฐ","hn":"FRR680683","phone":"0959230416","date":"11/15/2025 18:15:05","item":"Filorga 135-HA","amount":1822.0,"remaining":2},{"name":"คุณ สุพรรณษา  สุขประเสริฐ","hn":"FRR680683","phone":"0959230416","date":"11/22/2025 20:02:49","item":"Melasma ฝ้า","amount":5000.0,"remaining":4},{"name":"คุณ สุพรรณษา  สุขประเสริฐ","hn":"FRR680683","phone":"0959230416","date":"11/22/2025 20:02:49","item":"Meso Melasma","amount":5000.0,"remaining":5},{"name":"คุณ สุพรรณษา  สุขประเสริฐ","hn":"FRR680683","phone":"0959230416","date":"12/28/2025 21:14:25","item":"Treatment 8 ขั้นตอน","amount":1000.0,"remaining":1},{"name":"คุณ สุพรรณษา  สุขประเสริฐ","hn":"FRR680683","phone":"0959230416","date":"09/12/2025 21:15:00","item":"IPL หน้าใส","amount":9999.0,"remaining":6},{"name":"คุณ สุพรรณษา  สุขประเสริฐ","hn":"FRR680683","phone":"0959230416","date":"09/15/2025 18:24:36","item":"Dio Laser  ขนรักแร้","amount":990.0,"remaining":5},{"name":"คุณ สุพรรณษา  สุขประเสริฐ","hn":"FRR680683","phone":"0959230416","date":"11/11/2025 19:38:19","item":"Meso Aura Skin (สะกิดหน้า)","amount":4500.0,"remaining":4},{"name":"คุณ มินตรา  สุดโท้","hn":"FRR680157","phone":"0932953224","date":"09/15/2025 18:40:41","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":3},{"name":"คุณ มินตรา  สุดโท้","hn":"FRR680157","phone":"0932953224","date":"09/16/2025 14:24:20","item":"Peelling","amount":1500.0,"remaining":4},{"name":"คุณ มินตรา  สุดโท้","hn":"FRR680157","phone":"0932953224","date":"09/22/2025 21:08:49","item":"Cryo Treatment","amount":4500.0,"remaining":6},{"name":"คุณ ราชา  อาดิ เค","hn":"FRR680158","phone":"0653587706","date":"09/16/2025 13:29:32","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":5},{"name":"คุณ ธนัชฌา  ทองเกิดมากมี","hn":"FRR680160","phone":"0912283952","date":"09/17/2025 11:21:12","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":4},{"name":"คุณ กมลรัตน์  -","hn":"FRR680161","phone":"0624256004","date":"09/22/2025 21:36:32","item":"Dio Laser หน้าใส","amount":5000.0,"remaining":2},{"name":"คุณ กมลรัตน์  -","hn":"FRR680161","phone":"0624256004","date":"09/22/2025 21:36:32","item":"Hifu เหนียง/กรอบหน้า","amount":6000.0,"remaining":1},{"name":"คุณ กมลรัตน์  -","hn":"FRR680161","phone":"0624256004","date":"09/22/2025 21:57:20","item":"วงเงิน","amount":10000.0,"remaining":1},{"name":"คุณ พิมพ์ฬวีร์  ลางคุณเสน","hn":"FRR680164","phone":"0985695990","date":"09/19/2025 14:07:00","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":9},{"name":"คุณ เรณุกา  บำรุงตระกูล","hn":"FRR680165","phone":"0835159196","date":"10/11/2025 13:27:10","item":"Meso Aura Skin (สะกิดหน้า)","amount":3000.0,"remaining":3},{"name":"คุณ เรณุกา  บำรุงตระกูล","hn":"FRR680165","phone":"0835159196","date":"10/22/2025 15:54:59","item":"Keloid ฉีด","amount":2500.0,"remaining":1},{"name":"คุณ เรณุกา  บำรุงตระกูล","hn":"FRR680165","phone":"0835159196","date":"10/22/2025 19:53:44","item":"Q Switch รอยแผลเป็น","amount":12000.0,"remaining":4},{"name":"คุณ เรณุกา  บำรุงตระกูล","hn":"FRR680165","phone":"0835159196","date":"11/20/2025 12:26:45","item":"L-Carnitine","amount":17900.0,"remaining":1},{"name":"คุณ เรณุกา  บำรุงตระกูล","hn":"FRR680165","phone":"0835159196","date":"12/18/2025 20:42:52","item":"Dio Laser Bazilian","amount":1000.0,"remaining":1},{"name":"คุณ กัญญ์นัทธ์  ธรรมไตรศักดิ์","hn":"FRR680169","phone":"0914161462","date":"09/22/2025 22:08:26","item":"Meso Aura Skin (สะกิดหน้า)","amount":909.0,"remaining":1},{"name":"คุณ หทัยชนก  สะสม","hn":"FRR680172","phone":"0972123571","date":"09/25/2025 10:23:42","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":3},{"name":"คุณ มิญชณัฐ  -","hn":"FRR680175","phone":"0847726842เบอร์พี่สาว","date":"09/26/2025 12:08:09","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":8},{"name":"คุณ ศกุนตลา  ไกรศรีวรรธนะ","hn":"FRR680176","phone":"0863938421","date":"09/26/2025 13:19:22","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":4},{"name":"คุณ ศกุนตลา  ไกรศรีวรรธนะ","hn":"FRR680176","phone":"0863938421","date":"11/12/2025 14:02:52","item":"Meso Aura Skin (สะกิดหน้า)","amount":5000.0,"remaining":4},{"name":"นาย ธีรัฒน์  ลี้กุล","hn":"FRR680179","phone":"0863608908","date":"09/27/2025 17:41:33","item":"Drip Detox ตับ","amount":17900.0,"remaining":10},{"name":"คุณ พิมพ์ณิกา  -","hn":"FRR680180","phone":"0951905892","date":"09/27/2025 18:58:58","item":"Botox Aestox กราม","amount":3600.0,"remaining":1},{"name":"คุณ พิชญ์  บุญอ้วน","hn":"FRR680181","phone":"0944849929","date":"09/28/2025 13:14:38","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":3},{"name":"นาย บรรหาร  พิมพ์ปัตน์","hn":"FRR680197","phone":"0981215879","date":"10/04/2025 19:40:21","item":"Laser Studio ฝ้า/กระ/จุดด่างดำ","amount":999.0,"remaining":1},{"name":"คุณ บุปผา  วงษ์ประยูร","hn":"FRR680206","phone":"0661564224","date":"10/17/2025 19:54:57","item":"Drip Diamond White ชมพู","amount":8012.0,"remaining":4},{"name":"คุณ บุปผา  วงษ์ประยูร","hn":"FRR680206","phone":"0661564224","date":"11/30/2025 13:20:42","item":"Meso Aura Skin (สะกิดหน้า)","amount":5000.0,"remaining":6},{"name":"คุณ บุปผา  วงษ์ประยูร","hn":"FRR680206","phone":"0661564224","date":"10/17/2025 11:43:49","item":"Botox Hutox 100U","amount":7600.0,"remaining":1},{"name":"คุณ บุปผา  วงษ์ประยูร","hn":"FRR680206","phone":"0661564224","date":"10/17/2025 13:44:21","item":"IPL กำจัดขนรักแร้ 5 ครั้ง","amount":990.0,"remaining":7},{"name":"คุณ บุปผา  วงษ์ประยูร","hn":"FRR680206","phone":"0661564224","date":"10/22/2025 12:59:06","item":"Laser Studio ปากชมพู","amount":6000.0,"remaining":5},{"name":"นาย ณัฐพงศ์  เชื้อจิ๋ว","hn":"FRR680211","phone":"0855392549","date":"10/18/2025 14:14:38","item":"Drip Detox ตับ","amount":999.0,"remaining":1},{"name":"นาย ณัฐพงศ์  เชื้อจิ๋ว","hn":"FRR680211","phone":"0855392549","date":"10/18/2025 14:13:31","item":"Drip Detox ตับ","amount":999.0,"remaining":1},{"name":"คุณ อดิศร  กลั่นแก่นบุญ","hn":"FRR680213","phone":"0833039378","date":"10/26/2025 13:13:27","item":"Drip Detox ตับ","amount":7000.0,"remaining":5},{"name":"คุณ อมรรัตน์  ทองปัน","hn":"FRR680214","phone":"0922819317","date":"10/20/2025 13:15:18","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":2},{"name":"คุณ ปรายฟ้า  ศรันิบูรณ์","hn":"FRR680215","phone":"0649478039","date":"10/22/2025 12:27:25","item":"Meso Chanel","amount":1313.0,"remaining":1},{"name":"คุณ ฐิติ  สุขสำราญ","hn":"FRR680216","phone":"0948249241","date":"10/22/2025 12:30:51","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":3},{"name":"คุณ ลูคัส  -","hn":"FRR680219","phone":"0613866279","date":"10/24/2025 19:36:34","item":"Q-Swicth Laser ปากชมพู","amount":6495.0,"remaining":3},{"name":"คุณ ระพีพร  กานุวงษ์","hn":"FRR680223","phone":"","date":"10/26/2025 15:28:00","item":"IPL ปากชมพู","amount":6799.0,"remaining":5},{"name":"คุณ ศศิธร  พุทธสอน","hn":"น้องแก้ม","phone":"FRR680224","date":"10/26/2025 19:54:39","item":"Body S 1 จุด","amount":5999.0,"remaining":5},{"name":"คุณ ศุภวิชญ์  f","hn":"FRR680228","phone":"0933720011","date":"11/13/2025 17:07:41","item":"Helios ปากชมพู","amount":8000.0,"remaining":4},{"name":"คุณ อภัสนันท์  นุ่นแก้ว","hn":"FRR680229","phone":"0863938155","date":"10/30/2025 11:44:22","item":"Drip Healthy Bright","amount":5000.0,"remaining":5},{"name":"คุณ ชาวินี  สังสหชาติ","hn":"FRR680233","phone":"0896392241","date":"11/15/2025 18:45:19","item":"Drip Healthy Bright","amount":4950.0,"remaining":4},{"name":"คุณ สละถิตย์  เด็ดแก้ว","hn":"FRR680237","phone":"0896392241","date":"11/05/2025 15:25:03","item":"Drip Detox ตับ","amount":11880.0,"remaining":11},{"name":"คุณ ทิตญดา  ชมภู่","hn":"FRR680238","phone":"0830879348","date":"11/03/2025 17:40:05","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":10},{"name":"คุณ สกาย  p1","hn":"FRR680240","phone":"0942516509","date":"11/05/2025 15:42:47","item":"IPL ปากชมพู","amount":3594.0,"remaining":4},{"name":"คุณ สกาย  p1","hn":"FRR680240","phone":"0942516509","date":"12/27/2025 21:27:18","item":"Botox Hutox 1 จุด","amount":1999.0,"remaining":1},{"name":"คุณ อลิษา  เทพตาแสง","hn":"FRR680248","phone":"064119952","date":"11/08/2025 16:00:34","item":"IPL BIKINI","amount":999.0,"remaining":1},{"name":"คุณ วาสนา  เลิศทวี","hn":"FRR680249","phone":"0634823113","date":"11/08/2025 16:03:19","item":"IPL BIKINI","amount":999.0,"remaining":2},{"name":"คุณ วาสนา  เลิศทวี","hn":"FRR680249","phone":"0634823113","date":"11/08/2025 17:49:12","item":"IPL Brazilian","amount":10000.0,"remaining":6},{"name":"คุณ Mr Viliya  Hansailda","hn":"FRR680250","phone":"0640628090","date":"12/19/2025 10:49:45","item":"IPL ปากชมพู","amount":5000.0,"remaining":4},{"name":"คุณ พารีเม๊าะ  มะตีเยาะ","hn":"FRR680253","phone":"0815400139","date":"11/11/2025 13:29:16","item":"Drip Healthy Bright","amount":999.0,"remaining":1},{"name":"คุณ Keolavanh  Phomsoupha","hn":"FRR680254","phone":"0952813809","date":"11/11/2025 18:13:42","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":4},{"name":"คุณ ณัฏฐ์ชยา  ดีประเสริฐกุล","hn":"FRR680255","phone":"0958659385","date":"11/12/2025 10:59:51","item":"Co2(จี้) 1 จุด","amount":10000.0,"remaining":1},{"name":"คุณ ณัฏฐ์ชยา  ดีประเสริฐกุล","hn":"FRR680255","phone":"0958659385","date":"11/24/2025 12:07:48","item":"Meso Aura Skin (สะกิดหน้า)","amount":5000.0,"remaining":5},{"name":"คุณ สมลักษณ์  ศิริกาญจนวานิช","hn":"FRR680256","phone":"0863155344","date":"12/19/2025 11:00:06","item":"Drip Healthy Bright","amount":1000.0,"remaining":1},{"name":"คุณ ประภาศรี  โตสมบัติ","hn":"FRR680259","phone":"0819156461","date":"11/14/2025 19:51:49","item":"IPL BIKINI","amount":999.0,"remaining":3},{"name":"คุณ ปรีชา  เยียวรัม","hn":"FRR680262","phone":"0868200219","date":"11/17/2025 17:21:13","item":"Drip Detox ตับ","amount":999.0,"remaining":1},{"name":"คุณ ณัฏฐณิชา  ภูผาวงษ์","hn":"FRR680267","phone":"0625327972","date":"11/23/2025 20:05:34","item":"Drip Healthy Bright","amount":7500.0,"remaining":3},{"name":"คุณ ณภัสสรณ์  พรชัยศิริวงกุล","hn":"FRR680268","phone":"0624384456","date":"11/26/2025 13:38:11","item":"Filler Neuramis Deep ดำ(หนา)","amount":8000.0,"remaining":2},{"name":"คุณ นัชชา  ประทุมนอก","hn":"FRR680271","phone":"0824653955","date":"11/30/2025 13:17:25","item":"IPL Brazilian","amount":3999.0,"remaining":10},{"name":"คุณ ณัฏฐมนภัสร์  จงอติเรกลาภ","hn":"FRR680272","phone":"","date":"12/01/2025 12:27:21","item":"IPL Brazilian","amount":3999.0,"remaining":10},{"name":"คุณ อรุณี  รุจิเรก","hn":"FRR680274","phone":"0817709062","date":"12/02/2025 13:08:00","item":"IPL Brazilian","amount":999.0,"remaining":2},{"name":"คุณ วลัยทิพย์  ธีรวรวรรณ","hn":"FRR680276","phone":"0822732993","date":"12/19/2025 11:13:40","item":"Drip Healthy Bright","amount":1000.0,"remaining":1},{"name":"คุณ Nuttakorn  -","hn":"FRR680278","phone":"0619962494","date":"12/03/2025 13:08:00","item":"IPL BIKINI","amount":999.0,"remaining":4},{"name":"คุณ ณัฐกฤตา  *","hn":"FRR680284","phone":"0997453929","date":"12/11/2025 18:00:10","item":"Drip Healthy Bright","amount":999.0,"remaining":1},{"name":"นาย หัตถฤทธิ์  กักเงิน","hn":"FRR680287","phone":"0800712603","date":"12/13/2025 12:39:15","item":"Dio Laser Bazilian","amount":2999.0,"remaining":9},{"name":"นาย หัตถฤทธิ์  กักเงิน","hn":"FRR680287","phone":"0800712603","date":"12/14/2025 13:08:35","item":"Meso Aura Skin (สะกิดหน้า)","amount":2060.0,"remaining":4},{"name":"นาง ดอกแก้ว  ทองสุภาพ","hn":"FRR680295","phone":"0972626269","date":"12/20/2025 20:42:34","item":"Filler Neuramis Volume ( ทอง )","amount":25000.0,"remaining":3},{"name":"นาย ณัฐพงษ์  ศรีโคตร","hn":"FRR680297","phone":"0832888898","date":"12/27/2025 14:28:38","item":"Botox เกาหลี 1 โปร","amount":3991.0,"remaining":1},{"name":"นาง นิตยา  หนูอุ่น","hn":"FRR680301","phone":"0640459213","date":"12/28/2025 13:19:01","item":"Meso Chanel","amount":2211.0,"remaining":2},{"name":"นาย ชาคริต  ศรีเทา","hn":"FRR690001","phone":"0614094628","date":"01/04/2026 19:30:42","item":"Dio Laer  ขนหนวด/เครา","amount":10000.0,"remaining":5},{"name":"คุณ เจือจันทร์  สงวนศักดิ์","hn":"FRR690002","phone":"0650512922","date":"01/08/2026 19:34:38","item":"IPL หน้าใส","amount":2000.0,"remaining":6},{"name":"คุณ เจือจันทร์  สงวนศักดิ์","hn":"FRR690002","phone":"0650512922","date":"01/08/2026 19:34:38","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":5},{"name":"คุณ เจือจันทร์  สงวนศักดิ์","hn":"FRR690002","phone":"0650512922","date":"02/02/2026","item":"Drip Diamond White ชมพู","amount":6999.0,"remaining":5},{"name":"คุณ Firas  Abowarrad","hn":"FRR690008","phone":"","date":"01/28/2026 14:27:00","item":"IPL กำจัดขนรักแร้","amount":990.0,"remaining":5},{"name":"คุณ Firas  Abowarrad","hn":"FRR690008","phone":"","date":"01/28/2026","item":"Fat หน้า 1 จุด","amount":999.0,"remaining":1},{"name":"คุณ Firas  Abowarrad","hn":"FRR690008","phone":"","date":"02/02/2026","item":"Botox Bienox 1U","amount":3899.0,"remaining":50}];
-
+let RAW = [];
 let activeTags = new Set();
 let filtered = [];
 
-// Parse dates
-RAW.forEach(d => {
-  const p = d.date.split(/[\/ :]/);
-  d.dateObj = new Date(+p[2], +p[0]-1, +p[1]);
-  d.dateDisplay = d.dateObj.toLocaleDateString('th-TH',{day:'2-digit',month:'2-digit',year:'numeric'});
+// ==========================================
+// ส่วนที่ 1: ระบบจัดการอัปโหลดไฟล์ Excel
+// ==========================================
+
+function downloadTemplate() {
+  const templateData = [
+    ["ชื่อลูกค้า", "HN", "เบอร์โทร", "วันที่", "รายการคอร์ส", "ยอดเงินเต็ม", "มูลค่าคงเหลือ", "ครั้งคงเหลือ"],
+    ["คุณ ตัวอย่าง ใจดี", "FRR990001", "0812345678", "25/12/2024", "IPL กำจัดขนรักแร้", 2000, 990, 3],
+    ["คุณ สมหญิง รักสวย", "FRR990002", "0898765432", "01/05/2025", "Botox Aestox 100U", 15000, 7500, 50]
+  ];
+  const ws = XLSX.utils.aoa_to_sheet(templateData);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Template");
+  XLSX.writeFile(wb, "Template_ข้อมูลคอร์ส.xlsx");
+}
+
+document.getElementById('file-upload').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  document.getElementById('upload-status').innerHTML = `<span style="color:var(--primary)">⏳ กำลังประมวลผลไฟล์...</span>`;
+
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, {type: 'array', cellDates: false});
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+      
+      const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: true });
+      
+      if (rows.length === 0) throw new Error("ไฟล์ว่างเปล่า");
+
+      const headerStr = (rows[0] || []).join(',').toLowerCase();
+      const isTemplate = headerStr.includes('ชื่อลูกค้า') || headerStr.includes('รายการคอร์ส');
+
+      if (isTemplate) {
+        processTemplateData(worksheet);
+      } else {
+        processFlorenzaExport(rows);
+      }
+      
+      document.getElementById('upload-status').innerHTML = `<span style="color:var(--accent)">✅ อัปโหลดสำเร็จ! โหลดข้อมูล ${RAW.length} รายการ</span>`;
+    } catch (error) {
+      console.error(error);
+      document.getElementById('upload-status').innerHTML = `<span style="color:var(--warn)">❌ เกิดข้อผิดพลาดในการอ่านไฟล์ กรุณาตรวจสอบรูปแบบ</span>`;
+      alert("ไม่สามารถอ่านไฟล์ได้ โปรดใช้ไฟล์ต้นแบบ (Template) หรือตรวจสอบไฟล์จากระบบคลินิก");
+    }
+  };
+  reader.readAsArrayBuffer(file);
 });
+
+// อ่านไฟล์ Template ที่กรอกเอง
+function processTemplateData(worksheet) {
+  const jsonData = XLSX.utils.sheet_to_json(worksheet, {raw: false, dateNF: 'dd/mm/yyyy hh:mm:ss'});
+  RAW = [];
+  jsonData.forEach(row => {
+    const name = row['ชื่อลูกค้า'] || row['name'] || row['Name'];
+    const item = row['รายการคอร์ส'] || row['item'] || row['Item'] || row['รายการ'];
+    if (!name || !item) return;
+
+    const valRemain = parseFloat(row['มูลค่าคงเหลือ'] || row['คงเหลือ (บาท)'] || row['amount'] || 0) || 0;
+    const amount = parseFloat(row['ยอดเงินเต็ม'] || row['ยอดเงิน'] || 0) || valRemain;
+    const remaining = parseInt(row['ครั้งคงเหลือ'] || row['remaining'] || row['Remaining'] || row['ครั้ง'] || 0) || 0;
+
+    RAW.push({
+      name: name.toString().trim(),
+      hn: (row['HN'] || row['hn'] || '').toString().trim(),
+      phone: (row['เบอร์โทร'] || row['phone'] || row['Phone'] || '').toString().trim(),
+      date: row['วันที่'] || row['date'] || row['Date'] || '',
+      item: item.toString().trim(),
+      amount: amount,          // ยอดเต็ม
+      valRemain: valRemain,    // มูลค่าที่เหลือจริง
+      remaining: remaining     // จำนวนครั้งที่เหลือ
+    });
+  });
+  parseDates();
+  render();
+}
+
+// อ่านไฟล์ Export จากระบบของคลินิกโดยตรง
+function processFlorenzaExport(rows) {
+  RAW = [];
+  let currentCustomer = null;
+
+  rows.forEach(row => {
+    if (!row || row.length < 2) return;
+
+    if (typeof row[1] === 'string' && row[1].includes('/') && row[1].split('/').length >= 3) {
+        const parts = row[1].split('/').map(s => s.trim());
+        currentCustomer = {
+            name: parts[0] || 'ไม่ระบุ',
+            hn: parts.length >= 3 ? parts[2] : '',
+            phone: parts.length >= 4 ? parts[3] : ''
+        };
+        if(currentCustomer.hn === '' && parts.length === 4) currentCustomer.hn = parts[1];
+    }
+    else if (currentCustomer && typeof row[1] === 'string' && row[1].trim() !== '') {
+        let itemDate = null;
+        if (typeof row[0] === 'number' && row[0] > 30000) {
+            itemDate = new Date(Math.round((row[0] - 25569) * 86400 * 1000));
+        } 
+        else if (typeof row[0] === 'string' && (row[0].includes('/') || row[0].includes('-'))) {
+            itemDate = parseDateString(row[0]);
+        }
+
+        if (itemDate && !isNaN(itemDate.getTime())) {
+            const itemName = row[1].trim();
+            const amount = parseFloat(row[3]) || 0;         // คอลัมน์ "ยอดเงิน" (ยอดเต็ม)
+            const totalSessions = parseFloat(row[4]) || 0;  // คอลัมน์ "จำนวน" (ครั้งทั้งหมด)
+            const remaining = parseFloat(row[6]) || 0;      // คอลัมน์ "เหลือ" (ครั้งที่เหลือ)
+
+            // คำนวณมูลค่าคงเหลือ (Prorated Value)
+            let valRemain = 0;
+            if (totalSessions > 0) {
+                valRemain = (amount / totalSessions) * remaining;
+            } else if (remaining > 0) {
+                valRemain = amount; 
+            }
+
+            RAW.push({
+                name: currentCustomer.name,
+                hn: currentCustomer.hn,
+                phone: currentCustomer.phone,
+                dateObj: itemDate,
+                dateDisplay: itemDate.toLocaleDateString('th-TH',{day:'2-digit',month:'2-digit',year:'numeric'}),
+                item: itemName,
+                amount: amount,
+                valRemain: valRemain,
+                remaining: remaining
+            });
+        }
+    }
+  });
+  render();
+}
+
+function parseDateString(dateStr) {
+  if(!dateStr) return new Date();
+  const p = dateStr.split(/[\/ \-:]/);
+  if(p.length >= 3) {
+    let year = p[2].length === 4 ? +p[2] : (p[0].length === 4 ? +p[0] : new Date().getFullYear());
+    let month = p[1]-1;
+    let day = p[0].length === 4 ? +p[2] : +p[0];
+    if(month > 11) { month = +p[0]-1; day = +p[1]; }
+    return new Date(year, month, day);
+  }
+  return new Date(dateStr);
+}
+
+function parseDates() {
+  RAW.forEach(d => {
+    if(!d.dateObj) {
+        d.dateObj = parseDateString(d.date);
+    }
+    d.dateDisplay = d.dateObj.toLocaleDateString('th-TH',{day:'2-digit',month:'2-digit',year:'numeric'});
+  });
+}
+
+// ==========================================
+// ส่วนที่ 2: ระบบ Filter และ Render เดิม
+// ==========================================
 
 function debounce(f,w){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>f(...a),w)}}
 
@@ -153,29 +364,66 @@ document.querySelectorAll('.tag').forEach(b => {
   });
 });
 
-['q-search','q-item','q-month','q-sort'].forEach(id=>{
+['q-search','q-item','q-sort'].forEach(id=>{
   const el = document.getElementById(id);
   el.addEventListener('change', render);
   el.addEventListener('input', debounce(render,250));
 });
 
+// Event Listeners สำหรับวันที่
+const dateStartEl = document.getElementById('q-date-start');
+const dateEndEl = document.getElementById('q-date-end');
+const clearDateBtn = document.getElementById('btn-clear-date');
+
+[dateStartEl, dateEndEl].forEach(el => {
+  el.addEventListener('change', () => {
+    if(dateStartEl.value || dateEndEl.value) {
+      clearDateBtn.style.display = 'flex';
+    } else {
+      clearDateBtn.style.display = 'none';
+    }
+    render();
+  });
+});
+
+clearDateBtn.addEventListener('click', () => {
+  dateStartEl.value = '';
+  dateEndEl.value = '';
+  clearDateBtn.style.display = 'none';
+  render();
+});
+
+
 function applyFilters(){
   let r=[...RAW];
   const q=document.getElementById('q-search').value.toLowerCase().trim();
   if(q) r=r.filter(d=>d.name.toLowerCase().includes(q)||d.hn.toLowerCase().includes(q)||d.phone.includes(q));
+  
   const qi=document.getElementById('q-item').value.toLowerCase().trim();
   if(qi) r=r.filter(d=>d.item.toLowerCase().includes(qi));
+  
   if(activeTags.size>0){
     r=r.filter(d=>{
       const nm=d.item.toLowerCase();
       return [...activeTags].some(kw=>kw.split('|').some(k=>nm.includes(k)));
     });
   }
-  const mo=parseInt(document.getElementById('q-month').value);
-  if(mo>0){
-    const cutoff=new Date();cutoff.setMonth(cutoff.getMonth()-mo);
-    r=r.filter(d=>d.dateObj>=cutoff);
+
+  // ตัวกรองวันที่ใหม่
+  const startDate = dateStartEl.value;
+  const endDate = dateEndEl.value;
+  
+  if (startDate) {
+    const dStart = new Date(startDate);
+    dStart.setHours(0, 0, 0, 0);
+    r = r.filter(d => d.dateObj >= dStart);
   }
+  if (endDate) {
+    const dEnd = new Date(endDate);
+    dEnd.setHours(23, 59, 59, 999);
+    r = r.filter(d => d.dateObj <= dEnd);
+  }
+
   return r;
 }
 
@@ -183,23 +431,24 @@ function groupAndSort(data){
   const groups={};
   data.forEach(d=>{
     const k=d.hn+d.name;
-    if(!groups[k]) groups[k]={name:d.name,hn:d.hn,phone:d.phone,items:[],total:0,latest:d.dateObj};
+    if(!groups[k]) groups[k]={name:d.name,hn:d.hn,phone:d.phone,items:[],total:0, totalRemainVal:0, latest:d.dateObj};
     groups[k].items.push(d);
     groups[k].total+=d.amount;
+    groups[k].totalRemainVal += (d.valRemain || 0);
     if(d.dateObj>groups[k].latest) groups[k].latest=d.dateObj;
   });
   const arr=Object.values(groups);
   const sv=document.getElementById('q-sort').value;
   arr.sort((a,b)=>{
-    if(sv==='amount_desc') return b.total-a.total;
-    if(sv==='amount_asc') return a.total-b.total;
+    if(sv==='val_desc') return b.totalRemainVal - a.totalRemainVal;
+    if(sv==='val_asc') return a.totalRemainVal - b.totalRemainVal;
     if(sv==='date_asc') return a.latest-b.latest;
     return b.latest-a.latest;
   });
   return arr;
 }
 
-function fmt(n){return n.toLocaleString('th-TH',{minimumFractionDigits:2})}
+function fmt(n){return n.toLocaleString('th-TH',{minimumFractionDigits:2, maximumFractionDigits:2})}
 
 function render(){
   filtered=applyFilters();
@@ -207,66 +456,80 @@ function render(){
   const tbody=document.getElementById('tbody');
   tbody.innerHTML='';
   
-  let grand=0, idx=1;
+  let grand=0, grandValRemain=0, idx=1;
   groups.forEach(g=>{
     grand+=g.total;
+    grandValRemain+=g.totalRemainVal;
     g.items.forEach((it,i)=>{
       const tr=document.createElement('tr');
       if(i===0) tr.innerHTML+=`<td rowspan="${g.items.length}" style="text-align:center;vertical-align:top;font-weight:600;color:#4b6584">${idx}</td>`;
       tr.innerHTML+=`<td style="color:var(--muted);font-size:12px;white-space:nowrap">${it.dateDisplay}</td>`;
       if(i===0) tr.innerHTML+=`<td rowspan="${g.items.length}" style="border-left:3px solid var(--primary);padding-left:12px;vertical-align:top"><span class="cust-name">${g.name}</span><span class="cust-meta">HN: ${g.hn} | ☎ ${g.phone}</span></td>`;
       tr.innerHTML+=`<td>${it.item}</td>`;
-      tr.innerHTML+=`<td style="text-align:right;font-weight:500">${fmt(it.amount)}</td>`;
+      tr.innerHTML+=`<td style="text-align:right;font-weight:400">${fmt(it.amount)}</td>`;
+      tr.innerHTML+=`<td style="text-align:right;font-weight:600;color:var(--primary)">${fmt(it.valRemain)}</td>`;
       tr.innerHTML+=`<td><span class="badge">${it.remaining}</span></td>`;
       tbody.appendChild(tr);
     });
     const st=document.createElement('tr');
     st.className='subtotal';
-    st.innerHTML=`<td colspan="3" style="text-align:right;padding-right:16px">ยอดคงเหลือรวม:</td><td style="text-align:right">฿${fmt(g.total)}</td><td></td>`;
+    st.innerHTML=`<td colspan="4" style="text-align:right;padding-right:16px">ยอดรวมของลูกค้ารายนี้:</td><td style="text-align:right;font-weight:400">฿${fmt(g.total)}</td><td style="text-align:right">฿${fmt(g.totalRemainVal)}</td><td></td>`;
     tbody.appendChild(st);
     idx++;
   });
 
-  if(groups.length===0) tbody.innerHTML='<tr><td colspan="6" class="no-results">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</td></tr>';
+  if(groups.length===0 && RAW.length===0) {
+    tbody.innerHTML='<tr><td colspan="7" class="no-results">กรุณาอัปโหลดไฟล์ข้อมูลเพื่อเริ่มต้นใช้งาน</td></tr>';
+  } else if(groups.length===0) {
+    tbody.innerHTML='<tr><td colspan="7" class="no-results">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</td></tr>';
+  }
 
   // Update summary
-  document.getElementById('hs-total').textContent='฿'+fmt(grand);
+  document.getElementById('hs-total').textContent='฿'+fmt(grandValRemain);
   document.getElementById('hs-count').textContent=`${filtered.length} รายการ / ${groups.length} ลูกค้า`;
   document.getElementById('result-count').textContent=`แสดง ${groups.length} ลูกค้า / ${filtered.length} คอร์ส`;
-  updateStats(groups,grand);
+  updateStats(groups, grand, grandValRemain);
 }
 
-function updateStats(groups,grand){
+function updateStats(groups, grand, grandValRemain){
   document.getElementById('s-total').textContent='฿'+Math.round(grand).toLocaleString('th-TH');
-  const allRaw=applyFilters();
-  const g2=groupAndSort(allRaw);
+  document.getElementById('s-val-remain').textContent='฿'+Math.round(grandValRemain).toLocaleString('th-TH');
   document.getElementById('s-cust').textContent=groups.length.toLocaleString();
   document.getElementById('s-items').textContent=filtered.length.toLocaleString();
-  const top=groups.reduce((a,b)=>b.total>a.total?b:a,{total:0,name:''});
-  document.getElementById('s-max').textContent=top.total?'฿'+Math.round(top.total).toLocaleString('th-TH'):'-';
-  document.getElementById('s-max-name').textContent=top.name||'';
+  
+  // หาคนที่มูลค่าคงเหลือสูงสุด
+  const top=groups.reduce((a,b)=>b.totalRemainVal>a.totalRemainVal?b:a,{totalRemainVal:0,name:''});
+  document.getElementById('s-max').textContent=top.totalRemainVal?'฿'+Math.round(top.totalRemainVal).toLocaleString('th-TH'):'-';
+  document.getElementById('s-max-name').textContent=top.name||'-';
+  document.getElementById('s-max-name').title=top.name||''; 
 }
 
 document.getElementById('btn-export').addEventListener('click',()=>{
+  if(filtered.length === 0) {
+    alert("ไม่มีข้อมูลสำหรับส่งออก");
+    return;
+  }
   const groups=groupAndSort(filtered);
-  const rows=[['ลำดับ','วันที่','ชื่อลูกค้า','HN','เบอร์โทร','รายการคอร์ส','คงเหลือ (บาท)','ครั้งคงเหลือ']];
-  let grand=0;
+  const rows=[['ลำดับ','วันที่','ชื่อลูกค้า','HN','เบอร์โทร','รายการคอร์ส','ยอดเงินเต็ม (บาท)','มูลค่าคงเหลือ (บาท)','ครั้งคงเหลือ']];
+  let grand=0, grandValRemain=0;
   groups.forEach((g,idx)=>{
     grand+=g.total;
+    grandValRemain+=g.totalRemainVal;
     g.items.forEach((it,i)=>{
-      rows.push([i===0?idx+1:'',it.dateDisplay,i===0?g.name:'',i===0?g.hn:'',i===0?g.phone:'',it.item,it.amount,it.remaining]);
+      rows.push([i===0?idx+1:'',it.dateDisplay,i===0?g.name:'',i===0?g.hn:'',i===0?g.phone:'',it.item,it.amount,it.valRemain,it.remaining]);
     });
-    rows.push(['','','','','','ยอดคงเหลือรวมของลูกค้าท่านนี้:',g.total,'']);
+    rows.push(['','','','','','ยอดรวมของลูกค้าท่านนี้:',g.total, g.totalRemainVal,'']);
     rows.push([]);
   });
-  rows.push(['','','','','','ยอดเงินรวมทั้งหมด:',grand,'']);
+  rows.push(['','','','','','ยอดเงินรวมทั้งหมด:',grand, grandValRemain,'']);
   const ws=XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols']=[{wch:6},{wch:14},{wch:24},{wch:13},{wch:14},{wch:40},{wch:18},{wch:12}];
+  ws['!cols']=[{wch:6},{wch:14},{wch:24},{wch:13},{wch:14},{wch:40},{wch:15},{wch:15},{wch:12}];
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,'คอร์สคงเหลือ');
   XLSX.writeFile(wb,'Florenza_Export_'+new Date().toISOString().slice(0,10)+'.xlsx');
 });
 
+// Initial Empty Render
 render();
 </script>
 </body>
