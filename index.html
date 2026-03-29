@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard คอร์สคงเหลือ | Florenza Clinic</title>
+<title>Dashboard คอร์สคงเหลือ | Bornsong Clinic</title>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--primary:#7c4dff;--accent:#00b894;--warn:#e17055;--bg:#f4f6fb;--card:#fff;--text:#2d3436;--muted:#636e72;--border:#dfe6e9;--shadow:0 4px 20px rgba(0,0,0,.07)}
@@ -13,22 +13,16 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--text);paddi
 header{text-align:center;margin-bottom:20px}
 header h1{font-size:1.7rem;font-weight:600;color:#1e272e}
 header p{color:var(--muted);font-weight:300;font-size:.9rem;margin-top:4px}
-
-/* Upload Section */
-.upload-card {background: var(--card);border-radius: 14px;padding: 20px;box-shadow: var(--shadow);margin-bottom: 20px;border: 2px dashed #b2bec3;display: flex;justify-content: space-between;align-items: center;flex-wrap: wrap;gap: 15px;transition: 0.3s;}
-.upload-card:hover {border-color: var(--primary);}
-.upload-left {display: flex;flex-direction: column;gap: 5px;}
-.upload-title {font-weight: 600;font-size: 1.1rem;color: #1e272e;}
-.upload-desc {font-size: 0.85rem;color: var(--muted);}
-.upload-actions {display: flex;gap: 10px;align-items: center;}
-.btn {padding: 9px 18px;border-radius: 10px;cursor: pointer;font-family: inherit;font-weight: 500;font-size: 13px;transition: .2s;border: none;display: flex;align-items: center;gap: 6px;}
-.btn-outline {background: transparent;border: 1.5px solid var(--primary);color: var(--primary);}
-.btn-outline:hover {background: var(--primary);color: #fff;}
-.btn-primary {background: var(--primary);color: #fff;}
-.btn-primary:hover {background: #651fff;transform: translateY(-1px);}
-input[type="file"] {display: none;}
-
-/* Stats Grid - ปรับเป็น 5 คอลัมน์ */
+.upload-card{background:var(--card);border-radius:14px;padding:20px;box-shadow:var(--shadow);margin-bottom:20px;border:2px dashed #b2bec3;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;transition:0.3s}
+.upload-card:hover{border-color:var(--primary)}
+.upload-left{display:flex;flex-direction:column;gap:5px}
+.upload-title{font-weight:600;font-size:1.1rem;color:#1e272e}
+.upload-desc{font-size:0.85rem;color:var(--muted)}
+.upload-actions{display:flex;gap:10px;align-items:center}
+.btn{padding:9px 18px;border-radius:10px;cursor:pointer;font-family:inherit;font-weight:500;font-size:13px;transition:.2s;border:none;display:flex;align-items:center;gap:6px}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:#651fff;transform:translateY(-1px)}
+input[type="file"]{display:none}
 .stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px}
 .stat-card{background:var(--card);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow);border-left:4px solid var(--primary)}
 .stat-card.blue{border-left-color:#0984e3}
@@ -37,45 +31,37 @@ input[type="file"] {display: none;}
 .stat-card.purple{border-left-color:#a29bfe}
 .stat-label{font-size:.78rem;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.4px}
 .stat-value{font-size:1.6rem;font-weight:600;margin-top:4px;color:#1e272e}
-.stat-sub{font-size:.78rem;color:var(--muted);margin-top:2px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
-
-/* Filters */
+.stat-sub{font-size:.78rem;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .filters-card{background:var(--card);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow);margin-bottom:16px}
 .filter-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
 .search-box{flex:1;min-width:160px;padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-size:13px;font-family:inherit;outline:none;transition:.2s}
 .search-box:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(124,77,255,.1)}
-
-/* Date Group Styling */
-.date-group { display: flex; align-items: center; gap: 6px; background: #fff; border: 2px solid var(--border); padding: 2px 10px; border-radius: 10px; transition: .2s; flex-wrap: wrap; }
-.date-group:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124,77,255,.1); }
-.date-box { border: none; outline: none; font-family: inherit; font-size: 13px; color: var(--text); background: transparent; padding: 6px 2px; cursor: pointer; }
-.date-sep { color: var(--muted); font-size: 13px; }
-.btn-clear-date { background: #ffeaa7; color: #d63031; border: none; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 10px; margin-left: 4px; display: none; transition: 0.2s;}
-.btn-clear-date:hover { background: #fab1a0; color: #fff; transform: scale(1.1); }
-
+.date-group{display:flex;align-items:center;gap:6px;background:#fff;border:2px solid var(--border);padding:2px 10px;border-radius:10px;transition:.2s;flex-wrap:wrap}
+.date-group:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px rgba(124,77,255,.1)}
+.date-box{border:none;outline:none;font-family:inherit;font-size:13px;color:var(--text);background:transparent;padding:6px 2px;cursor:pointer}
+.date-sep{color:var(--muted);font-size:13px}
+.btn-clear-date{background:#ffeaa7;color:#d63031;border:none;border-radius:50%;width:22px;height:22px;display:none;align-items:center;justify-content:center;cursor:pointer;font-size:10px;margin-left:4px;transition:0.2s}
+.btn-clear-date:hover{background:#fab1a0;color:#fff;transform:scale(1.1)}
 .tag-row{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
 .tag-label{font-size:.78rem;font-weight:600;color:#4b6584}
 .tag{background:#f1f3f9;border:1.5px solid var(--border);padding:5px 13px;border-radius:20px;font-size:12px;cursor:pointer;transition:.2s;color:var(--muted);font-family:inherit;font-weight:500}
 .tag:hover{border-color:var(--primary);color:var(--primary)}
 .tag.active{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(124,77,255,.25)}
-
-/* Table Styling */
 .table-wrap{background:var(--card);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
 .table-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
 .table-header span{font-weight:600;font-size:.95rem;color:#1e272e}
 .table-header small{color:var(--muted);font-size:.82rem}
 .tbl-scroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:950px}
+table{width:100%;border-collapse:collapse;min-width:980px}
 th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #f0f0f0;font-size:13px}
 th{background:#f8f9fd;font-weight:600;color:#4b6584;font-size:.75rem;text-transform:uppercase;letter-spacing:.4px}
-th:last-child,td:last-child{text-align:center}
-/* ปรับแนวคอลัมน์ตัวเลขให้ชิดขวา (คอลัมน์ที่ 5 และ 6) */
-th:nth-child(5),td:nth-child(5),
-th:nth-child(6),td:nth-child(6){text-align:right}
+th.num,td.num{text-align:right}
+th.ctr,td.ctr{text-align:center}
 tbody tr:hover{background:#f9f9ff}
 .cust-name{font-weight:600;color:#1e272e;display:block}
 .cust-meta{color:var(--muted);font-size:.8rem;display:block;margin-top:2px}
-.badge{background:#ede7ff;color:var(--primary);padding:3px 10px;border-radius:12px;font-weight:600;font-size:12px}
+.badge{background:#ede7ff;color:var(--primary);padding:3px 10px;border-radius:12px;font-weight:600;font-size:12px;display:inline-block}
+.badge-green{background:#e8f5e9;color:#2e7d32}
 .subtotal{background:#fafbff;font-weight:600}
 .subtotal td{border-top:2px solid #ede7ff;color:var(--primary);font-size:.88rem}
 .no-results{text-align:center;padding:40px;color:var(--muted);font-style:italic}
@@ -85,62 +71,72 @@ tbody tr:hover{background:#f9f9ff}
 .hs-label{font-weight:400;font-size:.9rem;opacity:.9}
 .hs-value{font-size:1.8rem;font-weight:600;letter-spacing:-.5px}
 .hs-count{font-size:.85rem;opacity:.85;margin-top:2px}
-
-/* Responsive */
 @media(max-width:1100px){.stats-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:768px){.stats-grid{grid-template-columns:1fr 1fr}.filter-row{flex-direction:column}.upload-card{flex-direction:column;align-items:flex-start;}}
+@media(max-width:768px){.stats-grid{grid-template-columns:1fr 1fr}.filter-row{flex-direction:column}.upload-card{flex-direction:column;align-items:flex-start}}
 </style>
 </head>
 <body>
 <div class="container">
   <header>
     <h1>🏥 Dashboard คอร์สคงเหลือ</h1>
-    <p>Florenza Clinic — ระบบวิเคราะห์ข้อมูล</p>
+    <p>Bornsong Clinic — แสดงเฉพาะคอร์สที่ยังเหลือ (เหลือ > 0)</p>
   </header>
 
-  <!-- ส่วนอัปโหลดข้อมูล -->
   <div class="upload-card">
     <div class="upload-left">
-      <div class="upload-title">📥 นำเข้าข้อมูลคอร์สคงเหลือ (Excel/CSV)</div>
-      <div class="upload-desc" id="upload-status">กรุณาอัปโหลดไฟล์ที่เตรียมไว้ เพื่อแสดงผลบน Dashboard</div>
+      <div class="upload-title">📥 นำเข้าไฟล์ รายงานคอร์สลูกค้า (.xls)</div>
+      <div class="upload-desc" id="upload-status">กรุณาอัปโหลดไฟล์ 4.3 รายงานคอร์สคงเหลือ_ตามลูกค้า จากระบบคลินิก</div>
     </div>
     <div class="upload-actions">
-      <button class="btn btn-outline" onclick="downloadTemplate()">📄 โหลดไฟล์ต้นแบบ</button>
-      <label class="btn btn-primary" for="file-upload">
-        📁 เลือกไฟล์ Excel
-      </label>
-      <input type="file" id="file-upload" accept=".xlsx, .xls, .csv">
+      <label class="btn btn-primary" for="file-upload">📁 เลือกไฟล์ .xls / .xlsx</label>
+      <input type="file" id="file-upload" accept=".xls,.xlsx">
     </div>
   </div>
 
-  <div class="stats-grid" id="stats-grid">
-    <div class="stat-card"><div class="stat-label">ยอดเงินซื้อรวม</div><div class="stat-value" id="s-total">-</div><div class="stat-sub">บาท (เต็มจำนวน)</div></div>
-    <!-- 🌟 เพิ่ม Card ใหม่ที่นี่ -->
-    <div class="stat-card blue"><div class="stat-label">มูลค่าคอร์สคงเหลือ</div><div class="stat-value" id="s-val-remain">-</div><div class="stat-sub">บาท (คำนวณตามสัดส่วน)</div></div>
-    <div class="stat-card green"><div class="stat-label">จำนวนลูกค้า</div><div class="stat-value" id="s-cust">-</div><div class="stat-sub">ราย</div></div>
-    <div class="stat-card orange"><div class="stat-label">จำนวนคอร์ส</div><div class="stat-value" id="s-items">-</div><div class="stat-sub">รายการ</div></div>
-    <div class="stat-card purple"><div class="stat-label">มูลค่าคงเหลือสูงสุด</div><div class="stat-value" id="s-max">-</div><div class="stat-sub" id="s-max-name">-</div></div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">มูลค่าคอร์สคงเหลือรวม</div>
+      <div class="stat-value" id="s-total">-</div>
+      <div class="stat-sub">บาท (คำนวณตามสัดส่วน)</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-label">ยอดซื้อรวมทั้งหมด</div>
+      <div class="stat-value" id="s-grand">-</div>
+      <div class="stat-sub">บาท (เต็มจำนวน)</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">จำนวนลูกค้า</div>
+      <div class="stat-value" id="s-cust">-</div>
+      <div class="stat-sub">รายที่มีคอร์สคงเหลือ</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-label">จำนวนคอร์ส</div>
+      <div class="stat-value" id="s-items">-</div>
+      <div class="stat-sub">รายการที่ยังเหลือ</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-label">มูลค่าคงเหลือสูงสุด</div>
+      <div class="stat-value" id="s-max">-</div>
+      <div class="stat-sub" id="s-max-name" title="">-</div>
+    </div>
   </div>
 
   <div class="filters-card">
     <div class="filter-row">
       <input type="text" id="q-search" class="search-box" placeholder="🔍 ค้นหาลูกค้า (ชื่อ, HN, เบอร์โทร)">
-      <input type="text" id="q-item" class="search-box" placeholder="🏷️ ค้นหาคอร์ส (Botox, Drip, IPL...)">
-      
-      <!-- ส่วนเลือกวันที่ใหม่ -->
+      <input type="text" id="q-item" class="search-box" placeholder="🏷️ ค้นหาคอร์ส (Botox, Drip, Filler...)">
       <div class="date-group">
-        <span title="ตั้งแต่วันที่">📅</span>
+        <span>📅</span>
         <input type="date" id="q-date-start" class="date-box" title="ตั้งแต่วันที่">
         <span class="date-sep">ถึง</span>
         <input type="date" id="q-date-end" class="date-box" title="ถึงวันที่">
         <button id="btn-clear-date" class="btn-clear-date" title="ล้างวันที่">✖</button>
       </div>
-
-      <select id="q-sort" class="search-box" style="min-width:180px">
+      <select id="q-sort" class="search-box" style="min-width:190px">
         <option value="val_desc">💰 มูลค่าคงเหลือ: มากไปน้อย</option>
         <option value="val_asc">💰 มูลค่าคงเหลือ: น้อยไปมาก</option>
-        <option value="date_desc">🕒 วันที่: ล่าสุดก่อน</option>
-        <option value="date_asc">🕒 วันที่: เก่าสุดก่อน</option>
+        <option value="date_desc">🕒 วันที่ซื้อ: ล่าสุดก่อน</option>
+        <option value="date_asc">🕒 วันที่ซื้อ: เก่าสุดก่อน</option>
       </select>
     </div>
     <div class="tag-row">
@@ -149,18 +145,21 @@ tbody tr:hover{background:#f9f9ff}
       <button class="tag" data-kw="botox|โบท็อก">Botox</button>
       <button class="tag" data-kw="pico|พิโก">Pico</button>
       <button class="tag" data-kw="ultraformer|อัลตร้า">Ultraformer</button>
-      <button class="tag" data-kw="dio laser|diode|ไดโอด">Diode/Dio</button>
+      <button class="tag" data-kw="diode|cpl|ไดโอด">Diode/CPL</button>
       <button class="tag" data-kw="hifu|ไฮฟู">Hifu</button>
-      <button class="tag" data-kw="drip|วิตามิน">Drip</button>
+      <button class="tag" data-kw="drip|dirp|glow|secret|aura|push|vitc|white">Drip/IV</button>
       <button class="tag" data-kw="ipl">IPL</button>
       <button class="tag" data-kw="cryo">Cryo</button>
-      <button class="tag" data-kw="co2">CO2</button>
+      <button class="tag" data-kw="co2|laser|evo">Laser/CO2</button>
+      <button class="tag" data-kw="meso|สะกิด">Meso</button>
+      <button class="tag" data-kw="venus">Venus</button>
+      <button class="tag" data-kw="ไหม|thread">ไหม</button>
     </div>
   </div>
 
   <div class="highlight-summary">
     <div>
-      <div class="hs-label">ยอดมูลค่าคอร์สคงเหลือที่กรอง</div>
+      <div class="hs-label">มูลค่าคอร์สคงเหลือ (ตามเงื่อนไขที่กรอง)</div>
       <div class="hs-value" id="hs-total">฿0</div>
       <div class="hs-count" id="hs-count">0 รายการ / 0 ลูกค้า</div>
     </div>
@@ -175,7 +174,14 @@ tbody tr:hover{background:#f9f9ff}
     <div class="tbl-scroll">
       <table>
         <thead><tr>
-          <th>#</th><th>วันที่</th><th>ข้อมูลลูกค้า</th><th>รายการคอร์ส</th><th style="text-align:right">ยอดเต็ม (฿)</th><th style="text-align:right">มูลค่าคงเหลือ (฿)</th><th>ครั้งคงเหลือ</th>
+          <th>#</th>
+          <th>วันที่ซื้อ</th>
+          <th>ข้อมูลลูกค้า</th>
+          <th>รายการคอร์ส</th>
+          <th class="num">ยอดซื้อ (฿)</th>
+          <th class="num">มูลค่าคงเหลือ (฿)</th>
+          <th class="ctr">ครั้งคงเหลือ</th>
+          <th class="ctr">ทั้งหมด</th>
         </tr></thead>
         <tbody id="tbody"></tbody>
       </table>
@@ -190,346 +196,268 @@ let activeTags = new Set();
 let filtered = [];
 
 // ==========================================
-// ส่วนที่ 1: ระบบจัดการอัปโหลดไฟล์ Excel
+// Parser สำหรับไฟล์ 4.3 รายงานคอร์สลูกค้า (.xls)
+//
+// โครงสร้างไฟล์ (Hierarchical):
+//   Customer row : col[1]=ลำดับ(float>0), col[3]="ชื่อ / nick / HN / phone"
+//   Item row     : col[3]=Excel date serial(>40000), col[6]=ชื่อคอร์ส,
+//                  col[13]=จำนวนซื้อ, col[18]=ยอดเงิน,
+//                  col[21]=ครั้งทั้งหมด, col[23]=ครั้งที่ใช้, col[26]=เหลือ
 // ==========================================
 
-function downloadTemplate() {
-  const templateData = [
-    ["ชื่อลูกค้า", "HN", "เบอร์โทร", "วันที่", "รายการคอร์ส", "ยอดเงินเต็ม", "มูลค่าคงเหลือ", "ครั้งคงเหลือ"],
-    ["คุณ ตัวอย่าง ใจดี", "FRR990001", "0812345678", "25/12/2024", "IPL กำจัดขนรักแร้", 2000, 990, 3],
-    ["คุณ สมหญิง รักสวย", "FRR990002", "0898765432", "01/05/2025", "Botox Aestox 100U", 15000, 7500, 50]
-  ];
-  const ws = XLSX.utils.aoa_to_sheet(templateData);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Template");
-  XLSX.writeFile(wb, "Template_ข้อมูลคอร์ส.xlsx");
+function excelSerial(v) {
+  if (typeof v === 'number' && v > 40000) {
+    return new Date(Math.round((v - 25569) * 86400 * 1000));
+  }
+  return null;
+}
+
+function fmtDate(dt) {
+  if (!dt || isNaN(dt.getTime())) return '';
+  return dt.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 
 document.getElementById('file-upload').addEventListener('change', function(e) {
   const file = e.target.files[0];
   if (!file) return;
-
   const reader = new FileReader();
-  document.getElementById('upload-status').innerHTML = `<span style="color:var(--primary)">⏳ กำลังประมวลผลไฟล์...</span>`;
+  document.getElementById('upload-status').innerHTML =
+    `<span style="color:var(--primary)">⏳ กำลังประมวลผล (${(file.size/1024/1024).toFixed(1)} MB)...</span>`;
 
-  reader.onload = function(e) {
+  reader.onload = function(ev) {
     try {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, {type: 'array', cellDates: false});
-      const firstSheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[firstSheetName];
-      
-      const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: true });
-      
-      if (rows.length === 0) throw new Error("ไฟล์ว่างเปล่า");
-
-      const headerStr = (rows[0] || []).join(',').toLowerCase();
-      const isTemplate = headerStr.includes('ชื่อลูกค้า') || headerStr.includes('รายการคอร์ส');
-
-      if (isTemplate) {
-        processTemplateData(worksheet);
-      } else {
-        processFlorenzaExport(rows);
-      }
-      
-      document.getElementById('upload-status').innerHTML = `<span style="color:var(--accent)">✅ อัปโหลดสำเร็จ! โหลดข้อมูล ${RAW.length} รายการ</span>`;
-    } catch (error) {
-      console.error(error);
-      document.getElementById('upload-status').innerHTML = `<span style="color:var(--warn)">❌ เกิดข้อผิดพลาดในการอ่านไฟล์ กรุณาตรวจสอบรูปแบบ</span>`;
-      alert("ไม่สามารถอ่านไฟล์ได้ โปรดใช้ไฟล์ต้นแบบ (Template) หรือตรวจสอบไฟล์จากระบบคลินิก");
+      const data = new Uint8Array(ev.target.result);
+      const wb = XLSX.read(data, { type: 'array', cellDates: false });
+      const sh = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(sh, { header: 1, raw: true, defval: '' });
+      parseCourseReport(rows);
+      document.getElementById('upload-status').innerHTML =
+        `<span style="color:var(--accent)">✅ โหลดสำเร็จ! พบคอร์สคงเหลือ ${RAW.length.toLocaleString()} รายการ</span>`;
+    } catch(err) {
+      console.error(err);
+      document.getElementById('upload-status').innerHTML =
+        `<span style="color:var(--warn)">❌ เกิดข้อผิดพลาด: ${err.message}</span>`;
     }
   };
   reader.readAsArrayBuffer(file);
 });
 
-// อ่านไฟล์ Template ที่กรอกเอง
-function processTemplateData(worksheet) {
-  const jsonData = XLSX.utils.sheet_to_json(worksheet, {raw: false, dateNF: 'dd/mm/yyyy hh:mm:ss'});
+function parseCourseReport(rows) {
   RAW = [];
-  jsonData.forEach(row => {
-    const name = row['ชื่อลูกค้า'] || row['name'] || row['Name'];
-    const item = row['รายการคอร์ส'] || row['item'] || row['Item'] || row['รายการ'];
-    if (!name || !item) return;
+  let cust = null;
 
-    const valRemain = parseFloat(row['มูลค่าคงเหลือ'] || row['คงเหลือ (บาท)'] || row['amount'] || 0) || 0;
-    const amount = parseFloat(row['ยอดเงินเต็ม'] || row['ยอดเงิน'] || 0) || valRemain;
-    const remaining = parseInt(row['ครั้งคงเหลือ'] || row['remaining'] || row['Remaining'] || row['ครั้ง'] || 0) || 0;
+  for (let i = 0; i < rows.length; i++) {
+    const r = rows[i];
+
+    // ----- Customer row -----
+    // col[1] = ลำดับ (float > 0), col[3] = string มี '/'
+    if (typeof r[1] === 'number' && r[1] > 0 &&
+        typeof r[3] === 'string' && r[3].includes('/')) {
+      const p = r[3].split('/').map(s => s.trim());
+      cust = { name: p[0]||'ไม่ระบุ', nick: p[1]||'', hn: p[2]||'', phone: p[3]||'' };
+      continue;
+    }
+
+    // ----- Item row -----
+    if (!cust) continue;
+    if (typeof r[3] !== 'number' || r[3] <= 40000) continue;
+    if (typeof r[6] !== 'string' || !r[6].trim()) continue;
+
+    const remain = parseFloat(r[26]) || 0;
+    // ✅ แสดงเฉพาะคอร์สที่ยังเหลือ > 0
+    if (remain <= 0) continue;
+
+    const amount        = parseFloat(r[18]) || 0;
+    const totalSessions = parseFloat(r[21]) || 0;
+    const used          = parseFloat(r[23]) || 0;
+
+    // คำนวณมูลค่าคงเหลือ (Prorated)
+    let valRemain = 0;
+    if (totalSessions > 0 && amount > 0) {
+      valRemain = (amount / totalSessions) * remain;
+    } else if (remain > 0 && amount > 0) {
+      valRemain = amount;
+    }
+
+    const dateObj = excelSerial(r[3]);
 
     RAW.push({
-      name: name.toString().trim(),
-      hn: (row['HN'] || row['hn'] || '').toString().trim(),
-      phone: (row['เบอร์โทร'] || row['phone'] || row['Phone'] || '').toString().trim(),
-      date: row['วันที่'] || row['date'] || row['Date'] || '',
-      item: item.toString().trim(),
-      amount: amount,          // ยอดเต็ม
-      valRemain: valRemain,    // มูลค่าที่เหลือจริง
-      remaining: remaining     // จำนวนครั้งที่เหลือ
+      name: cust.name, nick: cust.nick, hn: cust.hn, phone: cust.phone,
+      dateObj, dateDisplay: fmtDate(dateObj),
+      item: r[6].trim(),
+      amount, totalSessions, used, remain, valRemain
     });
-  });
-  parseDates();
-  render();
-}
-
-// อ่านไฟล์ Export จากระบบของคลินิกโดยตรง
-function processFlorenzaExport(rows) {
-  RAW = [];
-  let currentCustomer = null;
-
-  rows.forEach(row => {
-    if (!row || row.length < 2) return;
-
-    if (typeof row[1] === 'string' && row[1].includes('/') && row[1].split('/').length >= 3) {
-        const parts = row[1].split('/').map(s => s.trim());
-        currentCustomer = {
-            name: parts[0] || 'ไม่ระบุ',
-            hn: parts.length >= 3 ? parts[2] : '',
-            phone: parts.length >= 4 ? parts[3] : ''
-        };
-        if(currentCustomer.hn === '' && parts.length === 4) currentCustomer.hn = parts[1];
-    }
-    else if (currentCustomer && typeof row[1] === 'string' && row[1].trim() !== '') {
-        let itemDate = null;
-        if (typeof row[0] === 'number' && row[0] > 30000) {
-            itemDate = new Date(Math.round((row[0] - 25569) * 86400 * 1000));
-        } 
-        else if (typeof row[0] === 'string' && (row[0].includes('/') || row[0].includes('-'))) {
-            itemDate = parseDateString(row[0]);
-        }
-
-        if (itemDate && !isNaN(itemDate.getTime())) {
-            const itemName = row[1].trim();
-            const amount = parseFloat(row[3]) || 0;         // คอลัมน์ "ยอดเงิน" (ยอดเต็ม)
-            const totalSessions = parseFloat(row[4]) || 0;  // คอลัมน์ "จำนวน" (ครั้งทั้งหมด)
-            const remaining = parseFloat(row[6]) || 0;      // คอลัมน์ "เหลือ" (ครั้งที่เหลือ)
-
-            // คำนวณมูลค่าคงเหลือ (Prorated Value)
-            let valRemain = 0;
-            if (totalSessions > 0) {
-                valRemain = (amount / totalSessions) * remaining;
-            } else if (remaining > 0) {
-                valRemain = amount; 
-            }
-
-            RAW.push({
-                name: currentCustomer.name,
-                hn: currentCustomer.hn,
-                phone: currentCustomer.phone,
-                dateObj: itemDate,
-                dateDisplay: itemDate.toLocaleDateString('th-TH',{day:'2-digit',month:'2-digit',year:'numeric'}),
-                item: itemName,
-                amount: amount,
-                valRemain: valRemain,
-                remaining: remaining
-            });
-        }
-    }
-  });
-  render();
-}
-
-function parseDateString(dateStr) {
-  if(!dateStr) return new Date();
-  const p = dateStr.split(/[\/ \-:]/);
-  if(p.length >= 3) {
-    let year = p[2].length === 4 ? +p[2] : (p[0].length === 4 ? +p[0] : new Date().getFullYear());
-    let month = p[1]-1;
-    let day = p[0].length === 4 ? +p[2] : +p[0];
-    if(month > 11) { month = +p[0]-1; day = +p[1]; }
-    return new Date(year, month, day);
   }
-  return new Date(dateStr);
-}
-
-function parseDates() {
-  RAW.forEach(d => {
-    if(!d.dateObj) {
-        d.dateObj = parseDateString(d.date);
-    }
-    d.dateDisplay = d.dateObj.toLocaleDateString('th-TH',{day:'2-digit',month:'2-digit',year:'numeric'});
-  });
+  render();
 }
 
 // ==========================================
-// ส่วนที่ 2: ระบบ Filter และ Render เดิม
+// Filter & Render
 // ==========================================
 
-function debounce(f,w){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>f(...a),w)}}
+function debounce(f, w) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => f(...a), w); }; }
 
 document.querySelectorAll('.tag').forEach(b => {
-  b.addEventListener('click',()=>{
+  b.addEventListener('click', () => {
     const kw = b.dataset.kw;
-    if(activeTags.has(kw)){activeTags.delete(kw);b.classList.remove('active')}
-    else{activeTags.add(kw);b.classList.add('active')}
+    if (activeTags.has(kw)) { activeTags.delete(kw); b.classList.remove('active'); }
+    else { activeTags.add(kw); b.classList.add('active'); }
     render();
   });
 });
 
-['q-search','q-item','q-sort'].forEach(id=>{
+['q-search','q-item','q-sort'].forEach(id => {
   const el = document.getElementById(id);
   el.addEventListener('change', render);
-  el.addEventListener('input', debounce(render,250));
+  el.addEventListener('input', debounce(render, 250));
 });
 
-// Event Listeners สำหรับวันที่
-const dateStartEl = document.getElementById('q-date-start');
-const dateEndEl = document.getElementById('q-date-end');
+const dateStartEl  = document.getElementById('q-date-start');
+const dateEndEl    = document.getElementById('q-date-end');
 const clearDateBtn = document.getElementById('btn-clear-date');
 
 [dateStartEl, dateEndEl].forEach(el => {
   el.addEventListener('change', () => {
-    if(dateStartEl.value || dateEndEl.value) {
-      clearDateBtn.style.display = 'flex';
-    } else {
-      clearDateBtn.style.display = 'none';
-    }
+    clearDateBtn.style.display = (dateStartEl.value || dateEndEl.value) ? 'flex' : 'none';
     render();
   });
 });
-
 clearDateBtn.addEventListener('click', () => {
-  dateStartEl.value = '';
-  dateEndEl.value = '';
+  dateStartEl.value = ''; dateEndEl.value = '';
   clearDateBtn.style.display = 'none';
   render();
 });
 
-
-function applyFilters(){
-  let r=[...RAW];
-  const q=document.getElementById('q-search').value.toLowerCase().trim();
-  if(q) r=r.filter(d=>d.name.toLowerCase().includes(q)||d.hn.toLowerCase().includes(q)||d.phone.includes(q));
-  
-  const qi=document.getElementById('q-item').value.toLowerCase().trim();
-  if(qi) r=r.filter(d=>d.item.toLowerCase().includes(qi));
-  
-  if(activeTags.size>0){
-    r=r.filter(d=>{
-      const nm=d.item.toLowerCase();
-      return [...activeTags].some(kw=>kw.split('|').some(k=>nm.includes(k)));
+function applyFilters() {
+  let r = [...RAW];
+  const q = document.getElementById('q-search').value.toLowerCase().trim();
+  if (q) r = r.filter(d =>
+    d.name.toLowerCase().includes(q) || d.hn.toLowerCase().includes(q) ||
+    d.phone.includes(q) || d.nick.toLowerCase().includes(q)
+  );
+  const qi = document.getElementById('q-item').value.toLowerCase().trim();
+  if (qi) r = r.filter(d => d.item.toLowerCase().includes(qi));
+  if (activeTags.size > 0) {
+    r = r.filter(d => {
+      const nm = d.item.toLowerCase();
+      return [...activeTags].some(kw => kw.split('|').some(k => nm.includes(k)));
     });
   }
-
-  // ตัวกรองวันที่ใหม่
-  const startDate = dateStartEl.value;
-  const endDate = dateEndEl.value;
-  
-  if (startDate) {
-    const dStart = new Date(startDate);
-    dStart.setHours(0, 0, 0, 0);
-    r = r.filter(d => d.dateObj >= dStart);
-  }
-  if (endDate) {
-    const dEnd = new Date(endDate);
-    dEnd.setHours(23, 59, 59, 999);
-    r = r.filter(d => d.dateObj <= dEnd);
-  }
-
+  const s = dateStartEl.value, e = dateEndEl.value;
+  if (s) { const d = new Date(s); d.setHours(0,0,0,0); r = r.filter(x => x.dateObj >= d); }
+  if (e) { const d = new Date(e); d.setHours(23,59,59,999); r = r.filter(x => x.dateObj <= d); }
   return r;
 }
 
-function groupAndSort(data){
-  const groups={};
-  data.forEach(d=>{
-    const k=d.hn+d.name;
-    if(!groups[k]) groups[k]={name:d.name,hn:d.hn,phone:d.phone,items:[],total:0, totalRemainVal:0, latest:d.dateObj};
+function groupAndSort(data) {
+  const groups = {};
+  data.forEach(d => {
+    const k = d.hn + '§' + d.name;
+    if (!groups[k]) groups[k] = { name:d.name, nick:d.nick, hn:d.hn, phone:d.phone, items:[], totalAmount:0, totalRemainVal:0, latest:d.dateObj };
     groups[k].items.push(d);
-    groups[k].total+=d.amount;
-    groups[k].totalRemainVal += (d.valRemain || 0);
-    if(d.dateObj>groups[k].latest) groups[k].latest=d.dateObj;
+    groups[k].totalAmount    += d.amount;
+    groups[k].totalRemainVal += d.valRemain;
+    if (d.dateObj && d.dateObj > groups[k].latest) groups[k].latest = d.dateObj;
   });
-  const arr=Object.values(groups);
-  const sv=document.getElementById('q-sort').value;
-  arr.sort((a,b)=>{
-    if(sv==='val_desc') return b.totalRemainVal - a.totalRemainVal;
-    if(sv==='val_asc') return a.totalRemainVal - b.totalRemainVal;
-    if(sv==='date_asc') return a.latest-b.latest;
-    return b.latest-a.latest;
+  const arr = Object.values(groups);
+  const sv = document.getElementById('q-sort').value;
+  arr.sort((a,b) => {
+    if (sv==='val_desc')  return b.totalRemainVal - a.totalRemainVal;
+    if (sv==='val_asc')   return a.totalRemainVal - b.totalRemainVal;
+    if (sv==='date_asc')  return (a.latest||0)-(b.latest||0);
+    return (b.latest||0)-(a.latest||0);
   });
   return arr;
 }
 
-function fmt(n){return n.toLocaleString('th-TH',{minimumFractionDigits:2, maximumFractionDigits:2})}
+const fmt  = n => n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtN = n => n%1===0 ? n.toLocaleString('th-TH') : n.toLocaleString('th-TH',{minimumFractionDigits:1,maximumFractionDigits:2});
 
-function render(){
-  filtered=applyFilters();
-  const groups=groupAndSort(filtered);
-  const tbody=document.getElementById('tbody');
-  tbody.innerHTML='';
-  
-  let grand=0, grandValRemain=0, idx=1;
-  groups.forEach(g=>{
-    grand+=g.total;
-    grandValRemain+=g.totalRemainVal;
-    g.items.forEach((it,i)=>{
-      const tr=document.createElement('tr');
-      if(i===0) tr.innerHTML+=`<td rowspan="${g.items.length}" style="text-align:center;vertical-align:top;font-weight:600;color:#4b6584">${idx}</td>`;
-      tr.innerHTML+=`<td style="color:var(--muted);font-size:12px;white-space:nowrap">${it.dateDisplay}</td>`;
-      if(i===0) tr.innerHTML+=`<td rowspan="${g.items.length}" style="border-left:3px solid var(--primary);padding-left:12px;vertical-align:top"><span class="cust-name">${g.name}</span><span class="cust-meta">HN: ${g.hn} | ☎ ${g.phone}</span></td>`;
-      tr.innerHTML+=`<td>${it.item}</td>`;
-      tr.innerHTML+=`<td style="text-align:right;font-weight:400">${fmt(it.amount)}</td>`;
-      tr.innerHTML+=`<td style="text-align:right;font-weight:600;color:var(--primary)">${fmt(it.valRemain)}</td>`;
-      tr.innerHTML+=`<td><span class="badge">${it.remaining}</span></td>`;
+function render() {
+  filtered = applyFilters();
+  const groups = groupAndSort(filtered);
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  let grand=0, grandVal=0, idx=1;
+
+  groups.forEach(g => {
+    grand    += g.totalAmount;
+    grandVal += g.totalRemainVal;
+    g.items.forEach((it, i) => {
+      const tr = document.createElement('tr');
+      if (i===0) tr.innerHTML += `<td rowspan="${g.items.length}" style="text-align:center;vertical-align:top;font-weight:600;color:#4b6584">${idx}</td>`;
+      tr.innerHTML += `<td style="color:var(--muted);font-size:12px;white-space:nowrap">${it.dateDisplay}</td>`;
+      if (i===0) {
+        const nick = g.nick ? ` <span style="color:var(--muted);font-weight:400">(${g.nick})</span>` : '';
+        tr.innerHTML += `<td rowspan="${g.items.length}" style="border-left:3px solid var(--primary);padding-left:12px;vertical-align:top">
+          <span class="cust-name">${g.name}${nick}</span>
+          <span class="cust-meta">HN: ${g.hn} | ☎ ${g.phone}</span>
+        </td>`;
+      }
+      tr.innerHTML += `<td>${it.item}</td>`;
+      tr.innerHTML += `<td class="num" style="color:var(--muted)">${it.amount>0 ? fmt(it.amount) : '-'}</td>`;
+      tr.innerHTML += `<td class="num" style="font-weight:600;color:var(--primary)">${it.valRemain>0 ? fmt(it.valRemain) : '-'}</td>`;
+      tr.innerHTML += `<td class="ctr"><span class="badge">${fmtN(it.remain)}</span></td>`;
+      tr.innerHTML += `<td class="ctr"><span class="badge badge-green">${fmtN(it.totalSessions)}</span></td>`;
       tbody.appendChild(tr);
     });
-    const st=document.createElement('tr');
-    st.className='subtotal';
-    st.innerHTML=`<td colspan="4" style="text-align:right;padding-right:16px">ยอดรวมของลูกค้ารายนี้:</td><td style="text-align:right;font-weight:400">฿${fmt(g.total)}</td><td style="text-align:right">฿${fmt(g.totalRemainVal)}</td><td></td>`;
+    const st = document.createElement('tr');
+    st.className = 'subtotal';
+    st.innerHTML = `
+      <td colspan="4" style="text-align:right;padding-right:16px">ยอดรวมลูกค้ารายนี้ (${g.items.length} คอร์ส):</td>
+      <td class="num" style="color:var(--muted)">฿${fmt(g.totalAmount)}</td>
+      <td class="num">฿${fmt(g.totalRemainVal)}</td>
+      <td colspan="2"></td>`;
     tbody.appendChild(st);
     idx++;
   });
 
-  if(groups.length===0 && RAW.length===0) {
-    tbody.innerHTML='<tr><td colspan="7" class="no-results">กรุณาอัปโหลดไฟล์ข้อมูลเพื่อเริ่มต้นใช้งาน</td></tr>';
-  } else if(groups.length===0) {
-    tbody.innerHTML='<tr><td colspan="7" class="no-results">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</td></tr>';
+  if (groups.length===0 && RAW.length===0) {
+    tbody.innerHTML='<tr><td colspan="8" class="no-results">กรุณาอัปโหลดไฟล์รายงานคอร์สลูกค้าเพื่อเริ่มต้นใช้งาน</td></tr>';
+  } else if (groups.length===0) {
+    tbody.innerHTML='<tr><td colspan="8" class="no-results">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</td></tr>';
   }
 
-  // Update summary
-  document.getElementById('hs-total').textContent='฿'+fmt(grandValRemain);
-  document.getElementById('hs-count').textContent=`${filtered.length} รายการ / ${groups.length} ลูกค้า`;
-  document.getElementById('result-count').textContent=`แสดง ${groups.length} ลูกค้า / ${filtered.length} คอร์ส`;
-  updateStats(groups, grand, grandValRemain);
+  document.getElementById('hs-total').textContent = '฿'+fmt(grandVal);
+  document.getElementById('hs-count').textContent = `${filtered.length} รายการ / ${groups.length} ลูกค้า`;
+  document.getElementById('result-count').textContent = `แสดง ${groups.length} ลูกค้า / ${filtered.length} คอร์ส`;
+  updateStats(groups, grand, grandVal);
 }
 
-function updateStats(groups, grand, grandValRemain){
-  document.getElementById('s-total').textContent='฿'+Math.round(grand).toLocaleString('th-TH');
-  document.getElementById('s-val-remain').textContent='฿'+Math.round(grandValRemain).toLocaleString('th-TH');
-  document.getElementById('s-cust').textContent=groups.length.toLocaleString();
-  document.getElementById('s-items').textContent=filtered.length.toLocaleString();
-  
-  // หาคนที่มูลค่าคงเหลือสูงสุด
-  const top=groups.reduce((a,b)=>b.totalRemainVal>a.totalRemainVal?b:a,{totalRemainVal:0,name:''});
-  document.getElementById('s-max').textContent=top.totalRemainVal?'฿'+Math.round(top.totalRemainVal).toLocaleString('th-TH'):'-';
-  document.getElementById('s-max-name').textContent=top.name||'-';
-  document.getElementById('s-max-name').title=top.name||''; 
+function updateStats(groups, grand, grandVal) {
+  document.getElementById('s-total').textContent = '฿'+Math.round(grandVal).toLocaleString('th-TH');
+  document.getElementById('s-grand').textContent = '฿'+Math.round(grand).toLocaleString('th-TH');
+  document.getElementById('s-cust').textContent  = groups.length.toLocaleString();
+  document.getElementById('s-items').textContent = filtered.length.toLocaleString();
+  const top = groups.reduce((a,b)=>b.totalRemainVal>a.totalRemainVal?b:a,{totalRemainVal:0,name:''});
+  document.getElementById('s-max').textContent      = top.totalRemainVal?'฿'+Math.round(top.totalRemainVal).toLocaleString('th-TH'):'-';
+  document.getElementById('s-max-name').textContent = top.name||'-';
+  document.getElementById('s-max-name').title       = top.name||'';
 }
 
-document.getElementById('btn-export').addEventListener('click',()=>{
-  if(filtered.length === 0) {
-    alert("ไม่มีข้อมูลสำหรับส่งออก");
-    return;
-  }
-  const groups=groupAndSort(filtered);
-  const rows=[['ลำดับ','วันที่','ชื่อลูกค้า','HN','เบอร์โทร','รายการคอร์ส','ยอดเงินเต็ม (บาท)','มูลค่าคงเหลือ (บาท)','ครั้งคงเหลือ']];
-  let grand=0, grandValRemain=0;
-  groups.forEach((g,idx)=>{
-    grand+=g.total;
-    grandValRemain+=g.totalRemainVal;
-    g.items.forEach((it,i)=>{
-      rows.push([i===0?idx+1:'',it.dateDisplay,i===0?g.name:'',i===0?g.hn:'',i===0?g.phone:'',it.item,it.amount,it.valRemain,it.remaining]);
+document.getElementById('btn-export').addEventListener('click', () => {
+  if (!filtered.length) { alert('ไม่มีข้อมูลสำหรับส่งออก'); return; }
+  const groups = groupAndSort(filtered);
+  const rows = [['ลำดับ','วันที่ซื้อ','ชื่อลูกค้า','HN','เบอร์โทร','รายการคอร์ส','ยอดซื้อ (฿)','มูลค่าคงเหลือ (฿)','ครั้งคงเหลือ','ครั้งทั้งหมด']];
+  let grand=0, grandVal=0;
+  groups.forEach((g,gi) => {
+    grand    += g.totalAmount;
+    grandVal += g.totalRemainVal;
+    g.items.forEach((it,i) => {
+      rows.push([i===0?gi+1:'', it.dateDisplay, i===0?g.name:'', i===0?g.hn:'', i===0?g.phone:'',
+        it.item, it.amount, it.valRemain, it.remain, it.totalSessions]);
     });
-    rows.push(['','','','','','ยอดรวมของลูกค้าท่านนี้:',g.total, g.totalRemainVal,'']);
+    rows.push(['','','','','',`ยอดรวม (${g.items.length} คอร์ส):`, g.totalAmount, g.totalRemainVal,'','']);
     rows.push([]);
   });
-  rows.push(['','','','','','ยอดเงินรวมทั้งหมด:',grand, grandValRemain,'']);
-  const ws=XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols']=[{wch:6},{wch:14},{wch:24},{wch:13},{wch:14},{wch:40},{wch:15},{wch:15},{wch:12}];
-  const wb=XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb,ws,'คอร์สคงเหลือ');
-  XLSX.writeFile(wb,'Florenza_Export_'+new Date().toISOString().slice(0,10)+'.xlsx');
+  rows.push(['','','','','','ยอดรวมทั้งหมด:', grand, grandVal,'','']);
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [{wch:6},{wch:14},{wch:26},{wch:10},{wch:14},{wch:42},{wch:16},{wch:18},{wch:12},{wch:12}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'คอร์สคงเหลือ');
+  XLSX.writeFile(wb, 'Bornsong_คอร์สคงเหลือ_'+new Date().toISOString().slice(0,10)+'.xlsx');
 });
 
-// Initial Empty Render
 render();
 </script>
 </body>
