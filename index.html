@@ -287,18 +287,16 @@ function parseCourseReport(rows) {
     const totalSessions = Number(r[2]) || 0;
     const amount        = Number(r[3]) || 0;
     const used          = Number(r[5]) || 0;
-    const remain        = Number(r[6]) || 0;
+    // คำนวณครั้งคงเหลือจาก sessions - used (ไม่ใช้ col[6] เพราะอาจเป็น Unit เช่น Botox 100U)
+    const remain        = totalSessions - used;
 
     // Show only items with remaining > 0
     if (remain <= 0) continue;
 
-    // Prorated value
-    let valRemain = 0;
-    if (totalSessions > 0 && amount > 0) {
-      valRemain = (amount / totalSessions) * remain;
-    } else if (remain > 0 && amount > 0) {
-      valRemain = amount;
-    }
+    // มูลค่าคงเหลือ = ยอดเงิน / จำนวนครั้งทั้งหมด * ครั้งคงเหลือ
+    const valRemain = (totalSessions > 0 && amount > 0)
+      ? (amount / totalSessions) * remain
+      : 0;
 
     const dateObj = r[0]; // already a JS Date
 
@@ -313,7 +311,7 @@ function parseCourseReport(rows) {
       amount,
       totalSessions,
       used,
-      remain,
+      remain,       // sessions - used (ครั้งคงเหลือที่แท้จริง)
       valRemain
     });
   }
