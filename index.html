@@ -103,7 +103,7 @@ tbody tr:hover{background:#f9f9ff}
 .selected-pill-x:hover{color:#d63031}
 
 /* ===================== MODAL ===================== */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:2000;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);max-height:100vh;overflow-y:auto;z-index:2000;display:none;align-items:center;justify-content:center;padding:16px}
 .modal-overlay.open{display:flex}
 .modal-box{background:#fff;border-radius:20px;width:100%;max-width:560px;box-shadow:0 24px 60px rgba(0,0,0,.2);overflow:hidden;animation:modalIn .3s ease}
 @keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
@@ -123,9 +123,9 @@ tbody tr:hover{background:#f9f9ff}
 .btn-generate:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(232,67,147,.4)}
 
 /* Preview modal */
-.preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:3000;display:none;align-items:center;justify-content:center;padding:16px}
+.preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);max-height:100vh;overflow-y:auto;z-index:3000;display:none;align-items:center;justify-content:center;padding:16px}
 .preview-overlay.open{display:flex}
-.preview-box{background:#1e272e;border-radius:20px;padding:20px;max-width:900px;width:100%;display:flex;flex-direction:column;gap:14px;max-height:90vh;overflow-y:auto}
+.preview-box{background:#fff;border-radius:20px;width:100%;max-width:900px;padding:24px;box-shadow:0 30px 70px rgba(0,0,0,.4);animation:modalIn .3s ease;display:flex;flex-direction:column;gap:20px}
 .preview-box canvas{border-radius:12px;width:100%;height:auto;display:block}
 .preview-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .btn-download{background:linear-gradient(135deg,#00b894,#00cec9);color:#fff;border:none;padding:12px 28px;border-radius:12px;cursor:pointer;font-family:inherit;font-weight:600;font-size:14px;transition:.2s;display:flex;align-items:center;gap:8px;box-shadow:0 4px 14px rgba(0,184,148,.3)}
@@ -330,7 +330,7 @@ tbody tr:hover{background:#f9f9ff}
 </div>
 
 <!-- ======= Modal: Preview รูป ======= -->
-<div class="preview-overlay" id="modal-preview">
+<div class="modal-overlay" id="modal-preview">
   <div class="preview-box">
     <canvas id="summary-canvas"></canvas>
     <div class="preview-actions">
@@ -501,7 +501,7 @@ function toggleDropdown(){
   const dropdown=document.getElementById('ms-dropdown');
   const isOpen=dropdown.classList.contains('open');
   if(isOpen){dropdown.classList.remove('open');trigger.classList.remove('open');}
-  else{dropdown.classList.add('open');trigger.classList.add('open');document.getElementById('ms-search').value='';filterDropdownItems();setTimeout(()=>document.getElementById('ms-search').focus(),50);}
+  else{dropdown.classList.add('open');trigger.classList.add('open');}
 }
 document.addEventListener('click',function(e){
   const wrap=document.getElementById('ms-wrap');
@@ -701,6 +701,7 @@ function generateImage(){
   const cats   = calcCategories(filtered);
   const grandVal = filtered.reduce((s,d)=>s+d.valRemain,0);
   const grandAmt = filtered.reduce((s,d)=>s+d.amount,0);
+  const topCust = groups.reduce((a,b)=>b.totalRemainVal>a.totalRemainVal?b:a,{totalRemainVal:0,name:''});
   const topCustomers = [...groups].sort((a,b)=>b.totalRemainVal-a.totalRemainVal).slice(0,8);
 
   const W = 1080;
@@ -717,8 +718,7 @@ function generateImage(){
   ctx.fillStyle = '#f8f9ff';
   ctx.fillRect(0, 0, W, H);
 
-  ctx.strokeStyle = 'rgba(0,0,0,.035)';
-  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'rgba(124,77,255,0.03)';
   for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
   for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
 
@@ -758,16 +758,17 @@ function generateImage(){
 
   let sy = 200;
   const statCards = [
-    {label:'มูลค่าคงเหลือรวม', value:'฿'+Math.round(grandVal).toLocaleString('th-TH'), sub:'บาท', color:T.h1},
-    {label:'ยอดซื้อรวม', value:'฿'+Math.round(grandAmt).toLocaleString('th-TH'), sub:'บาท', color:'#0984e3'},
+    {label:'มูลค่าคอร์สคงเหลือรวม', value:'฿'+Math.round(grandVal).toLocaleString('th-TH'), sub:'บาท', color:T.h1},
+    {label:'ยอดซื้อรวมทั้งหมด', value:'฿'+Math.round(grandAmt).toLocaleString('th-TH'), sub:'บาท', color:'#0984e3'},
     {label:'จำนวนลูกค้า', value:groups.length.toLocaleString('th-TH'), sub:'ราย', color:'#00b894'},
     {label:'จำนวนคอร์ส', value:filtered.length.toLocaleString('th-TH'), sub:'รายการ', color:'#e17055'},
+    {label:'มูลค่าคงเหลือสูงสุด', value:'฿'+Math.round(topCust.totalRemainVal).toLocaleString('th-TH'), sub:topCust.name || '-', color:'#a29bfe'},
   ];
-  const sw=(W-80)/4, sx0=40;
+  const sw=(W-80)/5, sx0=40;
   statCards.forEach((sc,i)=>{
-    const sx=sx0+i*(sw+14);
+    const sx=sx0+i*(sw+10);
     ctx.fillStyle='#fff';
-    roundRect(ctx, sx, sy, sw-14, 130, 14);
+    roundRect(ctx, sx, sy, sw-10, 130, 14);
     ctx.shadowColor='rgba(0,0,0,.08)'; ctx.shadowBlur=16; ctx.fill();
     ctx.shadowBlur=0;
     ctx.fillStyle=sc.color;
@@ -775,14 +776,15 @@ function generateImage(){
     ctx.fill();
     ctx.fillStyle='#636e72';
     ctx.font='12px Kanit, Sarabun, sans-serif';
-    ctx.fillText(sc.label, sx+20, sy+34);
+    ctx.fillText(sc.label, sx+15, sy+34);
     ctx.fillStyle='#1e272e';
-    const vSize = sc.value.length>10 ? 20 : sc.value.length>7 ? 24 : 28;
+    const vSize = sc.value.length>12 ? 16 : sc.value.length>10 ? 18 : 22;
     ctx.font=`bold ${vSize}px Kanit, Sarabun, sans-serif`;
-    ctx.fillText(sc.value, sx+20, sy+76);
+    ctx.fillText(sc.value, sx+15, sy+76);
     ctx.fillStyle='#b2bec3';
-    ctx.font='12px Kanit, Sarabun, sans-serif';
-    ctx.fillText(sc.sub, sx+20, sy+106);
+    ctx.font='11px Kanit, Sarabun, sans-serif';
+    const subText = sc.sub.length > 18 ? sc.sub.substring(0, 18) + '...' : sc.sub;
+    ctx.fillText(subText, sx+15, sy+106);
   });
 
   let curY = sy + 160;
