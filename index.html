@@ -71,6 +71,34 @@ tbody tr:hover{background:#f9f9ff}
 .hs-label{font-weight:400;font-size:.9rem;opacity:.9}
 .hs-value{font-size:1.8rem;font-weight:600;letter-spacing:-.5px}
 .hs-count{font-size:.85rem;opacity:.85;margin-top:2px}
+
+/* ---- Multi-select course picker ---- */
+.multiselect-wrap{position:relative;flex:1;min-width:200px}
+.multiselect-trigger{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;border:2px solid var(--border);border-radius:10px;cursor:pointer;background:#fff;transition:.2s;user-select:none;min-height:42px}
+.multiselect-trigger:hover,.multiselect-trigger.open{border-color:var(--primary);box-shadow:0 0 0 3px rgba(124,77,255,.1)}
+.multiselect-trigger-text{font-size:13px;color:var(--muted);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.multiselect-trigger-text.has-value{color:var(--text)}
+.multiselect-arrow{font-size:10px;color:var(--muted);transition:.2s;flex-shrink:0}
+.multiselect-trigger.open .multiselect-arrow{transform:rotate(180deg)}
+.multiselect-dropdown{display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:2px solid var(--primary);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:999;overflow:hidden;min-width:260px}
+.multiselect-dropdown.open{display:block}
+.multiselect-search{width:100%;padding:10px 14px;border:none;border-bottom:1px solid var(--border);font-family:inherit;font-size:13px;outline:none;background:#f8f9fd}
+.multiselect-list{max-height:260px;overflow-y:auto}
+.multiselect-item{display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;font-size:13px;transition:.15s}
+.multiselect-item:hover{background:#f0eeff}
+.multiselect-item input[type=checkbox]{accent-color:var(--primary);width:15px;height:15px;cursor:pointer;flex-shrink:0}
+.multiselect-item label{cursor:pointer;flex:1;line-height:1.3}
+.multiselect-item-count{font-size:11px;color:var(--muted);flex-shrink:0}
+.multiselect-empty{padding:14px;text-align:center;color:var(--muted);font-size:13px}
+.multiselect-footer{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-top:1px solid var(--border);background:#f8f9fd}
+.multiselect-selected-count{font-size:12px;color:var(--primary);font-weight:600}
+.multiselect-clear{font-size:12px;color:var(--warn);cursor:pointer;background:none;border:none;font-family:inherit;padding:2px 6px;border-radius:6px}
+.multiselect-clear:hover{background:#fff0ed}
+.selected-pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.selected-pill{background:#ede7ff;color:var(--primary);padding:3px 10px 3px 10px;border-radius:20px;font-size:12px;display:flex;align-items:center;gap:5px;font-weight:500}
+.selected-pill-x{cursor:pointer;font-size:11px;color:#a29bfe;font-weight:700;line-height:1}
+.selected-pill-x:hover{color:#d63031}
+
 @media(max-width:1100px){.stats-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:768px){.stats-grid{grid-template-columns:1fr 1fr}.filter-row{flex-direction:column}.upload-card{flex-direction:column;align-items:flex-start}}
 </style>
@@ -124,7 +152,26 @@ tbody tr:hover{background:#f9f9ff}
   <div class="filters-card">
     <div class="filter-row">
       <input type="text" id="q-search" class="search-box" placeholder="🔍 ค้นหาลูกค้า (ชื่อ, HN, เบอร์โทร)">
-      <input type="text" id="q-item" class="search-box" placeholder="🏷️ ค้นหาคอร์ส (Botox, Drip, Filler...)">
+
+      <!-- ===== Multi-select Course Picker ===== -->
+      <div class="multiselect-wrap" id="ms-wrap">
+        <div class="multiselect-trigger" id="ms-trigger" onclick="toggleDropdown()">
+          <span class="multiselect-trigger-text" id="ms-trigger-text">🏷️ เลือกคอร์ส (ทั้งหมด)</span>
+          <span class="multiselect-arrow">▼</span>
+        </div>
+        <div class="multiselect-dropdown" id="ms-dropdown">
+          <input type="text" class="multiselect-search" id="ms-search" placeholder="🔍 ค้นหาชื่อคอร์ส..." oninput="filterDropdownItems()">
+          <div class="multiselect-list" id="ms-list">
+            <div class="multiselect-empty" id="ms-empty" style="display:none">ไม่พบคอร์ส</div>
+          </div>
+          <div class="multiselect-footer">
+            <span class="multiselect-selected-count" id="ms-count">เลือก 0 คอร์ส</span>
+            <button class="multiselect-clear" onclick="clearItemFilter()">ล้างทั้งหมด</button>
+          </div>
+        </div>
+      </div>
+      <!-- ===== End Multi-select ===== -->
+
       <div class="date-group">
         <span>📅</span>
         <input type="date" id="q-date-start" class="date-box" title="ตั้งแต่วันที่">
@@ -140,7 +187,11 @@ tbody tr:hover{background:#f9f9ff}
         <option value="name_asc">🔤 ชื่อลูกค้า: ก-ฮ</option>
       </select>
     </div>
-    <div class="tag-row">
+
+    <!-- Pills showing selected courses -->
+    <div class="selected-pills" id="selected-pills"></div>
+
+    <div class="tag-row" style="margin-top:10px">
       <span class="tag-label">ตัวกรองด่วน:</span>
       <button class="tag" data-kw="filler|ฟิลเลอร์">Filler</button>
       <button class="tag" data-kw="botox|โบท็อก|botulax">Botox</button>
@@ -195,17 +246,12 @@ tbody tr:hover{background:#f9f9ff}
 <script>
 // ==========================================
 // โครงสร้างไฟล์ 4.3 รายงานคอร์สลูกค้า
-// อ่านด้วย SheetJS cellDates:true, raw:true
-//
-// Customer row: col[0]=number(1,2,3...), col[1]=string มี "/", col[2]=''
-// Item row:     col[0]=Date object, col[1]=string ชื่อคอร์ส,
-//               col[2]=จำนวนครั้ง, col[3]=ยอดเงิน,
-//               col[4]=จำนวนซื้อ, col[5]=ใช้ไป, col[6]=เหลือ
-// Subtotal row: col[0]=number(ยอดรวม), col[1]=''
 // ==========================================
 
 let RAW = [];
 let activeTags = new Set();
+let selectedItems = new Set(); // ชื่อคอร์สที่เลือกใน multi-select
+let allItemNames = [];         // รายชื่อคอร์สทั้งหมดจากข้อมูล
 let filtered = [];
 
 function isJSDate(v) {
@@ -240,7 +286,6 @@ document.getElementById('file-upload').addEventListener('change', function(e) {
   reader.onload = function(ev) {
     try {
       const data = new Uint8Array(ev.target.result);
-      // Use raw:false so dates come as strings, not Excel serials
       const wb = XLSX.read(data, { type:'array', cellDates:true, raw:true });
       const sh = wb.Sheets[wb.SheetNames[0]];
       const rows = XLSX.utils.sheet_to_json(sh, { header:1, raw:true, defval:'' });
@@ -263,63 +308,192 @@ function parseCourseReport(rows) {
   for (let i = 0; i < rows.length; i++) {
     const r = rows[i];
     if (!r || r.length === 0) continue;
-
-    // Skip header row
     if (typeof r[0] === 'string' && r[0].includes('จำนวน')) continue;
 
-    // ----- Customer row -----
     if (isCustomerRow(r)) {
       const raw1 = String(r[1]);
       const parts = raw1.split('/').map(s => s.trim());
-      cust = {
-        name:  parts[0] || 'ไม่ระบุ',
-        nick:  parts[1] || '',
-        hn:    parts[2] || '',
-        phone: parts[3] || ''
-      };
+      cust = { name:parts[0]||'ไม่ระบุ', nick:parts[1]||'', hn:parts[2]||'', phone:parts[3]||'' };
       continue;
     }
 
-    // ----- Item row -----
     if (!cust) continue;
     if (!isItemRow(r)) continue;
 
     const totalSessions = Number(r[2]) || 0;
     const amount        = Number(r[3]) || 0;
     const used          = Number(r[5]) || 0;
-    // คำนวณครั้งคงเหลือจาก sessions - used (ไม่ใช้ col[6] เพราะอาจเป็น Unit เช่น Botox 100U)
     const remain        = totalSessions - used;
 
-    // Show only items with remaining > 0
     if (remain <= 0) continue;
 
-    // มูลค่าคงเหลือ = ยอดเงิน / จำนวนครั้งทั้งหมด * ครั้งคงเหลือ
     const valRemain = (totalSessions > 0 && amount > 0)
-      ? (amount / totalSessions) * remain
-      : 0;
+      ? (amount / totalSessions) * remain : 0;
 
-    const dateObj = r[0]; // already a JS Date
+    const dateObj = r[0];
 
     RAW.push({
-      name: cust.name,
-      nick: cust.nick,
-      hn:   cust.hn,
-      phone: cust.phone,
-      dateObj,
-      dateDisplay: fmtDate(dateObj),
-      item: String(r[1]).trim(),
-      amount,
-      totalSessions,
-      used,
-      remain,       // sessions - used (ครั้งคงเหลือที่แท้จริง)
-      valRemain
+      name:cust.name, nick:cust.nick, hn:cust.hn, phone:cust.phone,
+      dateObj, dateDisplay:fmtDate(dateObj),
+      item:String(r[1]).trim(), amount, totalSessions, used, remain, valRemain
     });
   }
+
+  // สร้าง dropdown items จากชื่อคอร์สทั้งหมด
+  buildItemDropdown();
   render();
 }
 
 // ==========================================
-// Filter & Render
+// Multi-select Dropdown Logic
+// ==========================================
+
+function buildItemDropdown() {
+  // นับจำนวนแต่ละคอร์ส
+  const countMap = {};
+  RAW.forEach(d => {
+    countMap[d.item] = (countMap[d.item] || 0) + 1;
+  });
+  // เรียงตามความถี่ มากสุดก่อน
+  allItemNames = Object.entries(countMap)
+    .sort((a,b) => b[1]-a[1])
+    .map(e => e[0]);
+
+  selectedItems.clear();
+  renderDropdownItems(allItemNames, countMap);
+  updatePills();
+  updateTriggerText();
+}
+
+function renderDropdownItems(names, countMap) {
+  const list = document.getElementById('ms-list');
+  const empty = document.getElementById('ms-empty');
+  list.innerHTML = '';
+  list.appendChild(empty);
+
+  if (!names.length) { empty.style.display='block'; return; }
+  empty.style.display = 'none';
+
+  // คำนวณ countMap จาก RAW ถ้าไม่ได้ส่งมา
+  if (!countMap) {
+    countMap = {};
+    RAW.forEach(d => { countMap[d.item] = (countMap[d.item]||0)+1; });
+  }
+
+  names.forEach(name => {
+    const div = document.createElement('div');
+    div.className = 'multiselect-item';
+    const id = 'ms-cb-' + name.replace(/\W/g,'_');
+    const checked = selectedItems.has(name) ? 'checked' : '';
+    div.innerHTML = `
+      <input type="checkbox" id="${id}" value="${name}" ${checked} onchange="toggleItemSelect(this)">
+      <label for="${id}">${name}</label>
+      <span class="multiselect-item-count">${countMap[name]||0}</span>`;
+    list.appendChild(div);
+  });
+}
+
+function filterDropdownItems() {
+  const q = document.getElementById('ms-search').value.toLowerCase().trim();
+  const countMap = {};
+  RAW.forEach(d => { countMap[d.item] = (countMap[d.item]||0)+1; });
+
+  const filtered = q
+    ? allItemNames.filter(n => n.toLowerCase().includes(q))
+    : allItemNames;
+
+  renderDropdownItems(filtered, countMap);
+  document.getElementById('ms-empty').style.display = filtered.length ? 'none' : 'block';
+}
+
+function toggleItemSelect(cb) {
+  if (cb.checked) selectedItems.add(cb.value);
+  else selectedItems.delete(cb.value);
+  updatePills();
+  updateTriggerText();
+  updateCountBadge();
+  render();
+}
+
+function updateTriggerText() {
+  const el = document.getElementById('ms-trigger-text');
+  if (selectedItems.size === 0) {
+    el.textContent = '🏷️ เลือกคอร์ส (ทั้งหมด)';
+    el.classList.remove('has-value');
+  } else if (selectedItems.size === 1) {
+    el.textContent = '🏷️ ' + [...selectedItems][0];
+    el.classList.add('has-value');
+  } else {
+    el.textContent = `🏷️ เลือกแล้ว ${selectedItems.size} คอร์ส`;
+    el.classList.add('has-value');
+  }
+}
+
+function updateCountBadge() {
+  document.getElementById('ms-count').textContent =
+    selectedItems.size > 0 ? `เลือก ${selectedItems.size} คอร์ส` : 'เลือก 0 คอร์ส';
+}
+
+function updatePills() {
+  const container = document.getElementById('selected-pills');
+  container.innerHTML = '';
+  selectedItems.forEach(name => {
+    const pill = document.createElement('div');
+    pill.className = 'selected-pill';
+    pill.innerHTML = `${name}<span class="selected-pill-x" onclick="removePill('${name.replace(/'/g,"\\'")}')">✕</span>`;
+    container.appendChild(pill);
+  });
+}
+
+function removePill(name) {
+  selectedItems.delete(name);
+  // sync checkbox if visible
+  const id = 'ms-cb-' + name.replace(/\W/g,'_');
+  const cb = document.getElementById(id);
+  if (cb) cb.checked = false;
+  updatePills();
+  updateTriggerText();
+  updateCountBadge();
+  render();
+}
+
+function clearItemFilter() {
+  selectedItems.clear();
+  // uncheck all visible checkboxes
+  document.querySelectorAll('#ms-list input[type=checkbox]').forEach(cb => cb.checked=false);
+  updatePills();
+  updateTriggerText();
+  updateCountBadge();
+  render();
+}
+
+function toggleDropdown() {
+  const trigger = document.getElementById('ms-trigger');
+  const dropdown = document.getElementById('ms-dropdown');
+  const isOpen = dropdown.classList.contains('open');
+  if (isOpen) {
+    dropdown.classList.remove('open');
+    trigger.classList.remove('open');
+  } else {
+    dropdown.classList.add('open');
+    trigger.classList.add('open');
+    document.getElementById('ms-search').value = '';
+    filterDropdownItems();
+    setTimeout(() => document.getElementById('ms-search').focus(), 50);
+  }
+}
+
+// ปิด dropdown เมื่อคลิกนอก
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('ms-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('ms-dropdown').classList.remove('open');
+    document.getElementById('ms-trigger').classList.remove('open');
+  }
+});
+
+// ==========================================
+// Filter & Render (เหมือนเดิม ยกเว้น q-item → selectedItems)
 // ==========================================
 
 function debounce(f, w) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => f(...a), w); }; }
@@ -333,7 +507,7 @@ document.querySelectorAll('.tag').forEach(b => {
   });
 });
 
-['q-search','q-item','q-sort'].forEach(id => {
+['q-search','q-sort'].forEach(id => {
   const el = document.getElementById(id);
   el.addEventListener('change', render);
   el.addEventListener('input', debounce(render, 250));
@@ -362,8 +536,12 @@ function applyFilters() {
     d.name.toLowerCase().includes(q) || d.hn.toLowerCase().includes(q) ||
     d.phone.includes(q) || d.nick.toLowerCase().includes(q)
   );
-  const qi = document.getElementById('q-item').value.toLowerCase().trim();
-  if (qi) r = r.filter(d => d.item.toLowerCase().includes(qi));
+
+  // *** กรองคอร์สแบบ multi-select (แทน q-item เดิม) ***
+  if (selectedItems.size > 0) {
+    r = r.filter(d => selectedItems.has(d.item));
+  }
+
   if (activeTags.size > 0) {
     r = r.filter(d => {
       const nm = d.item.toLowerCase();
@@ -393,7 +571,7 @@ function groupAndSort(data) {
     if (sv==='val_asc')   return a.totalRemainVal - b.totalRemainVal;
     if (sv==='date_asc')  return (a.latest||0)-(b.latest||0);
     if (sv==='name_asc')  return a.name.localeCompare(b.name,'th');
-    return (b.latest||0)-(a.latest||0); // date_desc
+    return (b.latest||0)-(a.latest||0);
   });
   return arr;
 }
@@ -465,7 +643,6 @@ function render() {
       tbody.appendChild(tr);
     });
 
-    // Subtotal row
     const st = document.createElement('tr');
     st.className = 'subtotal';
     st.innerHTML = `
