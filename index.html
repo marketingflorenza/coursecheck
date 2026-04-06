@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard คอร์สคงเหลือ | Florenza Clinic</title>
-<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 :root{--primary:#7c4dff;--accent:#00b894;--warn:#e17055;--bg:#f4f6fb;--card:#fff;--text:#2d3436;--muted:#636e72;--border:#dfe6e9;--shadow:0 4px 20px rgba(0,0,0,.07)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -67,12 +67,15 @@ tbody tr:hover{background:#f9f9ff}
 .no-results{text-align:center;padding:40px;color:var(--muted);font-style:italic}
 .btn-export{background:var(--accent);color:#fff;border:none;padding:9px 18px;border-radius:10px;cursor:pointer;font-family:inherit;font-weight:500;font-size:13px;transition:.2s;display:flex;align-items:center;gap:6px}
 .btn-export:hover{background:#00a383;transform:translateY(-1px)}
-.highlight-summary{background:linear-gradient(135deg,var(--primary),#a29bfe);color:#fff;border-radius:14px;padding:18px 24px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 20px rgba(124,77,255,.2)}
+.btn-snapshot{background:linear-gradient(135deg,#fd79a8,#e84393);color:#fff;border:none;padding:9px 18px;border-radius:10px;cursor:pointer;font-family:inherit;font-weight:500;font-size:13px;transition:.2s;display:flex;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(232,67,147,.3)}
+.btn-snapshot:hover{background:linear-gradient(135deg,#e84393,#c0392b);transform:translateY(-1px);box-shadow:0 6px 18px rgba(232,67,147,.4)}
+.highlight-summary{background:linear-gradient(135deg,var(--primary),#a29bfe);color:#fff;border-radius:14px;padding:18px 24px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 20px rgba(124,77,255,.2);flex-wrap:wrap;gap:10px}
 .hs-label{font-weight:400;font-size:.9rem;opacity:.9}
 .hs-value{font-size:1.8rem;font-weight:600;letter-spacing:-.5px}
 .hs-count{font-size:.85rem;opacity:.85;margin-top:2px}
+.hs-actions{display:flex;gap:10px;flex-wrap:wrap}
 
-/* ---- Multi-select course picker ---- */
+/* Multi-select */
 .multiselect-wrap{position:relative;flex:1;min-width:200px}
 .multiselect-trigger{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;border:2px solid var(--border);border-radius:10px;cursor:pointer;background:#fff;transition:.2s;user-select:none;min-height:42px}
 .multiselect-trigger:hover,.multiselect-trigger.open{border-color:var(--primary);box-shadow:0 0 0 3px rgba(124,77,255,.1)}
@@ -99,8 +102,39 @@ tbody tr:hover{background:#f9f9ff}
 .selected-pill-x{cursor:pointer;font-size:11px;color:#a29bfe;font-weight:700;line-height:1}
 .selected-pill-x:hover{color:#d63031}
 
+/* ===================== MODAL ===================== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:2000;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:20px;width:100%;max-width:560px;box-shadow:0 24px 60px rgba(0,0,0,.2);overflow:hidden;animation:modalIn .3s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-header{background:linear-gradient(135deg,#e84393,#fd79a8);padding:22px 24px;color:#fff}
+.modal-header h2{font-size:1.2rem;font-weight:600;margin-bottom:3px}
+.modal-header p{font-size:.82rem;opacity:.85}
+.modal-body{padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-label{font-size:.8rem;font-weight:600;color:#4b6584;text-transform:uppercase;letter-spacing:.4px}
+.form-input{padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-family:inherit;font-size:13px;outline:none;transition:.2s;color:var(--text)}
+.form-input:focus{border-color:#e84393;box-shadow:0 0 0 3px rgba(232,67,147,.12)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;background:#fafbff}
+.btn-cancel{background:#f1f3f9;color:var(--muted);border:none;padding:10px 20px;border-radius:10px;cursor:pointer;font-family:inherit;font-weight:500;font-size:13px;transition:.2s}
+.btn-cancel:hover{background:#dfe6e9}
+.btn-generate{background:linear-gradient(135deg,#e84393,#fd79a8);color:#fff;border:none;padding:10px 22px;border-radius:10px;cursor:pointer;font-family:inherit;font-weight:600;font-size:13px;transition:.2s;box-shadow:0 4px 12px rgba(232,67,147,.3)}
+.btn-generate:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(232,67,147,.4)}
+
+/* Preview modal */
+.preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:3000;display:none;align-items:center;justify-content:center;padding:16px}
+.preview-overlay.open{display:flex}
+.preview-box{background:#1e272e;border-radius:20px;padding:20px;max-width:900px;width:100%;display:flex;flex-direction:column;gap:14px;max-height:90vh;overflow-y:auto}
+.preview-box canvas{border-radius:12px;width:100%;height:auto;display:block}
+.preview-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-download{background:linear-gradient(135deg,#00b894,#00cec9);color:#fff;border:none;padding:12px 28px;border-radius:12px;cursor:pointer;font-family:inherit;font-weight:600;font-size:14px;transition:.2s;display:flex;align-items:center;gap:8px;box-shadow:0 4px 14px rgba(0,184,148,.3)}
+.btn-download:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,184,148,.4)}
+.btn-close-preview{background:#636e72;color:#fff;border:none;padding:12px 20px;border-radius:12px;cursor:pointer;font-family:inherit;font-weight:500;font-size:14px;transition:.2s}
+.btn-close-preview:hover{background:#2d3436}
+
 @media(max-width:1100px){.stats-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:768px){.stats-grid{grid-template-columns:1fr 1fr}.filter-row{flex-direction:column}.upload-card{flex-direction:column;align-items:flex-start}}
+@media(max-width:768px){.stats-grid{grid-template-columns:1fr 1fr}.filter-row{flex-direction:column}.upload-card{flex-direction:column;align-items:flex-start}.form-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -152,8 +186,6 @@ tbody tr:hover{background:#f9f9ff}
   <div class="filters-card">
     <div class="filter-row">
       <input type="text" id="q-search" class="search-box" placeholder="🔍 ค้นหาลูกค้า (ชื่อ, HN, เบอร์โทร)">
-
-      <!-- ===== Multi-select Course Picker ===== -->
       <div class="multiselect-wrap" id="ms-wrap">
         <div class="multiselect-trigger" id="ms-trigger" onclick="toggleDropdown()">
           <span class="multiselect-trigger-text" id="ms-trigger-text">🏷️ เลือกคอร์ส (ทั้งหมด)</span>
@@ -170,8 +202,6 @@ tbody tr:hover{background:#f9f9ff}
           </div>
         </div>
       </div>
-      <!-- ===== End Multi-select ===== -->
-
       <div class="date-group">
         <span>📅</span>
         <input type="date" id="q-date-start" class="date-box" title="ตั้งแต่วันที่">
@@ -187,10 +217,7 @@ tbody tr:hover{background:#f9f9ff}
         <option value="name_asc">🔤 ชื่อลูกค้า: ก-ฮ</option>
       </select>
     </div>
-
-    <!-- Pills showing selected courses -->
     <div class="selected-pills" id="selected-pills"></div>
-
     <div class="tag-row" style="margin-top:10px">
       <span class="tag-label">ตัวกรองด่วน:</span>
       <button class="tag" data-kw="filler|ฟิลเลอร์">Filler</button>
@@ -216,7 +243,10 @@ tbody tr:hover{background:#f9f9ff}
       <div class="hs-value" id="hs-total">฿0</div>
       <div class="hs-count" id="hs-count">0 รายการ / 0 ลูกค้า</div>
     </div>
-    <button class="btn-export" id="btn-export">📊 ส่งออก Excel</button>
+    <div class="hs-actions">
+      <button class="btn-snapshot" id="btn-snapshot">🖼️ สรุปเป็นรูป</button>
+      <button class="btn-export" id="btn-export">📊 ส่งออก Excel</button>
+    </div>
   </div>
 
   <div class="table-wrap">
@@ -242,474 +272,656 @@ tbody tr:hover{background:#f9f9ff}
   </div>
 </div>
 
+<!-- ======= Modal: กรอกข้อมูลสาขา ======= -->
+<div class="modal-overlay" id="modal-branch">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>🖼️ สรุปข้อมูลเป็นรูปภาพ</h2>
+      <p>กรอกรายละเอียดสาขาเพื่อแสดงในรูปสรุป</p>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">ชื่อคลินิก / สาขา</label>
+          <input class="form-input" id="b-clinic" placeholder="เช่น Florenza Clinic" value="Florenza Clinic">
+        </div>
+        <div class="form-group">
+          <label class="form-label">สาขา</label>
+          <input class="form-input" id="b-branch" placeholder="เช่น สาขาเชียงราย">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">วันที่รายงาน</label>
+          <input class="form-input" id="b-date" type="date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">สีธีม</label>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+              <input type="radio" name="theme" value="purple" checked style="accent-color:#7c4dff">
+              <span style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#7c4dff,#a29bfe);display:inline-block"></span> ม่วง
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+              <input type="radio" name="theme" value="rose" style="accent-color:#e84393">
+              <span style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#e84393,#fd79a8);display:inline-block"></span> ชมพู
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+              <input type="radio" name="theme" value="teal" style="accent-color:#00b894">
+              <span style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#00b894,#00cec9);display:inline-block"></span> เขียว
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+              <input type="radio" name="theme" value="navy" style="accent-color:#2d3436">
+              <span style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#2d3436,#636e72);display:inline-block"></span> เข้ม
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+              <input type="radio" name="theme" value="gold" style="accent-color:#f9ca24">
+              <span style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#f9ca24,#f0932b);display:inline-block"></span> ทอง
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
+      <button class="btn-generate" onclick="generateImage()">✨ สร้างรูปสรุป</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======= Modal: Preview รูป ======= -->
+<div class="preview-overlay" id="modal-preview">
+  <div class="preview-box">
+    <canvas id="summary-canvas"></canvas>
+    <div class="preview-actions">
+      <button class="btn-download" id="btn-download">⬇️ ดาวน์โหลด PNG</button>
+      <button class="btn-close-preview" onclick="closePreview()">✖ ปิด</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 // ==========================================
-// โครงสร้างไฟล์ 4.3 รายงานคอร์สลูกค้า
+// DATA & PARSE
 // ==========================================
-
 let RAW = [];
 let activeTags = new Set();
-let selectedItems = new Set(); // ชื่อคอร์สที่เลือกใน multi-select
-let allItemNames = [];         // รายชื่อคอร์สทั้งหมดจากข้อมูล
+let selectedItems = new Set();
+let allItemNames = [];
 let filtered = [];
 
-function isJSDate(v) {
-  return v instanceof Date && !isNaN(v.getTime());
+const CATEGORIES = [
+  { label:'Filler',       kw:['filler','ฟิลเลอร์'],              color:'#e17055', icon:'💉' },
+  { label:'Botox',        kw:['botox','โบท็อก','botulax'],       color:'#6c5ce7', icon:'💊' },
+  { label:'Pico Laser',   kw:['pico','พิโก'],                    color:'#a29bfe', icon:'✨' },
+  { label:'Ultraformer',  kw:['ultraformer','อัลตร้า'],          color:'#00b894', icon:'🔊' },
+  { label:'Diode/CPL',    kw:['diode','dio','cpl','ไดโอด'],      color:'#0984e3', icon:'⚡' },
+  { label:'HIFU',         kw:['hifu','ไฮฟู'],                    color:'#fdcb6e', icon:'🔆' },
+  { label:'Drip/IV',      kw:['drip','dirp','glow','secret','aura','push','vitc','white','detox'], color:'#55efc4', icon:'💧' },
+  { label:'IPL',          kw:['ipl'],                            color:'#fd79a8', icon:'🌟' },
+  { label:'Cryo',         kw:['cryo'],                           color:'#74b9ff', icon:'❄️' },
+  { label:'Laser/CO2',    kw:['co2','laser','evo'],              color:'#e84393', icon:'🔴' },
+  { label:'Meso',         kw:['meso','สะกิด'],                  color:'#81ecec', icon:'🧪' },
+  { label:'Venus',        kw:['venus'],                          color:'#ff7675', icon:'🌸' },
+  { label:'ไหม/Thread',   kw:['ไหม','thread'],                   color:'#fab1a0', icon:'🧵' },
+  { label:'อื่นๆ',        kw:[],                                 color:'#b2bec3', icon:'📦' },
+];
+
+const THEMES = {
+  purple:{ h1:'#7c4dff', h2:'#a29bfe', grad:['#7c4dff','#a29bfe'], accent:'#ede7ff', text:'#2d3436' },
+  rose:  { h1:'#e84393', h2:'#fd79a8', grad:['#e84393','#fd79a8'], accent:'#fce4ec', text:'#2d3436' },
+  teal:  { h1:'#00b894', h2:'#00cec9', grad:['#00b894','#00cec9'], accent:'#e0f7f4', text:'#2d3436' },
+  navy:  { h1:'#2d3436', h2:'#636e72', grad:['#2d3436','#636e72'], accent:'#dfe6e9', text:'#2d3436' },
+  gold:  { h1:'#f9ca24', h2:'#f0932b', grad:['#e67e22','#f9ca24'], accent:'#fff8e1', text:'#2d3436' },
+};
+
+function isJSDate(v){ return v instanceof Date && !isNaN(v.getTime()); }
+function isCustomerRow(r){
+  const v0=r[0],v1=r[1],v2=r[2];
+  if(isJSDate(v0)) return false;
+  if(typeof v0!=='number') return false;
+  if(v0<=0||v0!==Math.floor(v0)) return false;
+  if(typeof v1!=='string'||!v1.includes('/')) return false;
+  return v2===''||v2===null||v2===undefined;
+}
+function isItemRow(r){ return isJSDate(r[0])&&typeof r[1]==='string'&&r[1].trim().length>0; }
+function fmtDate(d){
+  if(!isJSDate(d)) return '';
+  return d.toLocaleDateString('th-TH',{day:'2-digit',month:'2-digit',year:'numeric'});
 }
 
-function isCustomerRow(r) {
-  const v0 = r[0], v1 = r[1], v2 = r[2];
-  if (isJSDate(v0)) return false;
-  if (typeof v0 !== 'number') return false;
-  if (v0 <= 0 || v0 !== Math.floor(v0)) return false;
-  if (typeof v1 !== 'string' || !v1.includes('/')) return false;
-  return v2 === '' || v2 === null || v2 === undefined;
-}
-
-function isItemRow(r) {
-  return isJSDate(r[0]) && typeof r[1] === 'string' && r[1].trim().length > 0;
-}
-
-function fmtDate(d) {
-  if (!isJSDate(d)) return '';
-  return d.toLocaleDateString('th-TH', { day:'2-digit', month:'2-digit', year:'numeric' });
-}
-
-document.getElementById('file-upload').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  document.getElementById('upload-status').innerHTML =
-    `<span style="color:var(--primary)">⏳ กำลังประมวลผล (${(file.size/1024/1024).toFixed(1)} MB)...</span>`;
-
-  reader.onload = function(ev) {
-    try {
-      const data = new Uint8Array(ev.target.result);
-      const wb = XLSX.read(data, { type:'array', cellDates:true, raw:true });
-      const sh = wb.Sheets[wb.SheetNames[0]];
-      const rows = XLSX.utils.sheet_to_json(sh, { header:1, raw:true, defval:'' });
+document.getElementById('file-upload').addEventListener('change',function(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  document.getElementById('upload-status').innerHTML=`<span style="color:var(--primary)">⏳ กำลังประมวลผล (${(file.size/1024/1024).toFixed(1)} MB)...</span>`;
+  reader.onload=function(ev){
+    try{
+      const data=new Uint8Array(ev.target.result);
+      const wb=XLSX.read(data,{type:'array',cellDates:true,raw:true});
+      const sh=wb.Sheets[wb.SheetNames[0]];
+      const rows=XLSX.utils.sheet_to_json(sh,{header:1,raw:true,defval:''});
       parseCourseReport(rows);
-      document.getElementById('upload-status').innerHTML =
-        `<span style="color:var(--accent)">✅ โหลดสำเร็จ! พบคอร์สคงเหลือ ${RAW.length.toLocaleString()} รายการ จาก ${new Set(RAW.map(r=>r.hn)).size} ลูกค้า</span>`;
-    } catch(err) {
-      console.error(err);
-      document.getElementById('upload-status').innerHTML =
-        `<span style="color:var(--warn)">❌ เกิดข้อผิดพลาด: ${err.message}</span>`;
+      document.getElementById('upload-status').innerHTML=`<span style="color:var(--accent)">✅ โหลดสำเร็จ! พบคอร์สคงเหลือ ${RAW.length.toLocaleString()} รายการ จาก ${new Set(RAW.map(r=>r.hn)).size} ลูกค้า</span>`;
+    }catch(err){
+      document.getElementById('upload-status').innerHTML=`<span style="color:var(--warn)">❌ เกิดข้อผิดพลาด: ${err.message}</span>`;
     }
   };
   reader.readAsArrayBuffer(file);
 });
 
-function parseCourseReport(rows) {
-  RAW = [];
-  let cust = null;
-
-  for (let i = 0; i < rows.length; i++) {
-    const r = rows[i];
-    if (!r || r.length === 0) continue;
-    if (typeof r[0] === 'string' && r[0].includes('จำนวน')) continue;
-
-    if (isCustomerRow(r)) {
-      const raw1 = String(r[1]);
-      const parts = raw1.split('/').map(s => s.trim());
-      cust = { name:parts[0]||'ไม่ระบุ', nick:parts[1]||'', hn:parts[2]||'', phone:parts[3]||'' };
+function parseCourseReport(rows){
+  RAW=[]; let cust=null;
+  for(let i=0;i<rows.length;i++){
+    const r=rows[i]; if(!r||r.length===0) continue;
+    if(typeof r[0]==='string'&&r[0].includes('จำนวน')) continue;
+    if(isCustomerRow(r)){
+      const raw1=String(r[1]);
+      const parts=raw1.split('/').map(s=>s.trim());
+      cust={name:parts[0]||'ไม่ระบุ',nick:parts[1]||'',hn:parts[2]||'',phone:parts[3]||''};
       continue;
     }
-
-    if (!cust) continue;
-    if (!isItemRow(r)) continue;
-
-    const totalSessions = Number(r[2]) || 0;
-    const amount        = Number(r[3]) || 0;
-    const used          = Number(r[5]) || 0;
-    const remain        = totalSessions - used;
-
-    if (remain <= 0) continue;
-
-    const valRemain = (totalSessions > 0 && amount > 0)
-      ? (amount / totalSessions) * remain : 0;
-
-    const dateObj = r[0];
-
-    RAW.push({
-      name:cust.name, nick:cust.nick, hn:cust.hn, phone:cust.phone,
-      dateObj, dateDisplay:fmtDate(dateObj),
-      item:String(r[1]).trim(), amount, totalSessions, used, remain, valRemain
-    });
+    if(!cust||!isItemRow(r)) continue;
+    const totalSessions=Number(r[2])||0;
+    const amount=Number(r[3])||0;
+    const used=Number(r[5])||0;
+    const remain=totalSessions-used;
+    if(remain<=0) continue;
+    const valRemain=(totalSessions>0&&amount>0)?(amount/totalSessions)*remain:0;
+    RAW.push({name:cust.name,nick:cust.nick,hn:cust.hn,phone:cust.phone,dateObj:r[0],dateDisplay:fmtDate(r[0]),item:String(r[1]).trim(),amount,totalSessions,used,remain,valRemain});
   }
-
-  // สร้าง dropdown items จากชื่อคอร์สทั้งหมด
-  buildItemDropdown();
-  render();
+  buildItemDropdown(); render();
 }
 
 // ==========================================
-// Multi-select Dropdown Logic
+// Multi-select
 // ==========================================
-
-function buildItemDropdown() {
-  // นับจำนวนแต่ละคอร์ส
-  const countMap = {};
-  RAW.forEach(d => {
-    countMap[d.item] = (countMap[d.item] || 0) + 1;
-  });
-  // เรียงตามความถี่ มากสุดก่อน
-  allItemNames = Object.entries(countMap)
-    .sort((a,b) => b[1]-a[1])
-    .map(e => e[0]);
-
+function buildItemDropdown(){
+  const countMap={};
+  RAW.forEach(d=>{countMap[d.item]=(countMap[d.item]||0)+1;});
+  allItemNames=Object.entries(countMap).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
   selectedItems.clear();
-  renderDropdownItems(allItemNames, countMap);
-  updatePills();
-  updateTriggerText();
+  renderDropdownItems(allItemNames,countMap);
+  updatePills(); updateTriggerText();
 }
-
-function renderDropdownItems(names, countMap) {
-  const list = document.getElementById('ms-list');
-  const empty = document.getElementById('ms-empty');
-  list.innerHTML = '';
-  list.appendChild(empty);
-
-  if (!names.length) { empty.style.display='block'; return; }
-  empty.style.display = 'none';
-
-  // คำนวณ countMap จาก RAW ถ้าไม่ได้ส่งมา
-  if (!countMap) {
-    countMap = {};
-    RAW.forEach(d => { countMap[d.item] = (countMap[d.item]||0)+1; });
-  }
-
-  names.forEach(name => {
-    const div = document.createElement('div');
-    div.className = 'multiselect-item';
-    const id = 'ms-cb-' + name.replace(/\W/g,'_');
-    const checked = selectedItems.has(name) ? 'checked' : '';
-    div.innerHTML = `
-      <input type="checkbox" id="${id}" value="${name}" ${checked} onchange="toggleItemSelect(this)">
-      <label for="${id}">${name}</label>
-      <span class="multiselect-item-count">${countMap[name]||0}</span>`;
+function renderDropdownItems(names,countMap){
+  const list=document.getElementById('ms-list');
+  const empty=document.getElementById('ms-empty');
+  list.innerHTML=''; list.appendChild(empty);
+  if(!names.length){empty.style.display='block';return;}
+  empty.style.display='none';
+  if(!countMap){countMap={};RAW.forEach(d=>{countMap[d.item]=(countMap[d.item]||0)+1;});}
+  names.forEach(name=>{
+    const div=document.createElement('div'); div.className='multiselect-item';
+    const id='ms-cb-'+name.replace(/\W/g,'_');
+    const checked=selectedItems.has(name)?'checked':'';
+    div.innerHTML=`<input type="checkbox" id="${id}" value="${name}" ${checked} onchange="toggleItemSelect(this)"><label for="${id}">${name}</label><span class="multiselect-item-count">${countMap[name]||0}</span>`;
     list.appendChild(div);
   });
 }
-
-function filterDropdownItems() {
-  const q = document.getElementById('ms-search').value.toLowerCase().trim();
-  const countMap = {};
-  RAW.forEach(d => { countMap[d.item] = (countMap[d.item]||0)+1; });
-
-  const filtered = q
-    ? allItemNames.filter(n => n.toLowerCase().includes(q))
-    : allItemNames;
-
-  renderDropdownItems(filtered, countMap);
-  document.getElementById('ms-empty').style.display = filtered.length ? 'none' : 'block';
+function filterDropdownItems(){
+  const q=document.getElementById('ms-search').value.toLowerCase().trim();
+  const countMap={};RAW.forEach(d=>{countMap[d.item]=(countMap[d.item]||0)+1;});
+  const f=q?allItemNames.filter(n=>n.toLowerCase().includes(q)):allItemNames;
+  renderDropdownItems(f,countMap);
+  document.getElementById('ms-empty').style.display=f.length?'none':'block';
 }
-
-function toggleItemSelect(cb) {
-  if (cb.checked) selectedItems.add(cb.value);
-  else selectedItems.delete(cb.value);
-  updatePills();
-  updateTriggerText();
-  updateCountBadge();
-  render();
+function toggleItemSelect(cb){
+  if(cb.checked) selectedItems.add(cb.value); else selectedItems.delete(cb.value);
+  updatePills(); updateTriggerText(); updateCountBadge(); render();
 }
-
-function updateTriggerText() {
-  const el = document.getElementById('ms-trigger-text');
-  if (selectedItems.size === 0) {
-    el.textContent = '🏷️ เลือกคอร์ส (ทั้งหมด)';
-    el.classList.remove('has-value');
-  } else if (selectedItems.size === 1) {
-    el.textContent = '🏷️ ' + [...selectedItems][0];
-    el.classList.add('has-value');
-  } else {
-    el.textContent = `🏷️ เลือกแล้ว ${selectedItems.size} คอร์ส`;
-    el.classList.add('has-value');
-  }
+function updateTriggerText(){
+  const el=document.getElementById('ms-trigger-text');
+  if(selectedItems.size===0){el.textContent='🏷️ เลือกคอร์ส (ทั้งหมด)';el.classList.remove('has-value');}
+  else if(selectedItems.size===1){el.textContent='🏷️ '+[...selectedItems][0];el.classList.add('has-value');}
+  else{el.textContent=`🏷️ เลือกแล้ว ${selectedItems.size} คอร์ส`;el.classList.add('has-value');}
 }
-
-function updateCountBadge() {
-  document.getElementById('ms-count').textContent =
-    selectedItems.size > 0 ? `เลือก ${selectedItems.size} คอร์ส` : 'เลือก 0 คอร์ส';
-}
-
-function updatePills() {
-  const container = document.getElementById('selected-pills');
-  container.innerHTML = '';
-  selectedItems.forEach(name => {
-    const pill = document.createElement('div');
-    pill.className = 'selected-pill';
-    pill.innerHTML = `${name}<span class="selected-pill-x" onclick="removePill('${name.replace(/'/g,"\\'")}')">✕</span>`;
+function updateCountBadge(){document.getElementById('ms-count').textContent=selectedItems.size>0?`เลือก ${selectedItems.size} คอร์ส`:'เลือก 0 คอร์ส';}
+function updatePills(){
+  const container=document.getElementById('selected-pills'); container.innerHTML='';
+  selectedItems.forEach(name=>{
+    const pill=document.createElement('div'); pill.className='selected-pill';
+    pill.innerHTML=`${name}<span class="selected-pill-x" onclick="removePill('${name.replace(/'/g,"\\'")}')">✕</span>`;
     container.appendChild(pill);
   });
 }
-
-function removePill(name) {
+function removePill(name){
   selectedItems.delete(name);
-  // sync checkbox if visible
-  const id = 'ms-cb-' + name.replace(/\W/g,'_');
-  const cb = document.getElementById(id);
-  if (cb) cb.checked = false;
-  updatePills();
-  updateTriggerText();
-  updateCountBadge();
-  render();
+  const id='ms-cb-'+name.replace(/\W/g,'_');
+  const cb=document.getElementById(id); if(cb) cb.checked=false;
+  updatePills(); updateTriggerText(); updateCountBadge(); render();
 }
-
-function clearItemFilter() {
+function clearItemFilter(){
   selectedItems.clear();
-  // uncheck all visible checkboxes
-  document.querySelectorAll('#ms-list input[type=checkbox]').forEach(cb => cb.checked=false);
-  updatePills();
-  updateTriggerText();
-  updateCountBadge();
-  render();
+  document.querySelectorAll('#ms-list input[type=checkbox]').forEach(cb=>cb.checked=false);
+  updatePills(); updateTriggerText(); updateCountBadge(); render();
 }
-
-function toggleDropdown() {
-  const trigger = document.getElementById('ms-trigger');
-  const dropdown = document.getElementById('ms-dropdown');
-  const isOpen = dropdown.classList.contains('open');
-  if (isOpen) {
-    dropdown.classList.remove('open');
-    trigger.classList.remove('open');
-  } else {
-    dropdown.classList.add('open');
-    trigger.classList.add('open');
-    document.getElementById('ms-search').value = '';
-    filterDropdownItems();
-    setTimeout(() => document.getElementById('ms-search').focus(), 50);
-  }
+function toggleDropdown(){
+  const trigger=document.getElementById('ms-trigger');
+  const dropdown=document.getElementById('ms-dropdown');
+  const isOpen=dropdown.classList.contains('open');
+  if(isOpen){dropdown.classList.remove('open');trigger.classList.remove('open');}
+  else{dropdown.classList.add('open');trigger.classList.add('open');document.getElementById('ms-search').value='';filterDropdownItems();setTimeout(()=>document.getElementById('ms-search').focus(),50);}
 }
-
-// ปิด dropdown เมื่อคลิกนอก
-document.addEventListener('click', function(e) {
-  const wrap = document.getElementById('ms-wrap');
-  if (wrap && !wrap.contains(e.target)) {
-    document.getElementById('ms-dropdown').classList.remove('open');
-    document.getElementById('ms-trigger').classList.remove('open');
-  }
+document.addEventListener('click',function(e){
+  const wrap=document.getElementById('ms-wrap');
+  if(wrap&&!wrap.contains(e.target)){document.getElementById('ms-dropdown').classList.remove('open');document.getElementById('ms-trigger').classList.remove('open');}
 });
 
 // ==========================================
-// Filter & Render (เหมือนเดิม ยกเว้น q-item → selectedItems)
+// Filter & Render
 // ==========================================
-
-function debounce(f, w) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => f(...a), w); }; }
-
-document.querySelectorAll('.tag').forEach(b => {
-  b.addEventListener('click', () => {
-    const kw = b.dataset.kw;
-    if (activeTags.has(kw)) { activeTags.delete(kw); b.classList.remove('active'); }
-    else { activeTags.add(kw); b.classList.add('active'); }
+function debounce(f,w){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>f(...a),w);};}
+document.querySelectorAll('.tag').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const kw=b.dataset.kw;
+    if(activeTags.has(kw)){activeTags.delete(kw);b.classList.remove('active');}
+    else{activeTags.add(kw);b.classList.add('active');}
     render();
   });
 });
-
-['q-search','q-sort'].forEach(id => {
-  const el = document.getElementById(id);
-  el.addEventListener('change', render);
-  el.addEventListener('input', debounce(render, 250));
+['q-search','q-sort'].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener('change',render);
+  el.addEventListener('input',debounce(render,250));
 });
-
-const dateStartEl  = document.getElementById('q-date-start');
-const dateEndEl    = document.getElementById('q-date-end');
-const clearDateBtn = document.getElementById('btn-clear-date');
-
-[dateStartEl, dateEndEl].forEach(el => {
-  el.addEventListener('change', () => {
-    clearDateBtn.style.display = (dateStartEl.value || dateEndEl.value) ? 'flex' : 'none';
+const dateStartEl=document.getElementById('q-date-start');
+const dateEndEl=document.getElementById('q-date-end');
+const clearDateBtn=document.getElementById('btn-clear-date');
+[dateStartEl,dateEndEl].forEach(el=>{
+  el.addEventListener('change',()=>{
+    clearDateBtn.style.display=(dateStartEl.value||dateEndEl.value)?'flex':'none';
     render();
   });
 });
-clearDateBtn.addEventListener('click', () => {
-  dateStartEl.value = ''; dateEndEl.value = '';
-  clearDateBtn.style.display = 'none';
-  render();
-});
+clearDateBtn.addEventListener('click',()=>{dateStartEl.value='';dateEndEl.value='';clearDateBtn.style.display='none';render();});
 
-function applyFilters() {
-  let r = [...RAW];
-  const q = document.getElementById('q-search').value.toLowerCase().trim();
-  if (q) r = r.filter(d =>
-    d.name.toLowerCase().includes(q) || d.hn.toLowerCase().includes(q) ||
-    d.phone.includes(q) || d.nick.toLowerCase().includes(q)
-  );
-
-  // *** กรองคอร์สแบบ multi-select (แทน q-item เดิม) ***
-  if (selectedItems.size > 0) {
-    r = r.filter(d => selectedItems.has(d.item));
-  }
-
-  if (activeTags.size > 0) {
-    r = r.filter(d => {
-      const nm = d.item.toLowerCase();
-      return [...activeTags].some(kw => kw.split('|').some(k => nm.includes(k)));
-    });
-  }
-  const s = dateStartEl.value, e = dateEndEl.value;
-  if (s) { const d = new Date(s); d.setHours(0,0,0,0); r = r.filter(x => x.dateObj && x.dateObj >= d); }
-  if (e) { const d = new Date(e); d.setHours(23,59,59,999); r = r.filter(x => x.dateObj && x.dateObj <= d); }
+function applyFilters(){
+  let r=[...RAW];
+  const q=document.getElementById('q-search').value.toLowerCase().trim();
+  if(q) r=r.filter(d=>d.name.toLowerCase().includes(q)||d.hn.toLowerCase().includes(q)||d.phone.includes(q)||d.nick.toLowerCase().includes(q));
+  if(selectedItems.size>0) r=r.filter(d=>selectedItems.has(d.item));
+  if(activeTags.size>0) r=r.filter(d=>{const nm=d.item.toLowerCase();return[...activeTags].some(kw=>kw.split('|').some(k=>nm.includes(k)));});
+  const s=dateStartEl.value,e=dateEndEl.value;
+  if(s){const d=new Date(s);d.setHours(0,0,0,0);r=r.filter(x=>x.dateObj&&x.dateObj>=d);}
+  if(e){const d=new Date(e);d.setHours(23,59,59,999);r=r.filter(x=>x.dateObj&&x.dateObj<=d);}
   return r;
 }
-
-function groupAndSort(data) {
-  const groups = {};
-  data.forEach(d => {
-    const k = (d.hn||d.name) + '§' + d.name;
-    if (!groups[k]) groups[k] = { name:d.name, nick:d.nick, hn:d.hn, phone:d.phone, items:[], totalAmount:0, totalRemainVal:0, latest:null };
+function groupAndSort(data){
+  const groups={};
+  data.forEach(d=>{
+    const k=(d.hn||d.name)+'§'+d.name;
+    if(!groups[k]) groups[k]={name:d.name,nick:d.nick,hn:d.hn,phone:d.phone,items:[],totalAmount:0,totalRemainVal:0,latest:null};
     groups[k].items.push(d);
-    groups[k].totalAmount    += d.amount;
-    groups[k].totalRemainVal += d.valRemain;
-    if (d.dateObj && (!groups[k].latest || d.dateObj > groups[k].latest)) groups[k].latest = d.dateObj;
+    groups[k].totalAmount+=d.amount;
+    groups[k].totalRemainVal+=d.valRemain;
+    if(d.dateObj&&(!groups[k].latest||d.dateObj>groups[k].latest)) groups[k].latest=d.dateObj;
   });
-  const arr = Object.values(groups);
-  const sv = document.getElementById('q-sort').value;
-  arr.sort((a,b) => {
-    if (sv==='val_desc')  return b.totalRemainVal - a.totalRemainVal;
-    if (sv==='val_asc')   return a.totalRemainVal - b.totalRemainVal;
-    if (sv==='date_asc')  return (a.latest||0)-(b.latest||0);
-    if (sv==='name_asc')  return a.name.localeCompare(b.name,'th');
+  const arr=Object.values(groups);
+  const sv=document.getElementById('q-sort').value;
+  arr.sort((a,b)=>{
+    if(sv==='val_desc') return b.totalRemainVal-a.totalRemainVal;
+    if(sv==='val_asc') return a.totalRemainVal-b.totalRemainVal;
+    if(sv==='date_asc') return (a.latest||0)-(b.latest||0);
+    if(sv==='name_asc') return a.name.localeCompare(b.name,'th');
     return (b.latest||0)-(a.latest||0);
   });
   return arr;
 }
+const fmt=n=>n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtN=n=>n%1===0?n.toLocaleString('th-TH'):n.toLocaleString('th-TH',{minimumFractionDigits:1,maximumFractionDigits:2});
 
-const fmt  = n => n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
-const fmtN = n => n%1===0 ? n.toLocaleString('th-TH') : n.toLocaleString('th-TH',{minimumFractionDigits:1,maximumFractionDigits:2});
-
-function render() {
-  filtered = applyFilters();
-  const groups = groupAndSort(filtered);
-  const tbody = document.getElementById('tbody');
-  tbody.innerHTML = '';
-  let grand=0, grandVal=0, idx=1;
-
-  groups.forEach(g => {
-    grand    += g.totalAmount;
-    grandVal += g.totalRemainVal;
-
-    g.items.forEach((it, i) => {
-      const tr = document.createElement('tr');
-      if (i===0) {
-        const td0 = document.createElement('td');
-        td0.rowSpan = g.items.length;
-        td0.style.cssText = 'text-align:center;vertical-align:top;font-weight:600;color:#4b6584';
-        td0.textContent = idx;
-        tr.appendChild(td0);
-      }
-
-      const tdDate = document.createElement('td');
-      tdDate.style.cssText = 'color:var(--muted);font-size:12px;white-space:nowrap';
-      tdDate.textContent = it.dateDisplay;
-      tr.appendChild(tdDate);
-
-      if (i===0) {
-        const tdCust = document.createElement('td');
-        tdCust.rowSpan = g.items.length;
-        tdCust.style.cssText = 'border-left:3px solid var(--primary);padding-left:12px;vertical-align:top';
-        const nick = g.nick ? ` <span style="color:var(--muted);font-weight:400">(${g.nick})</span>` : '';
-        tdCust.innerHTML = `<span class="cust-name">${g.name}${nick}</span><span class="cust-meta">HN: ${g.hn}${g.phone?' | ☎ '+g.phone:''}</span>`;
-        tr.appendChild(tdCust);
-      }
-
-      const tdItem = document.createElement('td');
-      tdItem.textContent = it.item;
-      tr.appendChild(tdItem);
-
-      const tdAmt = document.createElement('td');
-      tdAmt.className = 'num';
-      tdAmt.style.color = 'var(--muted)';
-      tdAmt.textContent = it.amount > 0 ? fmt(it.amount) : '-';
-      tr.appendChild(tdAmt);
-
-      const tdVal = document.createElement('td');
-      tdVal.className = 'num';
-      tdVal.style.cssText = 'font-weight:600;color:var(--primary)';
-      tdVal.textContent = it.valRemain > 0 ? fmt(it.valRemain) : '-';
-      tr.appendChild(tdVal);
-
-      const tdRem = document.createElement('td');
-      tdRem.className = 'ctr';
-      tdRem.innerHTML = `<span class="badge">${fmtN(it.remain)}</span>`;
-      tr.appendChild(tdRem);
-
-      const tdTotal = document.createElement('td');
-      tdTotal.className = 'ctr';
-      tdTotal.innerHTML = `<span class="badge badge-green">${fmtN(it.totalSessions)}</span>`;
-      tr.appendChild(tdTotal);
-
+function render(){
+  filtered=applyFilters();
+  const groups=groupAndSort(filtered);
+  const tbody=document.getElementById('tbody');
+  tbody.innerHTML='';
+  let grand=0,grandVal=0,idx=1;
+  groups.forEach(g=>{
+    grand+=g.totalAmount; grandVal+=g.totalRemainVal;
+    g.items.forEach((it,i)=>{
+      const tr=document.createElement('tr');
+      if(i===0){const td0=document.createElement('td');td0.rowSpan=g.items.length;td0.style.cssText='text-align:center;vertical-align:top;font-weight:600;color:#4b6584';td0.textContent=idx;tr.appendChild(td0);}
+      const tdDate=document.createElement('td');tdDate.style.cssText='color:var(--muted);font-size:12px;white-space:nowrap';tdDate.textContent=it.dateDisplay;tr.appendChild(tdDate);
+      if(i===0){const tdCust=document.createElement('td');tdCust.rowSpan=g.items.length;tdCust.style.cssText='border-left:3px solid var(--primary);padding-left:12px;vertical-align:top';const nick=g.nick?` <span style="color:var(--muted);font-weight:400">(${g.nick})</span>`:'';tdCust.innerHTML=`<span class="cust-name">${g.name}${nick}</span><span class="cust-meta">HN: ${g.hn}${g.phone?' | ☎ '+g.phone:''}</span>`;tr.appendChild(tdCust);}
+      const tdItem=document.createElement('td');tdItem.textContent=it.item;tr.appendChild(tdItem);
+      const tdAmt=document.createElement('td');tdAmt.className='num';tdAmt.style.color='var(--muted)';tdAmt.textContent=it.amount>0?fmt(it.amount):'-';tr.appendChild(tdAmt);
+      const tdVal=document.createElement('td');tdVal.className='num';tdVal.style.cssText='font-weight:600;color:var(--primary)';tdVal.textContent=it.valRemain>0?fmt(it.valRemain):'-';tr.appendChild(tdVal);
+      const tdRem=document.createElement('td');tdRem.className='ctr';tdRem.innerHTML=`<span class="badge">${fmtN(it.remain)}</span>`;tr.appendChild(tdRem);
+      const tdTotal=document.createElement('td');tdTotal.className='ctr';tdTotal.innerHTML=`<span class="badge badge-green">${fmtN(it.totalSessions)}</span>`;tr.appendChild(tdTotal);
       tbody.appendChild(tr);
     });
-
-    const st = document.createElement('tr');
-    st.className = 'subtotal';
-    st.innerHTML = `
-      <td colspan="4" style="text-align:right;padding-right:16px">ยอดรวมลูกค้ารายนี้ (${g.items.length} คอร์ส):</td>
-      <td class="num" style="color:var(--muted)">฿${fmt(g.totalAmount)}</td>
-      <td class="num">฿${fmt(g.totalRemainVal)}</td>
-      <td colspan="2"></td>`;
-    tbody.appendChild(st);
-    idx++;
+    const st=document.createElement('tr');st.className='subtotal';
+    st.innerHTML=`<td colspan="4" style="text-align:right;padding-right:16px">ยอดรวมลูกค้ารายนี้ (${g.items.length} คอร์ส):</td><td class="num" style="color:var(--muted)">฿${fmt(g.totalAmount)}</td><td class="num">฿${fmt(g.totalRemainVal)}</td><td colspan="2"></td>`;
+    tbody.appendChild(st); idx++;
   });
-
-  if (groups.length===0 && RAW.length===0) {
-    tbody.innerHTML='<tr><td colspan="8" class="no-results">กรุณาอัปโหลดไฟล์รายงานคอร์สลูกค้าเพื่อเริ่มต้นใช้งาน</td></tr>';
-  } else if (groups.length===0) {
-    tbody.innerHTML='<tr><td colspan="8" class="no-results">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</td></tr>';
-  }
-
-  document.getElementById('hs-total').textContent = '฿'+fmt(grandVal);
-  document.getElementById('hs-count').textContent = `${filtered.length} รายการ / ${groups.length} ลูกค้า`;
-  document.getElementById('result-count').textContent = `แสดง ${groups.length} ลูกค้า / ${filtered.length} คอร์ส`;
-  updateStats(groups, grand, grandVal);
+  if(groups.length===0&&RAW.length===0){tbody.innerHTML='<tr><td colspan="8" class="no-results">กรุณาอัปโหลดไฟล์รายงานคอร์สลูกค้าเพื่อเริ่มต้นใช้งาน</td></tr>';}
+  else if(groups.length===0){tbody.innerHTML='<tr><td colspan="8" class="no-results">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</td></tr>';}
+  document.getElementById('hs-total').textContent='฿'+fmt(grandVal);
+  document.getElementById('hs-count').textContent=`${filtered.length} รายการ / ${groups.length} ลูกค้า`;
+  document.getElementById('result-count').textContent=`แสดง ${groups.length} ลูกค้า / ${filtered.length} คอร์ส`;
+  updateStats(groups,grand,grandVal);
+}
+function updateStats(groups,grand,grandVal){
+  document.getElementById('s-total').textContent=grandVal?'฿'+Math.round(grandVal).toLocaleString('th-TH'):'-';
+  document.getElementById('s-grand').textContent=grand?'฿'+Math.round(grand).toLocaleString('th-TH'):'-';
+  document.getElementById('s-cust').textContent=groups.length.toLocaleString('th-TH')||'-';
+  document.getElementById('s-items').textContent=filtered.length.toLocaleString('th-TH')||'-';
+  const top=groups.reduce((a,b)=>b.totalRemainVal>a.totalRemainVal?b:a,{totalRemainVal:0,name:''});
+  document.getElementById('s-max').textContent=top.totalRemainVal?'฿'+Math.round(top.totalRemainVal).toLocaleString('th-TH'):'-';
+  document.getElementById('s-max-name').textContent=top.name||'-';
+  document.getElementById('s-max-name').title=top.name||'';
 }
 
-function updateStats(groups, grand, grandVal) {
-  document.getElementById('s-total').textContent = grandVal ? '฿'+Math.round(grandVal).toLocaleString('th-TH') : '-';
-  document.getElementById('s-grand').textContent = grand ? '฿'+Math.round(grand).toLocaleString('th-TH') : '-';
-  document.getElementById('s-cust').textContent  = groups.length.toLocaleString('th-TH') || '-';
-  document.getElementById('s-items').textContent = filtered.length.toLocaleString('th-TH') || '-';
-  const top = groups.reduce((a,b)=>b.totalRemainVal>a.totalRemainVal?b:a, {totalRemainVal:0,name:''});
-  document.getElementById('s-max').textContent      = top.totalRemainVal ? '฿'+Math.round(top.totalRemainVal).toLocaleString('th-TH') : '-';
-  document.getElementById('s-max-name').textContent = top.name || '-';
-  document.getElementById('s-max-name').title       = top.name || '';
-}
-
-document.getElementById('btn-export').addEventListener('click', () => {
-  if (!filtered.length) { alert('ไม่มีข้อมูลสำหรับส่งออก'); return; }
-  const groups = groupAndSort(filtered);
-  const rows = [['ลำดับ','วันที่ซื้อ','ชื่อลูกค้า','Nick','HN','เบอร์โทร','รายการคอร์ส','ยอดซื้อ (฿)','มูลค่าคงเหลือ (฿)','ครั้งคงเหลือ','ครั้งทั้งหมด']];
-  let grand=0, grandVal=0;
-  groups.forEach((g,gi) => {
-    grand    += g.totalAmount;
-    grandVal += g.totalRemainVal;
-    g.items.forEach((it,i) => {
-      rows.push([
-        i===0 ? gi+1 : '',
-        it.dateDisplay,
-        i===0 ? g.name : '',
-        i===0 ? g.nick : '',
-        i===0 ? g.hn   : '',
-        i===0 ? g.phone: '',
-        it.item,
-        it.amount,
-        Math.round(it.valRemain),
-        it.remain,
-        it.totalSessions
-      ]);
+// ==========================================
+// EXPORT EXCEL
+// ==========================================
+document.getElementById('btn-export').addEventListener('click',()=>{
+  if(!filtered.length){alert('ไม่มีข้อมูลสำหรับส่งออก');return;}
+  const groups=groupAndSort(filtered);
+  const rows=[['ลำดับ','วันที่ซื้อ','ชื่อลูกค้า','Nick','HN','เบอร์โทร','รายการคอร์ส','ยอดซื้อ (฿)','มูลค่าคงเหลือ (฿)','ครั้งคงเหลือ','ครั้งทั้งหมด']];
+  let grand=0,grandVal=0;
+  groups.forEach((g,gi)=>{
+    grand+=g.totalAmount; grandVal+=g.totalRemainVal;
+    g.items.forEach((it,i)=>{
+      rows.push([i===0?gi+1:'',it.dateDisplay,i===0?g.name:'',i===0?g.nick:'',i===0?g.hn:'',i===0?g.phone:'',it.item,it.amount,Math.round(it.valRemain),it.remain,it.totalSessions]);
     });
-    rows.push(['','','','','','',`ยอดรวม (${g.items.length} คอร์ส):`, g.totalAmount, Math.round(g.totalRemainVal),'','']);
+    rows.push(['','','','','','',`ยอดรวม (${g.items.length} คอร์ส):`,g.totalAmount,Math.round(g.totalRemainVal),'','']);
     rows.push([]);
   });
-  rows.push(['','','','','','','ยอดรวมทั้งหมด:', grand, Math.round(grandVal),'','']);
-  const ws = XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols'] = [{wch:5},{wch:14},{wch:26},{wch:10},{wch:10},{wch:14},{wch:42},{wch:16},{wch:18},{wch:12},{wch:12}];
-  const wb2 = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb2, ws, 'คอร์สคงเหลือ');
-  XLSX.writeFile(wb2, 'คอร์สคงเหลือ_'+new Date().toISOString().slice(0,10)+'.xlsx');
+  rows.push(['','','','','','','ยอดรวมทั้งหมด:',grand,Math.round(grandVal),'','']);
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols']=[{wch:5},{wch:14},{wch:26},{wch:10},{wch:10},{wch:14},{wch:42},{wch:16},{wch:18},{wch:12},{wch:12}];
+  const wb2=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb2,ws,'คอร์สคงเหลือ');
+  XLSX.writeFile(wb2,'คอร์สคงเหลือ_'+new Date().toISOString().slice(0,10)+'.xlsx');
 });
+
+// ==========================================
+// SNAPSHOT MODAL
+// ==========================================
+document.getElementById('btn-snapshot').addEventListener('click',()=>{
+  const today=new Date();
+  const yyyy=today.getFullYear();
+  const mm=String(today.getMonth()+1).padStart(2,'0');
+  const dd=String(today.getDate()).padStart(2,'0');
+  document.getElementById('b-date').value=`${yyyy}-${mm}-${dd}`;
+  document.getElementById('modal-branch').classList.add('open');
+});
+function closeModal(){ document.getElementById('modal-branch').classList.remove('open'); }
+function closePreview(){ document.getElementById('modal-preview').classList.remove('open'); }
+
+// ==========================================
+// CATEGORY CALCULATOR
+// ==========================================
+function calcCategories(data){
+  const result=[];
+  let totalVal=data.reduce((s,d)=>s+d.valRemain,0);
+
+  CATEGORIES.forEach((cat,ci)=>{
+    if(cat.kw.length===0){
+      const matched=new Set();
+      CATEGORIES.slice(0,-1).forEach(c=>{
+        data.forEach((d,di)=>{
+          const nm=d.item.toLowerCase();
+          if(c.kw.some(k=>nm.includes(k))) matched.add(di);
+        });
+      });
+      const others=data.filter((_,di)=>!matched.has(di));
+      if(others.length){
+        result.push({...cat,val:others.reduce((s,d)=>s+d.valRemain,0),count:others.length,items:others.length});
+      }
+    } else {
+      const items=data.filter(d=>{
+        const nm=d.item.toLowerCase();
+        return cat.kw.some(k=>nm.includes(k));
+      });
+      if(items.length){
+        result.push({...cat,val:items.reduce((s,d)=>s+d.valRemain,0),count:items.length,items:items.length});
+      }
+    }
+  });
+  return result.sort((a,b)=>b.val-a.val);
+}
+
+// ==========================================
+// CANVAS IMAGE GENERATOR
+// ==========================================
+function generateImage(){
+  const clinic  = document.getElementById('b-clinic').value || 'Clinic';
+  const branch  = document.getElementById('b-branch').value;
+  const dateVal = document.getElementById('b-date').value;
+  const theme   = document.querySelector('input[name=theme]:checked')?.value || 'purple';
+
+  const T = THEMES[theme];
+
+  if(!filtered.length){ alert('ไม่มีข้อมูลสำหรับสร้างรูป กรุณากรองข้อมูลก่อน'); return; }
+
+  const groups = groupAndSort(filtered);
+  const cats   = calcCategories(filtered);
+  const grandVal = filtered.reduce((s,d)=>s+d.valRemain,0);
+  const grandAmt = filtered.reduce((s,d)=>s+d.amount,0);
+  const topCustomers = [...groups].sort((a,b)=>b.totalRemainVal-a.totalRemainVal).slice(0,8);
+
+  const W = 1080;
+  const catRows = Math.ceil(cats.length / 2);
+  const catSectionH = 50 + catRows * 72 + 20;
+  const topCustH = 50 + topCustomers.length * 56 + 20;
+  const H = 200 + 180 + catSectionH + topCustH + 120 + 60;
+
+  const canvas = document.getElementById('summary-canvas');
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  ctx.fillStyle = '#f8f9ff';
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.strokeStyle = 'rgba(0,0,0,.035)';
+  ctx.lineWidth = 1;
+  for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+  const hGrad = ctx.createLinearGradient(0,0,W,0);
+  hGrad.addColorStop(0, T.grad[0]);
+  hGrad.addColorStop(1, T.grad[1]);
+  ctx.fillStyle = hGrad;
+  roundRect(ctx, 0, 0, W, 180, {tl:0,tr:0,br:0,bl:0});
+  ctx.fill();
+
+  ctx.save();
+  ctx.globalAlpha=0.12;
+  ctx.fillStyle='#fff';
+  ctx.beginPath(); ctx.arc(W-60,60,120,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(W-160,140,70,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(80,160,90,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+
+  ctx.fillStyle='rgba(255,255,255,0.9)';
+  ctx.font='bold 15px Kanit, Sarabun, sans-serif';
+  ctx.fillText('🏥  รายงานคอร์สคงเหลือ', 40, 46);
+
+  ctx.fillStyle='#fff';
+  ctx.font='bold 38px Kanit, Sarabun, sans-serif';
+  ctx.fillText(clinic + (branch?' — '+branch:''), 40, 92);
+
+  let dateStr = '';
+  if(dateVal){
+    const d=new Date(dateVal);
+    dateStr = '📅  '+d.toLocaleDateString('th-TH',{day:'2-digit',month:'long',year:'numeric'});
+  } else {
+    dateStr = '📅  '+new Date().toLocaleDateString('th-TH',{day:'2-digit',month:'long',year:'numeric'});
+  }
+  ctx.fillStyle='rgba(255,255,255,0.82)';
+  ctx.font='16px Kanit, Sarabun, sans-serif';
+  ctx.fillText(dateStr, 40, 130);
+
+  let sy = 200;
+  const statCards = [
+    {label:'มูลค่าคงเหลือรวม', value:'฿'+Math.round(grandVal).toLocaleString('th-TH'), sub:'บาท', color:T.h1},
+    {label:'ยอดซื้อรวม', value:'฿'+Math.round(grandAmt).toLocaleString('th-TH'), sub:'บาท', color:'#0984e3'},
+    {label:'จำนวนลูกค้า', value:groups.length.toLocaleString('th-TH'), sub:'ราย', color:'#00b894'},
+    {label:'จำนวนคอร์ส', value:filtered.length.toLocaleString('th-TH'), sub:'รายการ', color:'#e17055'},
+  ];
+  const sw=(W-80)/4, sx0=40;
+  statCards.forEach((sc,i)=>{
+    const sx=sx0+i*(sw+14);
+    ctx.fillStyle='#fff';
+    roundRect(ctx, sx, sy, sw-14, 130, 14);
+    ctx.shadowColor='rgba(0,0,0,.08)'; ctx.shadowBlur=16; ctx.fill();
+    ctx.shadowBlur=0;
+    ctx.fillStyle=sc.color;
+    roundRect(ctx, sx, sy, 5, 130, {tl:14,tr:0,br:0,bl:14});
+    ctx.fill();
+    ctx.fillStyle='#636e72';
+    ctx.font='12px Kanit, Sarabun, sans-serif';
+    ctx.fillText(sc.label, sx+20, sy+34);
+    ctx.fillStyle='#1e272e';
+    const vSize = sc.value.length>10 ? 20 : sc.value.length>7 ? 24 : 28;
+    ctx.font=`bold ${vSize}px Kanit, Sarabun, sans-serif`;
+    ctx.fillText(sc.value, sx+20, sy+76);
+    ctx.fillStyle='#b2bec3';
+    ctx.font='12px Kanit, Sarabun, sans-serif';
+    ctx.fillText(sc.sub, sx+20, sy+106);
+  });
+
+  let curY = sy + 160;
+
+  ctx.fillStyle='#1e272e';
+  ctx.font='bold 18px Kanit, Sarabun, sans-serif';
+  ctx.fillText('📊  สรุปตามหมวดหมู่คอร์ส', 40, curY);
+  curY += 30;
+
+  const cw = (W-80)/2 - 8;
+  cats.forEach((cat,i)=>{
+    const col=i%2, row=Math.floor(i/2);
+    const cx=40+col*(cw+16);
+    const cy=curY+row*72;
+
+    ctx.fillStyle='#fff';
+    roundRect(ctx, cx, cy, cw, 60, 12);
+    ctx.shadowColor='rgba(0,0,0,.06)'; ctx.shadowBlur=12; ctx.fill(); ctx.shadowBlur=0;
+
+    ctx.fillStyle=cat.color;
+    roundRect(ctx, cx, cy, 5, 60, {tl:12,tr:0,br:0,bl:12});
+    ctx.fill();
+
+    ctx.font='22px serif';
+    ctx.fillText(cat.icon, cx+14, cy+36);
+    ctx.fillStyle='#2d3436';
+    ctx.font='bold 14px Kanit, Sarabun, sans-serif';
+    ctx.fillText(cat.label, cx+46, cy+24);
+    ctx.fillStyle='#636e72';
+    ctx.font='12px Kanit, Sarabun, sans-serif';
+    ctx.fillText(cat.count+' รายการ', cx+46, cy+44);
+
+    const valStr='฿'+Math.round(cat.val).toLocaleString('th-TH');
+    ctx.fillStyle=T.h1;
+    ctx.font='bold 16px Kanit, Sarabun, sans-serif';
+    const vw=ctx.measureText(valStr).width;
+    ctx.fillText(valStr, cx+cw-vw-16, cy+36);
+
+    const barW=cw-100, barX=cx+90;
+    const pct=grandVal>0?cat.val/grandVal:0;
+    ctx.fillStyle='#f1f3f9';
+    roundRect(ctx, barX, cy+46, barW, 7, 4); ctx.fill();
+    ctx.fillStyle=cat.color;
+    roundRect(ctx, barX, cy+46, Math.max(barW*pct,4), 7, 4); ctx.fill();
+    ctx.fillStyle='#b2bec3';
+    ctx.font='11px Kanit, Sarabun, sans-serif';
+    ctx.fillText((pct*100).toFixed(1)+'%', barX+barW+6, cy+54);
+  });
+
+  curY += catRows*72 + 30;
+
+  ctx.fillStyle='#1e272e';
+  ctx.font='bold 18px Kanit, Sarabun, sans-serif';
+  ctx.fillText('🏆  ลูกค้ามูลค่าคงเหลือสูงสุด (Top '+topCustomers.length+')', 40, curY);
+  curY += 30;
+
+  topCustomers.forEach((g,i)=>{
+    const cy2=curY+i*56;
+    ctx.fillStyle=i%2===0?'#fff':'#f8f9ff';
+    roundRect(ctx, 40, cy2, W-80, 48, 10); ctx.fill();
+
+    const rankColors=['#f9ca24','#dfe6e9','#fdcb6e','#dfe6e9'];
+    ctx.fillStyle=i<3?rankColors[i]:'#f1f3f9';
+    roundRect(ctx, 52, cy2+10, 32, 28, 8); ctx.fill();
+    ctx.fillStyle=i<3?'#2d3436':'#636e72';
+    ctx.font='bold 14px Kanit, Sarabun, sans-serif';
+    const rankText=String(i+1);
+    const rtw=ctx.measureText(rankText).width;
+    ctx.fillText(rankText, 52+16-rtw/2, cy2+29);
+
+    ctx.fillStyle='#1e272e';
+    ctx.font='bold 14px Kanit, Sarabun, sans-serif';
+    const dispName=g.name+(g.nick?` (${g.nick})`:'');
+    ctx.fillText(dispName.length>28?dispName.slice(0,28)+'…':dispName, 96, cy2+24);
+    ctx.fillStyle='#b2bec3';
+    ctx.font='11px Kanit, Sarabun, sans-serif';
+    ctx.fillText('HN: '+g.hn+(g.phone?' | '+g.phone:'')+'  •  '+g.items.length+' คอร์ส', 96, cy2+40);
+
+    const maxVal=topCustomers[0].totalRemainVal||1;
+    const pct2=g.totalRemainVal/maxVal;
+    const barTotalW=W-380;
+    ctx.fillStyle='#f1f3f9';
+    roundRect(ctx, W-340, cy2+14, barTotalW, 10, 5); ctx.fill();
+    const grad2=ctx.createLinearGradient(W-340,0,W-340+barTotalW,0);
+    grad2.addColorStop(0,T.grad[0]); grad2.addColorStop(1,T.grad[1]);
+    ctx.fillStyle=grad2;
+    roundRect(ctx, W-340, cy2+14, Math.max(barTotalW*pct2,6), 10, 5); ctx.fill();
+
+    const gValStr='฿'+Math.round(g.totalRemainVal).toLocaleString('th-TH');
+    ctx.fillStyle=T.h1;
+    ctx.font='bold 15px Kanit, Sarabun, sans-serif';
+    const gvw=ctx.measureText(gValStr).width;
+    ctx.fillText(gValStr, W-40-gvw, cy2+39);
+  });
+
+  curY += topCustomers.length*56 + 30;
+
+  // Footer
+  const footerGrad=ctx.createLinearGradient(0,curY,W,curY);
+  footerGrad.addColorStop(0,T.grad[0]+'22');
+  footerGrad.addColorStop(1,T.grad[1]+'22');
+  ctx.fillStyle=footerGrad;
+  roundRect(ctx, 0, curY, W, 80, 0); ctx.fill();
+
+  ctx.fillStyle=T.h1;
+  ctx.font='bold 15px Kanit, Sarabun, sans-serif';
+  ctx.fillText('🏥  '+clinic+(branch?' — '+branch:''), 40, curY+32);
+
+  ctx.fillStyle='#b2bec3';
+  ctx.font='12px Kanit, Sarabun, sans-serif';
+  const genStr='สร้างโดย Dashboard คอร์สคงเหลือ  •  '+dateStr.replace('📅  ','');
+  const gsw=ctx.measureText(genStr).width;
+  ctx.fillText(genStr, W-gsw-40, curY+54);
+
+  document.getElementById('modal-branch').classList.remove('open');
+  document.getElementById('modal-preview').classList.add('open');
+
+  document.getElementById('btn-download').onclick=()=>{
+    const a=document.createElement('a');
+    const fn='สรุปคอร์ส_'+(branch||clinic)+'_'+new Date().toISOString().slice(0,10)+'.png';
+    a.download=fn;
+    a.href=canvas.toDataURL('image/png');
+    a.click();
+  };
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  if(typeof r==='number') r={tl:r,tr:r,br:r,bl:r};
+  ctx.beginPath();
+  ctx.moveTo(x+r.tl,y);
+  ctx.lineTo(x+w-r.tr,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r.tr);
+  ctx.lineTo(x+w,y+h-r.br); ctx.quadraticCurveTo(x+w,y+h,x+w-r.br,y+h);
+  ctx.lineTo(x+r.bl,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r.bl);
+  ctx.lineTo(x,y+r.tl); ctx.quadraticCurveTo(x,y,x+r.tl,y);
+  ctx.closePath();
+}
+
+document.getElementById('modal-branch').addEventListener('click',function(e){if(e.target===this) closeModal();});
+document.getElementById('modal-preview').addEventListener('click',function(e){if(e.target===this) closePreview();});
 
 render();
 </script>
